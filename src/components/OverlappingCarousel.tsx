@@ -26,6 +26,7 @@ interface Event {
   time: string;
   topic?: string;
   room_link?: string;
+  type?: string;
 }
 
 interface CarouselItem {
@@ -97,6 +98,15 @@ interface CardProps {
 function OverlappingCard({ guest, event, position, isActive, onClick, onDetailsClick }: CardProps) {
   const style = positionStyles[position];
   const formattedDate = format(new Date(event.date), "dd 'de' MMMM", { locale: ptBR });
+  
+  const getTypeColor = (type?: string) => {
+    const colors = {
+      'estrategico': 'bg-blue-500',
+      'tecnico': 'bg-green-500',
+      'marketing': 'bg-yellow-500',
+    };
+    return colors[type?.toLowerCase() as keyof typeof colors] || 'bg-primary';
+  };
 
   const handleClick = (e: React.MouseEvent) => {
     if (isActive) {
@@ -134,6 +144,11 @@ function OverlappingCard({ guest, event, position, isActive, onClick, onDetailsC
           />
         ) : (
           <div className="w-full h-full bg-secondary/50" />
+        )}
+        
+        {/* Type Color Indicator */}
+        {event.type && (
+          <div className={`absolute top-0 left-0 right-0 h-2 ${getTypeColor(event.type)}`} />
         )}
         
         {/* Subtle Gradient */}
