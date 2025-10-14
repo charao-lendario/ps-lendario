@@ -1,13 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ExternalLink, Loader2, Linkedin, Instagram } from 'lucide-react';
-import { format, isToday, isTomorrow, startOfWeek, endOfWeek } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { Loader2 } from 'lucide-react';
+import { isToday, isTomorrow, startOfWeek, endOfWeek, format } from 'date-fns';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { GuestCard } from '@/components/GuestCard';
 import eventoCyberSecurity from '@/assets/evento-cyber-security.png';
 import eventoDiscovery from '@/assets/evento-discovery.png';
 
@@ -95,8 +92,8 @@ export function WeeklyHighlights() {
   }
 
   return (
-    <div className="space-y-8">
-      <h2 className="text-2xl font-bold">Destaques da Semana</h2>
+    <section className="w-full space-y-8">
+      <h2 className="text-3xl font-bold">Destaques da Semana</h2>
       
       {/* Carrossel de Imagens */}
       <Carousel className="w-full max-w-2xl mx-auto">
@@ -117,79 +114,33 @@ export function WeeklyHighlights() {
         <CarouselNext className="right-4" />
       </Carousel>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Grid de Cards Compactos */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {events.map((event) => {
           const dateBadge = getDateBadge(event.date);
           const guest = event.guests;
-          const socialLinks = guest?.social_links as any || {};
 
           return (
-            <Card key={event.id} className="shadow-card gradient-card hover:shadow-glow transition-smooth overflow-hidden">
-              <div className="aspect-[3/4] bg-secondary relative">
-                {guest?.avatar_url ? (
-                  <img
-                    src={guest.avatar_url}
-                    alt={guest.name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="flex items-center justify-center h-full">
-                    <Avatar className="h-32 w-32">
-                      <AvatarFallback className="text-4xl">
-                        {guest?.name?.charAt(0) || '?'}
-                      </AvatarFallback>
-                    </Avatar>
-                  </div>
-                )}
-              </div>
-              
-              <CardContent className="p-6 space-y-4">
-                <div className="space-y-2">
-                  <Badge variant={dateBadge.variant}>{dateBadge.label}</Badge>
-                  <h3 className="text-xl font-bold">{guest?.name}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {format(new Date(event.date), "dd 'de' MMMM", { locale: ptBR })} às {event.time}
-                  </p>
-                  {guest?.bio && (
-                    <p className="text-sm text-muted-foreground line-clamp-3">{guest.bio}</p>
-                  )}
-                </div>
-
-                <div className="flex gap-2">
-                  {socialLinks.linkedin && (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => window.open(socialLinks.linkedin, '_blank')}
-                    >
-                      <Linkedin className="h-4 w-4" />
-                    </Button>
-                  )}
-                  {socialLinks.instagram && (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => window.open(socialLinks.instagram, '_blank')}
-                    >
-                      <Instagram className="h-4 w-4" />
-                    </Button>
-                  )}
-                </div>
-
-                {event.room_link && (
-                  <Button
-                    className="w-full"
-                    onClick={() => window.open(event.room_link, '_blank')}
-                  >
-                    <ExternalLink className="mr-2 h-4 w-4" />
-                    Acessar Sala
-                  </Button>
-                )}
-              </CardContent>
-            </Card>
+            <GuestCard
+              key={event.id}
+              guest={{
+                name: guest?.name || 'Convidado',
+                bio: guest?.bio,
+                avatar_url: guest?.avatar_url,
+                social_links: guest?.social_links as any,
+              }}
+              event={{
+                id: event.id,
+                date: event.date,
+                time: event.time,
+                topic: guest?.name,
+                room_link: event.room_link,
+              }}
+              dateBadge={dateBadge}
+            />
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }
