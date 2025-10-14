@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Loader2, ExternalLink } from 'lucide-react';
-import { format, isSameDay } from 'date-fns';
+import { format, isSameDay, startOfWeek, endOfWeek } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 export function MonthlyCalendar() {
@@ -40,6 +40,15 @@ export function MonthlyCalendar() {
   ) || [];
 
   const eventDates = events?.map(event => new Date(event.date)) || [];
+  
+  const today = new Date();
+  const weekStart = startOfWeek(today, { weekStartsOn: 0 });
+  const weekEnd = endOfWeek(today, { weekStartsOn: 0 });
+  
+  const currentWeekDates = [];
+  for (let d = new Date(weekStart); d <= weekEnd; d.setDate(d.getDate() + 1)) {
+    currentWeekDates.push(new Date(d));
+  }
 
   if (isLoading) {
     return (
@@ -52,7 +61,7 @@ export function MonthlyCalendar() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="text-center space-y-2">
         <h2 className="text-3xl md:text-4xl font-bold">Calendário de Eventos</h2>
         <p className="text-muted-foreground text-lg">
@@ -60,77 +69,67 @@ export function MonthlyCalendar() {
         </p>
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        <Card className="lg:col-span-3 shadow-card gradient-card">
-          <CardContent className="p-8">
-            <Calendar
-              mode="single"
-              selected={selectedDate}
-              onSelect={setSelectedDate}
-              locale={ptBR}
-              modifiers={{
-                event: eventDates
-              }}
-              modifiersClassNames={{
-                event: 'relative bg-gradient-primary text-primary-foreground font-bold hover:scale-110 transition-smooth after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-accent after:rounded-full shadow-glow'
-              }}
-              className="rounded-md w-full [&_td]:p-3 [&_th]:p-3 [&_button]:h-16 [&_button]:w-16 [&_button]:text-lg [&_.rdp-caption]:text-2xl [&_.rdp-caption]:font-bold [&_.rdp-caption]:mb-6"
-            />
-          </CardContent>
-        </Card>
+      <Card className="shadow-glow gradient-card border-2 border-primary/20">
+        <CardContent className="p-8 md:p-12">
+          <Calendar
+            mode="single"
+            selected={selectedDate}
+            onSelect={setSelectedDate}
+            locale={ptBR}
+            modifiers={{
+              event: eventDates,
+              currentWeek: currentWeekDates
+            }}
+            modifiersClassNames={{
+              event: 'relative bg-gradient-primary text-primary-foreground font-bold hover:scale-110 transition-smooth after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-2 after:h-2 after:bg-accent after:rounded-full shadow-glow animate-pulse',
+              currentWeek: 'bg-primary/10 border-2 border-primary/30 font-semibold'
+            }}
+            className="w-full mx-auto max-w-6xl [&_table]:w-full [&_td]:p-4 [&_th]:p-4 [&_button]:h-20 [&_button]:w-full [&_button]:text-xl [&_button]:font-semibold [&_.rdp-caption]:text-3xl [&_.rdp-caption]:font-bold [&_.rdp-caption]:mb-8 [&_th]:text-lg [&_th]:font-bold"
+          />
+        </CardContent>
+      </Card>
 
-        <Card className="lg:col-span-2 shadow-card gradient-card">
+      {selectedDate && eventsOnSelectedDate.length > 0 && (
+        <Card className="shadow-card gradient-card border-2 border-primary/20">
           <CardHeader>
             <CardTitle className="text-2xl bg-gradient-primary bg-clip-text text-transparent">
-              {selectedDate ? format(selectedDate, "dd 'de' MMMM", { locale: ptBR }) : 'Selecione uma data'}
+              Eventos - {format(selectedDate, "dd 'de' MMMM", { locale: ptBR })}
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            {eventsOnSelectedDate.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <p className="text-muted-foreground text-lg">
-                  Nenhum evento agendado para esta data
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {eventsOnSelectedDate.map((event) => (
-                  <div
-                    key={event.id}
-                    className="p-5 rounded-lg border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-3 hover:shadow-glow transition-smooth"
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="space-y-2 flex-1">
-                        <h3 className="font-bold text-xl">{event.guests?.name}</h3>
-                        <div className="flex items-center gap-2">
-                          <Badge variant="default" className="text-base px-3 py-1">
-                            {event.time}
-                          </Badge>
-                        </div>
-                        {event.guests?.bio && (
-                          <p className="text-sm text-muted-foreground">
-                            {event.guests.bio}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    {event.room_link && (
-                      <Button
-                        size="lg"
-                        className="w-full"
-                        onClick={() => window.open(event.room_link, '_blank')}
-                      >
-                        <ExternalLink className="mr-2 h-5 w-5" />
-                        Acessar Sala Virtual
-                      </Button>
+          <CardContent className="p-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              {eventsOnSelectedDate.map((event) => (
+                <div
+                  key={event.id}
+                  className="p-6 rounded-lg border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-4 hover:shadow-glow transition-smooth animate-fade-in"
+                >
+                  <div className="space-y-3">
+                    <h3 className="font-bold text-2xl">{event.guests?.name}</h3>
+                    <Badge variant="default" className="text-base px-4 py-2">
+                      {event.time}
+                    </Badge>
+                    {event.guests?.bio && (
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {event.guests.bio}
+                      </p>
                     )}
                   </div>
-                ))}
-              </div>
-            )}
+                  {event.room_link && (
+                    <Button
+                      size="lg"
+                      className="w-full"
+                      onClick={() => window.open(event.room_link, '_blank')}
+                    >
+                      <ExternalLink className="mr-2 h-5 w-5" />
+                      Acessar Sala Virtual
+                    </Button>
+                  )}
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
-      </div>
+      )}
     </div>
   );
 }
