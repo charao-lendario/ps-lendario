@@ -12,6 +12,9 @@ const videos: Video[] = [
   { src: '/videos/caca.mp4', name: 'Cacá' },
   { src: '/videos/samuel.mp4', name: 'Samuel' },
   { src: '/videos/ligia.mp4', name: 'Lígia' },
+  { src: '/videos/leonardo.mp4', name: 'Leonardo' },
+  { src: '/videos/werner.mp4', name: 'Werner' },
+  { src: '/videos/edu.mp4', name: 'Edu' },
 ];
 
 function IPhoneFrame({ children }: { children: React.ReactNode }) {
