@@ -6,6 +6,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Linkedin, Instagram, ArrowRight } from 'lucide-react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import lucasCharaoImg from '@/assets/lucas-charao.png';
+import adavioTittoniImg from '@/assets/adavio-tittoni.png';
 
 export default function Index() {
   const { user } = useAuth();
@@ -23,7 +25,7 @@ export default function Index() {
       role: 'Estratégia & Crescimento',
       type: 'Estratégico',
       bio: 'Especialista em estratégia e crescimento de negócios digitais.',
-      avatar: '',
+      avatar: lucasCharaoImg,
       social: {
         linkedin: '',
         instagram: '',
@@ -34,7 +36,7 @@ export default function Index() {
       role: 'Desenvolvimento & Automações',
       type: 'Técnico',
       bio: 'Expert técnico em desenvolvimento e automações.',
-      avatar: '',
+      avatar: adavioTittoniImg,
       social: {
         linkedin: '',
         instagram: '',
