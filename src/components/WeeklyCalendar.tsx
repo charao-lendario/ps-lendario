@@ -135,6 +135,11 @@ export default function WeeklyCalendar({ initialDate }: WeeklyCalendarProps) {
     );
   };
 
+  const getEventsForDay = (day: Date) => {
+    if (!events) return [];
+    return events.filter(event => isSameDay(parseISO(event.date), day));
+  };
+
   const goToPreviousWeek = () => setCurrentWeek(subWeeks(currentWeek, 1));
   const goToNextWeek = () => setCurrentWeek(addWeeks(currentWeek, 1));
   const goToToday = () => setCurrentWeek(new Date());
@@ -153,11 +158,11 @@ export default function WeeklyCalendar({ initialDate }: WeeklyCalendarProps) {
   const currentTimePosition = getCurrentTimePosition();
 
   return (
-    <div className="w-full min-h-screen bg-background px-0">
+    <div className="w-full bg-background py-4">
       {/* Week Navigation */}
       <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="h-16 container mx-auto px-4 flex justify-between items-center">
-          <h2 className="text-2xl font-bold">
+        <div className="h-12 container mx-auto px-4 flex justify-between items-center">
+          <h2 className="text-xl font-bold">
             {format(weekStart, "d 'de' MMMM", { locale: ptBR })} - {format(weekEnd, "d 'de' MMMM 'de' yyyy", { locale: ptBR })}
           </h2>
           <div className="flex gap-2">
@@ -191,29 +196,34 @@ export default function WeeklyCalendar({ initialDate }: WeeklyCalendarProps) {
       </div>
 
       {/* Desktop Grid */}
-      <div className="hidden md:block container mx-auto px-4 py-6">
+      <div className="hidden md:block container mx-auto px-4 py-3">
         <div className="grid grid-cols-8 gap-0 border border-border rounded-lg overflow-hidden">
           {/* Header Row */}
-          <div className="sticky top-16 z-20 bg-card border-b-2 border-border col-span-1"></div>
-          {weekDays.map(day => (
-            <div 
-              key={day.toISOString()} 
-              className={`sticky top-16 z-20 bg-card border-b-2 border-border p-4 text-center ${isToday(day) ? 'bg-primary/10' : ''}`}
-            >
-              <div className="text-sm font-medium text-muted-foreground">
-                {format(day, 'EEE', { locale: ptBR })}
+          <div className="sticky top-12 z-20 bg-card border-b-2 border-border col-span-1"></div>
+          {weekDays.map(day => {
+            const hasEvents = getEventsForDay(day).length > 0;
+            return (
+              <div 
+                key={day.toISOString()} 
+                className={`sticky top-12 z-20 bg-card border-b-2 border-border p-2 text-center transition-colors ${
+                  isToday(day) ? 'bg-primary/10' : ''
+                } ${hasEvents ? 'bg-green-500/10 border-b-green-500/50' : ''}`}
+              >
+                <div className="text-xs font-medium text-muted-foreground">
+                  {format(day, 'EEE', { locale: ptBR })}
+                </div>
+                <div className={`text-lg font-bold ${isToday(day) ? 'text-accent' : ''} ${hasEvents ? 'text-green-500' : ''}`}>
+                  {format(day, 'd')}
+                </div>
               </div>
-              <div className={`text-2xl font-bold ${isToday(day) ? 'text-accent' : ''}`}>
-                {format(day, 'd')}
-              </div>
-            </div>
-          ))}
+            );
+          })}
 
           {/* Time Slots */}
           {timeSlots.map((timeSlot, idx) => (
             <div key={timeSlot} className="contents">
               {/* Time Column */}
-              <div className={`sticky left-0 z-10 bg-card p-2 text-right text-sm text-muted-foreground border-r border-border ${idx % 2 === 0 ? 'border-t-2' : 'border-t'} border-border/50`}>
+              <div className={`sticky left-0 z-10 bg-card p-1.5 text-right text-xs text-muted-foreground border-r border-border ${idx % 2 === 0 ? 'border-t-2' : 'border-t'} border-border/50`}>
                 {timeSlot}
               </div>
               
@@ -221,6 +231,7 @@ export default function WeeklyCalendar({ initialDate }: WeeklyCalendarProps) {
               {weekDays.map(day => {
                 const dayEvents = getEventsForDayAndTime(day, timeSlot);
                 const isCurrentDay = isToday(day);
+                const hasEventsDay = getEventsForDay(day).length > 0;
                 const slotTime = parseInt(timeSlot.split(':')[0]) * 60 + parseInt(timeSlot.split(':')[1]);
                 const showTimeLine = isCurrentDay && currentTimePosition !== null && 
                   slotTime <= (9 * 60 + (currentTimePosition / 100) * (11 * 60)) && 
@@ -229,13 +240,15 @@ export default function WeeklyCalendar({ initialDate }: WeeklyCalendarProps) {
                 return (
                   <div 
                     key={`${day.toISOString()}-${timeSlot}`}
-                    className={`relative min-h-[120px] lg:min-h-[180px] p-2 ${idx % 2 === 0 ? 'border-t-2' : 'border-t'} border-border/50 hover:bg-muted/30 transition-colors ${isCurrentDay ? 'bg-primary/5' : ''}`}
+                    className={`relative min-h-[60px] p-1.5 ${idx % 2 === 0 ? 'border-t-2' : 'border-t'} border-border/50 hover:bg-muted/30 transition-colors ${
+                      isCurrentDay ? 'bg-primary/5' : ''
+                    } ${hasEventsDay ? 'bg-green-500/5' : ''}`}
                   >
                     {showTimeLine && (
                       <div className="absolute inset-x-0 top-1/2 h-0.5 bg-red-500 z-10 animate-pulse" />
                     )}
                     {dayEvents.length > 0 ? (
-                      <div className="space-y-1">
+                      <div className="space-y-0.5">
                         {dayEvents.map(event => (
                           <EventCard 
                             key={event.id} 
@@ -244,11 +257,7 @@ export default function WeeklyCalendar({ initialDate }: WeeklyCalendarProps) {
                           />
                         ))}
                       </div>
-                    ) : (
-                      <div className="h-full flex items-center justify-center text-xs text-muted-foreground opacity-0 hover:opacity-100 transition-opacity border border-dashed border-transparent hover:border-border/50 rounded">
-                        Nenhum evento
-                      </div>
-                    )}
+                    ) : null}
                   </div>
                 );
               })}
@@ -258,22 +267,27 @@ export default function WeeklyCalendar({ initialDate }: WeeklyCalendarProps) {
       </div>
 
       {/* Mobile Stack */}
-      <div className="md:hidden container mx-auto px-4 py-6 space-y-4">
+      <div className="md:hidden container mx-auto px-4 py-3 space-y-3">
         {weekDays.slice(0, 3).map(day => {
           const dayEvents = events?.filter(event => isSameDay(parseISO(event.date), day)) || [];
+          const hasEvents = dayEvents.length > 0;
           return (
-            <Card key={day.toISOString()} className={isToday(day) ? 'border-accent' : ''}>
-              <CardHeader>
-                <CardTitle className="flex justify-between items-center">
-                  <span>
+            <Card 
+              key={day.toISOString()} 
+              className={`${isToday(day) ? 'border-accent' : ''} ${hasEvents ? 'border-green-500/50 bg-green-500/5' : ''}`}
+            >
+              <CardHeader className="p-3">
+                <CardTitle className="flex justify-between items-center text-base">
+                  <span className={hasEvents ? 'text-green-500' : ''}>
                     {format(day, "EEEE, d 'de' MMMM", { locale: ptBR })}
                   </span>
                   {isToday(day) && <Badge variant="default">Hoje</Badge>}
+                  {hasEvents && !isToday(day) && <Badge className="bg-green-500">Com eventos</Badge>}
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-3">
                 {dayEvents.length > 0 ? (
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     {dayEvents.map(event => (
                       <EventCard 
                         key={event.id} 
@@ -283,7 +297,7 @@ export default function WeeklyCalendar({ initialDate }: WeeklyCalendarProps) {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-muted-foreground text-center py-4">Nenhum evento agendado</p>
+                  <p className="text-muted-foreground text-center py-2 text-sm">Nenhum evento</p>
                 )}
               </CardContent>
             </Card>
