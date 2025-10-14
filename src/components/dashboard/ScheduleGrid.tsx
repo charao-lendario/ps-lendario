@@ -109,14 +109,14 @@ export function ScheduleGrid() {
                       </div>
                       
                       {displaySchedule ? (
-                        <div className="space-y-2">
+                        <div className="space-y-2 flex flex-col items-center">
                           <Badge className={getTypeColor(displaySchedule.type)}>
                             {'label' in displaySchedule 
                               ? displaySchedule.label 
                               : displaySchedule.type.charAt(0).toUpperCase() + displaySchedule.type.slice(1)}
                           </Badge>
                           {schedule?.hosts?.name && (
-                            <p className="font-medium">{schedule.hosts.name}</p>
+                            <p className="font-medium text-center">{schedule.hosts.name}</p>
                           )}
                           {schedule?.room_link && (
                             <Button
