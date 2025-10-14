@@ -11,6 +11,7 @@ import adavioTittoniImg from '@/assets/adavio-tittoni-new.png';
 import academiaLendariaLogo from '@/assets/academia-lendaria-logo.png';
 import WeeklyCalendarCompact from '@/components/WeeklyCalendarCompact';
 import { WeeklyHighlights } from '@/components/dashboard/WeeklyHighlights';
+import { WeeklyHighlightsCarousel } from '@/components/WeeklyHighlightsCarousel';
 import { ScheduleGrid } from '@/components/dashboard/ScheduleGrid';
 
 export default function Index() {
@@ -191,7 +192,10 @@ export default function Index() {
         <WeeklyCalendarCompact />
       </section>
 
-      {/* Weekly Highlights */}
+      {/* Weekly Highlights Carousel */}
+      <WeeklyHighlightsCarousel />
+
+      {/* Student Testimonials */}
       <section className="py-20 px-4">
         <div className="container mx-auto">
           <WeeklyHighlights />
