@@ -32,7 +32,7 @@ export function GuestCard({ guest, event, dateBadge }: GuestCardProps) {
 
   return (
     <div
-      className="relative w-full max-w-[280px] h-[320px] sm:h-[380px] lg:h-[400px] rounded-lg overflow-hidden group cursor-pointer transition-transform hover:scale-105 hover:shadow-2xl mx-auto"
+      className="relative w-full max-w-[320px] h-[360px] sm:h-[420px] lg:h-[480px] rounded-lg overflow-hidden group cursor-pointer transition-transform hover:scale-[1.02] hover:shadow-2xl mx-auto"
       role="article"
       aria-label={`Evento: ${event.topic || 'Monitoria'} com ${guest.name} em ${formattedDate}`}
       tabIndex={0}
@@ -41,9 +41,9 @@ export function GuestCard({ guest, event, dateBadge }: GuestCardProps) {
       {/* Background Image */}
       {guest.avatar_url ? (
         <img
-          src={`${guest.avatar_url}?width=280&height=400&resize=cover&quality=85`}
+          src={`${guest.avatar_url}?width=320&height=480&resize=cover&quality=85`}
           alt={`${guest.name} - ${event.topic || 'Monitoria'}`}
-          className="absolute inset-0 w-full h-full object-cover object-top brightness-75"
+          className="absolute inset-0 w-full h-full object-cover object-[center_20%] brightness-90"
           loading="lazy"
           decoding="async"
         />
@@ -52,10 +52,10 @@ export function GuestCard({ guest, event, dateBadge }: GuestCardProps) {
       )}
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent group-hover:from-black/95 transition-colors" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent group-hover:from-black/98 transition-colors" />
 
       {/* Content Stack - Bottom Positioned */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2">
+      <div className="absolute bottom-0 left-0 right-0 p-6 space-y-3">
         {/* Badge Top */}
         <Badge variant={dateBadge.variant} className="backdrop-blur-sm">
           {dateBadge.label}
@@ -72,9 +72,13 @@ export function GuestCard({ guest, event, dateBadge }: GuestCardProps) {
         </div>
 
         {/* Date/Time */}
-        <div className="flex items-center justify-between text-xs lg:text-sm text-white/90">
-          <span>{formattedDate}</span>
-          <span>{event.time}</span>
+        <div className="flex items-center justify-between pt-2 border-t border-white/10">
+          <div className="text-sm text-white/80">
+            <span>{formattedDate}</span>
+          </div>
+          <div className="text-sm text-accent font-semibold">
+            {event.time}
+          </div>
         </div>
 
         {/* Social Links */}
