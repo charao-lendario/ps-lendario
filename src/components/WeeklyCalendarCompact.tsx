@@ -85,27 +85,12 @@ export default function WeeklyCalendarCompact() {
   };
 
   const getEventTypeColor = (type?: string) => {
-    const colors = {
-      'estrategico': {
-        bg: 'bg-blue-500/10',
-        border: 'border-blue-500/50',
-        text: 'text-blue-500',
-        dot: 'bg-blue-500'
-      },
-      'tecnico': {
-        bg: 'bg-green-500/10',
-        border: 'border-green-500/50',
-        text: 'text-green-500',
-        dot: 'bg-green-500'
-      },
-      'marketing': {
-        bg: 'bg-yellow-500/10',
-        border: 'border-yellow-500/50',
-        text: 'text-yellow-500',
-        dot: 'bg-yellow-500'
-      }
+    return {
+      bg: 'bg-primary/10',
+      border: 'border-primary/50',
+      text: 'text-primary',
+      dot: 'bg-primary'
     };
-    return colors[type?.toLowerCase() as keyof typeof colors] || colors.tecnico;
   };
 
   const changeWeek = (weeks: number) => {
