@@ -31,7 +31,7 @@ export default function Index() {
       avatar: lucasCharaoImg,
       social: {
         linkedin: '',
-        instagram: '',
+        instagram: 'https://www.instagram.com/olucascharao/',
       },
     },
     {
@@ -42,7 +42,7 @@ export default function Index() {
       avatar: adavioTittoniImg,
       social: {
         linkedin: '',
-        instagram: '',
+        instagram: 'https://www.instagram.com/adaviotittoni/',
       },
     },
   ];

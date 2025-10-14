@@ -52,15 +52,17 @@ export function MonthlyCalendar() {
   }
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-bold">Calendário</h2>
+    <div className="space-y-6">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl md:text-4xl font-bold">Calendário de Eventos</h2>
+        <p className="text-muted-foreground text-lg">
+          Confira os próximos convidados e eventos especiais
+        </p>
+      </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="shadow-card gradient-card">
-          <CardHeader>
-            <CardTitle>Selecione uma data</CardTitle>
-          </CardHeader>
-          <CardContent className="flex justify-center">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <Card className="lg:col-span-3 shadow-card gradient-card">
+          <CardContent className="p-8">
             <Calendar
               mode="single"
               selected={selectedDate}
@@ -70,39 +72,43 @@ export function MonthlyCalendar() {
                 event: eventDates
               }}
               modifiersClassNames={{
-                event: 'bg-primary/20 text-primary font-bold'
+                event: 'relative bg-gradient-primary text-primary-foreground font-bold hover:scale-110 transition-smooth after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-accent after:rounded-full shadow-glow'
               }}
-              className="rounded-md"
+              className="rounded-md w-full [&_td]:p-3 [&_th]:p-3 [&_button]:h-16 [&_button]:w-16 [&_button]:text-lg [&_.rdp-caption]:text-2xl [&_.rdp-caption]:font-bold [&_.rdp-caption]:mb-6"
             />
           </CardContent>
         </Card>
 
-        <Card className="shadow-card gradient-card">
+        <Card className="lg:col-span-2 shadow-card gradient-card">
           <CardHeader>
-            <CardTitle>
+            <CardTitle className="text-2xl bg-gradient-primary bg-clip-text text-transparent">
               {selectedDate ? format(selectedDate, "dd 'de' MMMM", { locale: ptBR }) : 'Selecione uma data'}
             </CardTitle>
           </CardHeader>
           <CardContent>
             {eventsOnSelectedDate.length === 0 ? (
-              <p className="text-muted-foreground text-center py-8">
-                Nenhum evento agendado para esta data
-              </p>
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <p className="text-muted-foreground text-lg">
+                  Nenhum evento agendado para esta data
+                </p>
+              </div>
             ) : (
               <div className="space-y-4">
                 {eventsOnSelectedDate.map((event) => (
                   <div
                     key={event.id}
-                    className="p-4 rounded-lg border border-border bg-secondary/20 space-y-2"
+                    className="p-5 rounded-lg border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-3 hover:shadow-glow transition-smooth"
                   >
                     <div className="flex items-start justify-between">
-                      <div className="space-y-1">
-                        <h3 className="font-semibold">{event.guests?.name}</h3>
+                      <div className="space-y-2 flex-1">
+                        <h3 className="font-bold text-xl">{event.guests?.name}</h3>
                         <div className="flex items-center gap-2">
-                          <Badge variant="outline">{event.time}</Badge>
+                          <Badge variant="default" className="text-base px-3 py-1">
+                            {event.time}
+                          </Badge>
                         </div>
                         {event.guests?.bio && (
-                          <p className="text-sm text-muted-foreground line-clamp-2">
+                          <p className="text-sm text-muted-foreground">
                             {event.guests.bio}
                           </p>
                         )}
@@ -110,12 +116,12 @@ export function MonthlyCalendar() {
                     </div>
                     {event.room_link && (
                       <Button
-                        size="sm"
+                        size="lg"
                         className="w-full"
                         onClick={() => window.open(event.room_link, '_blank')}
                       >
-                        <ExternalLink className="mr-2 h-4 w-4" />
-                        Acessar Sala
+                        <ExternalLink className="mr-2 h-5 w-5" />
+                        Acessar Sala Virtual
                       </Button>
                     )}
                   </div>
