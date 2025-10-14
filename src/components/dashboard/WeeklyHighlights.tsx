@@ -58,7 +58,7 @@ export function WeeklyHighlights() {
   if (!events || events.length === 0) {
     return (
       <div className="space-y-6">
-        <h2 className="text-2xl font-bold">Destaques da Semana</h2>
+        <h2 className="text-2xl font-bold">Depoimentos de Alunos</h2>
         
         {/* Carrossel de Vídeos */}
         <VideoCarousel />
@@ -74,7 +74,7 @@ export function WeeklyHighlights() {
 
   return (
     <section className="w-full space-y-8">
-      <h2 className="text-3xl font-bold">Destaques da Semana</h2>
+      <h2 className="text-3xl font-bold">Depoimentos de Alunos</h2>
       
       {/* Carrossel de Vídeos */}
       <VideoCarousel />
