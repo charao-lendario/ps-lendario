@@ -67,7 +67,7 @@ export function WeeklyHighlights() {
         <h2 className="text-2xl font-bold">Destaques da Semana</h2>
         
         {/* Carrossel de Imagens */}
-        <Carousel className="w-full max-w-5xl mx-auto">
+        <Carousel className="w-full max-w-2xl mx-auto">
           <CarouselContent>
             {highlightImages.map((image, index) => (
               <CarouselItem key={index}>
@@ -75,7 +75,7 @@ export function WeeklyHighlights() {
                   <img
                     src={image}
                     alt={`Destaque ${index + 1}`}
-                    className="w-full h-auto object-cover rounded-lg"
+                    className="w-full h-[300px] md:h-[400px] object-cover rounded-lg"
                   />
                 </Card>
               </CarouselItem>
@@ -99,7 +99,7 @@ export function WeeklyHighlights() {
       <h2 className="text-2xl font-bold">Destaques da Semana</h2>
       
       {/* Carrossel de Imagens */}
-      <Carousel className="w-full max-w-5xl mx-auto">
+      <Carousel className="w-full max-w-2xl mx-auto">
         <CarouselContent>
           {highlightImages.map((image, index) => (
             <CarouselItem key={index}>
@@ -107,7 +107,7 @@ export function WeeklyHighlights() {
                 <img
                   src={image}
                   alt={`Destaque ${index + 1}`}
-                  className="w-full h-auto object-cover rounded-lg"
+                  className="w-full h-[300px] md:h-[400px] object-cover rounded-lg"
                 />
               </Card>
             </CarouselItem>
