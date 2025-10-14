@@ -4,10 +4,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
 import { isToday, isTomorrow, startOfWeek, endOfWeek, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { OverlappingCarousel } from '@/components/OverlappingCarousel';
-import eventoCyberSecurity from '@/assets/evento-cyber-security.png';
-import eventoDiscovery from '@/assets/evento-discovery.png';
+import { VideoCarousel } from '@/components/VideoCarousel';
 
 export function WeeklyHighlights() {
   const { data: events, isLoading } = useQuery({
@@ -57,31 +55,13 @@ export function WeeklyHighlights() {
     return { label: 'Esta semana', variant: 'outline' as const };
   };
 
-  const highlightImages = [eventoCyberSecurity, eventoDiscovery];
-
   if (!events || events.length === 0) {
     return (
       <div className="space-y-6">
         <h2 className="text-2xl font-bold">Destaques da Semana</h2>
         
-        {/* Carrossel de Imagens */}
-        <Carousel className="w-full max-w-2xl mx-auto">
-          <CarouselContent>
-            {highlightImages.map((image, index) => (
-              <CarouselItem key={index}>
-                <Card className="gradient-card shadow-glow overflow-hidden border-0">
-                  <img
-                    src={image}
-                    alt={`Destaque ${index + 1}`}
-                    className="w-full h-[300px] md:h-[400px] object-cover rounded-lg"
-                  />
-                </Card>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="left-4" />
-          <CarouselNext className="right-4" />
-        </Carousel>
+        {/* Carrossel de Vídeos */}
+        <VideoCarousel />
         
         <Card className="shadow-card gradient-card">
           <CardContent className="py-12 text-center text-muted-foreground">
@@ -96,24 +76,8 @@ export function WeeklyHighlights() {
     <section className="w-full space-y-8">
       <h2 className="text-3xl font-bold">Destaques da Semana</h2>
       
-      {/* Carrossel de Imagens */}
-      <Carousel className="w-full max-w-2xl mx-auto">
-        <CarouselContent>
-          {highlightImages.map((image, index) => (
-            <CarouselItem key={index}>
-              <Card className="gradient-card shadow-glow overflow-hidden border-0">
-                <img
-                  src={image}
-                  alt={`Destaque ${index + 1}`}
-                  className="w-full h-[300px] md:h-[400px] object-cover rounded-lg"
-                />
-              </Card>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious className="left-4" />
-        <CarouselNext className="right-4" />
-      </Carousel>
+      {/* Carrossel de Vídeos */}
+      <VideoCarousel />
       
       {/* Desktop: Overlapping Carousel */}
       <div className="hidden lg:block">
