@@ -101,48 +101,54 @@ export default function Index() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
             {hosts.map((host) => (
-              <Card key={host.name} className="shadow-card gradient-card hover:shadow-glow transition-smooth">
-                <CardContent className="p-8 text-center space-y-6">
-                  <Avatar className="h-32 w-32 mx-auto border-2 border-primary/20">
+              <Card key={host.name} className="shadow-card gradient-card hover:shadow-glow transition-smooth overflow-hidden">
+                <CardContent className="p-0 flex flex-col sm:flex-row">
+                  <div className="relative w-full sm:w-2/5 h-64 sm:h-auto overflow-hidden">
                     {host.avatar ? (
-                      <AvatarImage src={host.avatar} alt={host.name} />
+                      <img 
+                        src={host.avatar} 
+                        alt={host.name}
+                        className="w-full h-full object-cover object-center"
+                      />
                     ) : (
-                      <AvatarFallback className="text-4xl bg-gradient-primary">
-                        {host.name.charAt(0)}
-                      </AvatarFallback>
+                      <div className="w-full h-full bg-gradient-primary flex items-center justify-center">
+                        <span className="text-6xl font-bold">{host.name.charAt(0)}</span>
+                      </div>
                     )}
-                  </Avatar>
-                  
-                  <div className="space-y-2">
-                    <h3 className="text-2xl font-bold">{host.name}</h3>
-                    <div className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-sm font-semibold">
-                      {host.type}
-                    </div>
-                    <p className="text-sm font-medium text-muted-foreground">{host.role}</p>
-                    <p className="text-muted-foreground">{host.bio}</p>
                   </div>
+                  
+                  <div className="flex-1 p-6 sm:p-8 flex flex-col justify-between space-y-4">
+                    <div className="space-y-3">
+                      <h3 className="text-2xl font-bold">{host.name}</h3>
+                      <div className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-sm font-semibold">
+                        {host.type}
+                      </div>
+                      <p className="text-sm font-medium text-muted-foreground">{host.role}</p>
+                      <p className="text-muted-foreground text-sm">{host.bio}</p>
+                    </div>
 
-                  <div className="flex gap-2 justify-center">
-                    {host.social.linkedin && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => window.open(host.social.linkedin, '_blank')}
-                      >
-                        <Linkedin className="h-4 w-4" />
-                      </Button>
-                    )}
-                    {host.social.instagram && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => window.open(host.social.instagram, '_blank')}
-                      >
-                        <Instagram className="h-4 w-4" />
-                      </Button>
-                    )}
+                    <div className="flex gap-2">
+                      {host.social.linkedin && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => window.open(host.social.linkedin, '_blank')}
+                        >
+                          <Linkedin className="h-4 w-4" />
+                        </Button>
+                      )}
+                      {host.social.instagram && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => window.open(host.social.instagram, '_blank')}
+                        >
+                          <Instagram className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
