@@ -41,9 +41,9 @@ export function GuestCard({ guest, event, dateBadge }: GuestCardProps) {
       {/* Background Image */}
       {guest.avatar_url ? (
         <img
-          src={`${guest.avatar_url}?width=320&height=480&resize=cover&quality=85`}
+          src={`${guest.avatar_url}?quality=90`}
           alt={`${guest.name} - ${event.topic || 'Monitoria'}`}
-          className="absolute inset-0 w-full h-full object-cover object-[center_20%] brightness-90"
+          className="absolute inset-0 w-full h-full object-cover object-center brightness-90"
           loading="lazy"
           decoding="async"
         />
