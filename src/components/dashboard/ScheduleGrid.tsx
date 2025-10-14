@@ -50,11 +50,30 @@ export function ScheduleGrid() {
 
   const getTypeColor = (type: string) => {
     const colors = {
-      estrategico: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-      tecnico: 'bg-green-500/20 text-green-400 border-green-500/30',
-      marketing: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+      estrategico: 'bg-blue-500/20 text-blue-500 border-blue-500/30 font-bold',
+      tecnico: 'bg-green-500/20 text-green-500 border-green-500/30 font-bold',
+      marketing: 'bg-yellow-500/20 text-yellow-500 border-yellow-500/30 font-bold',
     };
     return colors[type as keyof typeof colors] || 'bg-muted text-muted-foreground';
+  };
+
+  const getDefaultSchedule = (day: number, time: string) => {
+    // Segunda, Quarta, Sexta = 1, 3, 5
+    // Terça, Quinta = 2, 4
+    
+    if ([1, 3, 5].includes(day) && time === '10:00') {
+      return { type: 'estrategico', label: 'Estratégico' };
+    }
+    if ([1, 3, 5].includes(day) && time === '18:30') {
+      return { type: 'tecnico', label: 'Técnico' };
+    }
+    if ([2, 4].includes(day) && time === '10:00') {
+      return { type: 'tecnico', label: 'Técnico' };
+    }
+    if ([2, 4].includes(day) && time === '18:30') {
+      return { type: 'marketing', label: 'Marketing' };
+    }
+    return null;
   };
 
   return (
@@ -80,6 +99,8 @@ export function ScheduleGrid() {
                 </div>
                 {DAYS.map((day, dayIndex) => {
                   const schedule = getScheduleForSlot(dayIndex + 1, time);
+                  const defaultSchedule = getDefaultSchedule(dayIndex + 1, time);
+                  const displaySchedule = schedule || defaultSchedule;
                   
                   return (
                     <Card key={`${day}-${time}`} className="p-4 hover:border-primary/50 transition-smooth">
@@ -87,13 +108,17 @@ export function ScheduleGrid() {
                         {day} - {time}
                       </div>
                       
-                      {schedule ? (
+                      {displaySchedule ? (
                         <div className="space-y-2">
-                          <Badge className={getTypeColor(schedule.type)}>
-                            {schedule.type.charAt(0).toUpperCase() + schedule.type.slice(1)}
+                          <Badge className={getTypeColor(displaySchedule.type)}>
+                            {'label' in displaySchedule 
+                              ? displaySchedule.label 
+                              : displaySchedule.type.charAt(0).toUpperCase() + displaySchedule.type.slice(1)}
                           </Badge>
-                          <p className="font-medium">{schedule.hosts?.name}</p>
-                          {schedule.room_link && (
+                          {schedule?.hosts?.name && (
+                            <p className="font-medium">{schedule.hosts.name}</p>
+                          )}
+                          {schedule?.room_link && (
                             <Button
                               size="sm"
                               variant="outline"
