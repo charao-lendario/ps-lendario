@@ -1,7 +1,14 @@
 import { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar, Clock, User } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 interface Guest {
   name: string;
@@ -84,11 +91,21 @@ interface CardProps {
   position: Position;
   isActive: boolean;
   onClick: () => void;
+  onDetailsClick: () => void;
 }
 
-function OverlappingCard({ guest, event, position, isActive, onClick }: CardProps) {
+function OverlappingCard({ guest, event, position, isActive, onClick, onDetailsClick }: CardProps) {
   const style = positionStyles[position];
   const formattedDate = format(new Date(event.date), "dd 'de' MMMM", { locale: ptBR });
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (isActive) {
+      e.stopPropagation();
+      onDetailsClick();
+    } else {
+      onClick();
+    }
+  };
 
   return (
     <div
@@ -104,7 +121,7 @@ function OverlappingCard({ guest, event, position, isActive, onClick }: CardProp
         zIndex: style.zIndex,
         transformStyle: 'preserve-3d',
       }}
-      onClick={onClick}
+      onClick={handleClick}
     >
       <div className="relative w-full h-full rounded-xl overflow-hidden shadow-2xl">
         {guest.avatar_url ? (
@@ -144,6 +161,7 @@ function OverlappingCard({ guest, event, position, isActive, onClick }: CardProp
 export function OverlappingCarousel({ items }: OverlappingCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
+  const [selectedEvent, setSelectedEvent] = useState<CarouselItem | null>(null);
 
   const getPosition = (cardIndex: number, activeIndex: number): Position => {
     const diff = cardIndex - activeIndex;
@@ -167,6 +185,10 @@ export function OverlappingCarousel({ items }: OverlappingCarouselProps) {
     if (index !== activeIndex) {
       setActiveIndex(index);
     }
+  };
+
+  const handleDetailsClick = (item: CarouselItem) => {
+    setSelectedEvent(item);
   };
 
   // Keyboard navigation
@@ -198,24 +220,26 @@ export function OverlappingCarousel({ items }: OverlappingCarouselProps) {
   }
 
   return (
-    <div 
-      className="relative w-full h-[450px] lg:h-[500px] overflow-visible py-12"
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      style={{ perspective: '1200px' }}
-    >
-      <div className="relative h-full flex items-center justify-center">
-        {items.map((item, index) => (
-          <OverlappingCard
-            key={item.event.id}
-            guest={item.guest}
-            event={item.event}
-            position={getPosition(index, activeIndex)}
-            isActive={index === activeIndex}
-            onClick={() => handleCardClick(index)}
-          />
-        ))}
-      </div>
+    <>
+      <div 
+        className="relative w-full h-[450px] lg:h-[500px] overflow-visible py-12"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        style={{ perspective: '1200px' }}
+      >
+        <div className="relative h-full flex items-center justify-center">
+          {items.map((item, index) => (
+            <OverlappingCard
+              key={item.event.id}
+              guest={item.guest}
+              event={item.event}
+              position={getPosition(index, activeIndex)}
+              isActive={index === activeIndex}
+              onClick={() => handleCardClick(index)}
+              onDetailsClick={() => handleDetailsClick(item)}
+            />
+          ))}
+        </div>
       
       {/* Navigation Arrows */}
       {items.length > 1 && (
@@ -254,5 +278,83 @@ export function OverlappingCarousel({ items }: OverlappingCarouselProps) {
         ))}
       </div>
     </div>
+
+    {/* Event Details Dialog */}
+    <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        {selectedEvent && (
+          <>
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold">
+                {selectedEvent.event.topic || 'Monitoria'}
+              </DialogTitle>
+              <DialogDescription className="text-base">
+                Com {selectedEvent.guest.name}
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="space-y-6 mt-4">
+              {/* Espaço para imagem do evento */}
+              <div className="relative w-full h-[300px] rounded-lg overflow-hidden bg-secondary/20 border-2 border-dashed border-border flex items-center justify-center">
+                {selectedEvent.guest.avatar_url ? (
+                  <img
+                    src={selectedEvent.guest.avatar_url}
+                    alt={selectedEvent.guest.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <p className="text-muted-foreground text-sm">
+                    Espaço reservado para imagem do evento
+                  </p>
+                )}
+              </div>
+
+              {/* Informações do evento */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 text-foreground">
+                  <Calendar className="w-5 h-5 text-primary" />
+                  <span className="font-medium">
+                    {format(new Date(selectedEvent.event.date), "EEEE, dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-3 text-foreground">
+                  <Clock className="w-5 h-5 text-primary" />
+                  <span className="font-medium">{selectedEvent.event.time}</span>
+                </div>
+
+                <div className="flex items-center gap-3 text-foreground">
+                  <User className="w-5 h-5 text-primary" />
+                  <span className="font-medium">{selectedEvent.guest.name}</span>
+                </div>
+              </div>
+
+              {/* Bio do convidado */}
+              {selectedEvent.guest.bio && (
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-lg">Sobre o convidado</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {selectedEvent.guest.bio}
+                  </p>
+                </div>
+              )}
+
+              {/* Link da sala */}
+              {selectedEvent.event.room_link && (
+                <div className="pt-4">
+                  <button
+                    onClick={() => window.open(selectedEvent.event.room_link, '_blank')}
+                    className="w-full py-3 px-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+                  >
+                    Acessar Sala
+                  </button>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
+  </>
   );
 }
