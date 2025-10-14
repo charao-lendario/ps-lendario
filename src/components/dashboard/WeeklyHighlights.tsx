@@ -3,8 +3,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
 import { isToday, isTomorrow, startOfWeek, endOfWeek, format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { GuestCard } from '@/components/GuestCard';
+import { OverlappingCarousel } from '@/components/OverlappingCarousel';
 import eventoCyberSecurity from '@/assets/evento-cyber-security.png';
 import eventoDiscovery from '@/assets/evento-discovery.png';
 
@@ -114,32 +115,83 @@ export function WeeklyHighlights() {
         <CarouselNext className="right-4" />
       </Carousel>
       
-      {/* Grid de Cards Compactos */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {events.map((event) => {
-          const dateBadge = getDateBadge(event.date);
-          const guest = event.guests;
-
-          return (
-            <GuestCard
-              key={event.id}
-              guest={{
+      {/* Desktop: Overlapping Carousel */}
+      <div className="hidden lg:block">
+        <OverlappingCarousel 
+          items={events.map((event) => {
+            const guest = event.guests;
+            return {
+              guest: {
                 name: guest?.name || 'Convidado',
                 bio: guest?.bio,
                 avatar_url: guest?.avatar_url,
                 social_links: guest?.social_links as any,
-              }}
-              event={{
+              },
+              event: {
                 id: event.id,
                 date: event.date,
                 time: event.time,
                 topic: guest?.name,
                 room_link: event.room_link,
-              }}
-              dateBadge={dateBadge}
-            />
-          );
-        })}
+              }
+            };
+          })}
+        />
+      </div>
+
+      {/* Mobile/Tablet: Grid Layout */}
+      <div className="block lg:hidden">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {events.map((event) => {
+            const guest = event.guests;
+            const dateBadge = getDateBadge(event.date);
+            const formattedDate = format(new Date(event.date), "dd 'de' MMMM", { locale: ptBR });
+            
+            return (
+              <div key={event.id} className="mx-auto">
+                <div
+                  className="relative w-full max-w-[320px] aspect-square rounded-lg overflow-hidden group cursor-pointer transition-transform hover:scale-[1.02] hover:shadow-2xl"
+                  role="article"
+                  aria-label={`Evento: Monitoria com ${guest?.name}`}
+                >
+                  {guest?.avatar_url ? (
+                    <img
+                      src={`${guest.avatar_url}?quality=90`}
+                      alt={`${guest.name} - Monitoria`}
+                      className="absolute inset-0 w-full h-full object-cover object-center brightness-90"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 w-full h-full bg-secondary/50" />
+                  )}
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
+
+                  <div className="absolute bottom-0 left-0 right-0 p-6 space-y-3">
+                    <div className="space-y-1">
+                      <h3 className="text-xl font-bold text-white leading-tight line-clamp-2">
+                        Monitoria
+                      </h3>
+                      <p className="text-sm text-white/80">
+                        Com {guest?.name || 'Convidado'}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-2 border-t border-white/10">
+                      <div className="text-sm text-white/80">
+                        <span>{formattedDate}</span>
+                      </div>
+                      <div className="text-sm text-accent font-semibold">
+                        {event.time}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
