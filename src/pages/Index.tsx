@@ -8,6 +8,9 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import lucasCharaoImg from '@/assets/lucas-charao.png';
 import adavioTittoniImg from '@/assets/adavio-tittoni.png';
+import { MonthlyCalendar } from '@/components/dashboard/MonthlyCalendar';
+import { WeeklyHighlights } from '@/components/dashboard/WeeklyHighlights';
+import { ScheduleGrid } from '@/components/dashboard/ScheduleGrid';
 
 export default function Index() {
   const { user } = useAuth();
@@ -161,6 +164,27 @@ export default function Index() {
               allowFullScreen
             />
           </Card>
+        </div>
+      </section>
+
+      {/* Schedule Grid */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto">
+          <ScheduleGrid />
+        </div>
+      </section>
+
+      {/* Calendar Section */}
+      <section className="py-20 px-4 bg-secondary/20">
+        <div className="container mx-auto">
+          <MonthlyCalendar />
+        </div>
+      </section>
+
+      {/* Weekly Highlights */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto">
+          <WeeklyHighlights />
         </div>
       </section>
 
