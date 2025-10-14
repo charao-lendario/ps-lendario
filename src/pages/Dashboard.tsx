@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/layout/Navbar';
 import { ScheduleGrid } from '@/components/dashboard/ScheduleGrid';
+import { MonthlyCalendar } from '@/components/dashboard/MonthlyCalendar';
 import { WeeklyHighlights } from '@/components/dashboard/WeeklyHighlights';
 import { UsefulLinks } from '@/components/dashboard/UsefulLinks';
 
@@ -15,6 +16,7 @@ export default function Dashboard() {
         </div>
 
         <ScheduleGrid />
+        <MonthlyCalendar />
         <WeeklyHighlights />
         <UsefulLinks />
       </main>

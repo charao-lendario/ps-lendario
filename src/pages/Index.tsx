@@ -62,16 +62,19 @@ export default function Index() {
             </div>
             
             <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-              Sistema de monitoria ao vivo para alunos da <span className="text-primary font-semibold">Formação</span> e <span className="text-primary font-semibold">Founders</span>
+              Sistema de monitoria ao vivo é exclusivo para alunos da <span className="text-primary font-semibold">Formação</span> e <span className="text-primary font-semibold">Founders</span>
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/auth">
-                <Button size="lg" variant="hero" className="text-lg">
-                  Acessar Pronto-Socorro
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
+              <Button 
+                size="lg" 
+                variant="hero" 
+                className="text-lg"
+                onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
+              >
+                Acessar Pronto-Socorro
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
             </div>
           </div>
         </div>
@@ -137,18 +140,24 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Video Section Placeholder */}
+      {/* Video Section */}
       <section className="py-20 px-4 bg-secondary/20">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Como Funciona</h2>
             <p className="text-muted-foreground">
-              Vídeo explicativo em breve
+              Entenda como aproveitar ao máximo o Pronto-Socorro
             </p>
           </div>
           
-          <Card className="aspect-video gradient-card shadow-card flex items-center justify-center">
-            <p className="text-muted-foreground">Vídeo será adicionado aqui</p>
+          <Card className="aspect-video gradient-card shadow-card overflow-hidden">
+            <iframe
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/UgD1qjh8BTU"
+              title="Como Funciona - Pronto Socorro"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </Card>
         </div>
       </section>
@@ -164,12 +173,15 @@ export default function Index() {
               <p className="text-lg text-muted-foreground">
                 Acesse agora e aproveite as monitorias ao vivo
               </p>
-              <Link to="/auth">
-                <Button size="lg" variant="hero" className="text-lg">
-                  Acessar Agora
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
+              <Button 
+                size="lg" 
+                variant="hero" 
+                className="text-lg"
+                onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
+              >
+                Acessar Agora
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
             </CardContent>
           </Card>
         </div>
