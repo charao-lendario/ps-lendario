@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ExternalLink, Loader2 } from 'lucide-react';
 import { format, isToday, isTomorrow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { Fragment } from 'react';
 
 const DAYS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
 const TIMES = ['10:00', '18:30'];
@@ -93,8 +94,8 @@ export function ScheduleGrid() {
 
             {/* Schedule Grid */}
             {TIMES.map((time) => (
-              <>
-                <div key={`time-${time}`} className="md:flex items-center justify-center font-semibold hidden">
+              <Fragment key={`time-row-${time}`}>
+                <div className="md:flex items-center justify-center font-semibold hidden">
                   {time}
                 </div>
                 {DAYS.map((day, dayIndex) => {
@@ -136,7 +137,7 @@ export function ScheduleGrid() {
                     </Card>
                   );
                 })}
-              </>
+              </Fragment>
             ))}
           </div>
         </CardContent>
