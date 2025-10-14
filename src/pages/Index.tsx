@@ -105,7 +105,7 @@ export default function Index() {
             {hosts.map((host) => (
               <Card key={host.name} className="shadow-card gradient-card hover:shadow-glow transition-smooth overflow-hidden">
                 <CardContent className="p-0 flex flex-col sm:flex-row">
-                  <div className="relative w-full sm:w-2/5 h-64 sm:h-auto overflow-hidden">
+                  <div className="relative w-full sm:w-2/5 sm:min-h-[400px] overflow-hidden">
                     {host.avatar ? (
                       <img 
                         src={host.avatar} 
