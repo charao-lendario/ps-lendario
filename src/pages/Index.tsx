@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import lucasCharaoImg from '@/assets/lucas-charao.png';
 import adavioTittoniImg from '@/assets/adavio-tittoni.png';
-import { MonthlyCalendar } from '@/components/dashboard/MonthlyCalendar';
+import WeeklyCalendar from '@/components/WeeklyCalendar';
 import { WeeklyHighlights } from '@/components/dashboard/WeeklyHighlights';
 import { ScheduleGrid } from '@/components/dashboard/ScheduleGrid';
 
@@ -175,10 +175,8 @@ export default function Index() {
       </section>
 
       {/* Calendar Section */}
-      <section className="py-20 px-4 bg-secondary/20">
-        <div className="container mx-auto">
-          <MonthlyCalendar />
-        </div>
+      <section className="w-full py-20 bg-secondary/20">
+        <WeeklyCalendar />
       </section>
 
       {/* Weekly Highlights */}
