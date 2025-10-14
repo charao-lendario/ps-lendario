@@ -32,7 +32,7 @@ export function GuestCard({ guest, event, dateBadge }: GuestCardProps) {
 
   return (
     <div
-      className="relative w-full max-w-[320px] h-[360px] sm:h-[420px] lg:h-[480px] rounded-lg overflow-hidden group cursor-pointer transition-transform hover:scale-[1.02] hover:shadow-2xl mx-auto"
+      className="relative w-full max-w-[320px] aspect-[3/4] rounded-lg overflow-hidden group cursor-pointer transition-transform hover:scale-[1.02] hover:shadow-2xl mx-auto"
       role="article"
       aria-label={`Evento: ${event.topic || 'Monitoria'} com ${guest.name} em ${formattedDate}`}
       tabIndex={0}
@@ -44,6 +44,7 @@ export function GuestCard({ guest, event, dateBadge }: GuestCardProps) {
           src={`${guest.avatar_url}?quality=90`}
           alt={`${guest.name} - ${event.topic || 'Monitoria'}`}
           className="absolute inset-0 w-full h-full object-cover object-center brightness-90"
+          style={{ aspectRatio: '3/4' }}
           loading="lazy"
           decoding="async"
         />
