@@ -84,6 +84,30 @@ export default function WeeklyCalendarCompact() {
     return events.filter(event => isSameDay(parseISO(event.date), day));
   };
 
+  const getEventTypeColor = (type?: string) => {
+    const colors = {
+      'estrategico': {
+        bg: 'bg-blue-500/10',
+        border: 'border-blue-500/50',
+        text: 'text-blue-500',
+        dot: 'bg-blue-500'
+      },
+      'tecnico': {
+        bg: 'bg-green-500/10',
+        border: 'border-green-500/50',
+        text: 'text-green-500',
+        dot: 'bg-green-500'
+      },
+      'marketing': {
+        bg: 'bg-yellow-500/10',
+        border: 'border-yellow-500/50',
+        text: 'text-yellow-500',
+        dot: 'bg-yellow-500'
+      }
+    };
+    return colors[type?.toLowerCase() as keyof typeof colors] || colors.tecnico;
+  };
+
   const changeWeek = (weeks: number) => {
     setCurrentWeek(weeks > 0 ? addWeeks(currentWeek, weeks) : subWeeks(currentWeek, Math.abs(weeks)));
   };
@@ -126,10 +150,11 @@ export default function WeeklyCalendarCompact() {
 
         {/* Week Days Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
-          {weekDays.map((day) => {
+        {weekDays.map((day) => {
             const dayEvents = getEventsForDay(day);
             const hasEvents = dayEvents.length > 0;
             const isTodayDay = isToday(day);
+            const eventColor = hasEvents ? getEventTypeColor(dayEvents[0].type) : null;
             
             return (
               <Card
@@ -137,7 +162,7 @@ export default function WeeklyCalendarCompact() {
                 className={cn(
                   "gradient-card shadow-card hover:shadow-glow transition-smooth cursor-pointer",
                   isTodayDay && "border-2 border-primary",
-                  hasEvents && "bg-green-500/10 border-green-500/50"
+                  hasEvents && eventColor && `${eventColor.bg} ${eventColor.border}`
                 )}
                 onClick={() => dayEvents.length > 0 && setSelectedEvent(dayEvents[0])}
               >
@@ -150,7 +175,7 @@ export default function WeeklyCalendarCompact() {
                     <p className={cn(
                       "text-3xl font-bold",
                       isTodayDay && "text-primary",
-                      hasEvents && "text-green-500"
+                      hasEvents && eventColor && eventColor.text
                     )}>
                       {format(day, 'd')}
                     </p>
@@ -163,8 +188,8 @@ export default function WeeklyCalendarCompact() {
                   <div className="space-y-2">
                     {hasEvents ? (
                       <>
-                        <div className="flex items-center justify-center gap-1 text-green-500">
-                          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                        <div className={cn("flex items-center justify-center gap-1", eventColor && eventColor.text)}>
+                          <div className={cn("w-2 h-2 rounded-full animate-pulse", eventColor && eventColor.dot)} />
                           <span className="text-xs font-semibold">{dayEvents.length} evento{dayEvents.length > 1 ? 's' : ''}</span>
                         </div>
                         
