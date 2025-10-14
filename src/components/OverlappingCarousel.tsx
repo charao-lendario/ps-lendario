@@ -45,44 +45,56 @@ interface CardPosition {
   opacity: number;
   zIndex: number;
   translateX: number;
+  translateY: number;
   rotateY: number;
+  rotateX: number;
 }
 
 const positionStyles: Record<Position, CardPosition> = {
   'hidden-left': {
-    scale: 0.7,
+    scale: 0.65,
     opacity: 0,
     zIndex: 0,
-    translateX: -60,
-    rotateY: 15,
+    translateX: -80,
+    translateY: 40,
+    rotateY: 45,
+    rotateX: 15,
   },
   left: {
-    scale: 0.85,
-    opacity: 0.7,
+    scale: 0.8,
+    opacity: 0.6,
     zIndex: 10,
-    translateX: -20,
-    rotateY: 8,
+    translateX: -35,
+    translateY: 20,
+    rotateY: 25,
+    rotateX: 12,
   },
   center: {
     scale: 1,
     opacity: 1,
     zIndex: 30,
     translateX: 0,
+    translateY: 0,
     rotateY: 0,
+    rotateX: 8,
   },
   right: {
-    scale: 0.85,
-    opacity: 0.7,
+    scale: 0.8,
+    opacity: 0.6,
     zIndex: 10,
-    translateX: 20,
-    rotateY: -8,
+    translateX: 35,
+    translateY: 20,
+    rotateY: -25,
+    rotateX: 12,
   },
   'hidden-right': {
-    scale: 0.7,
+    scale: 0.65,
     opacity: 0,
     zIndex: 0,
-    translateX: 60,
-    rotateY: -15,
+    translateX: 80,
+    translateY: 40,
+    rotateY: -45,
+    rotateX: 15,
   },
 };
 
@@ -119,21 +131,24 @@ function OverlappingCard({ guest, event, position, isActive, onClick, onDetailsC
 
   return (
     <div
-      className="absolute top-1/2 left-1/2 w-[280px] h-[380px] lg:w-[320px] lg:h-[420px] transition-all duration-500 ease-out cursor-pointer"
+      className="absolute top-1/2 left-1/2 w-[280px] h-[380px] lg:w-[320px] lg:h-[420px] transition-all duration-700 ease-out cursor-pointer"
       style={{
         transform: `
           translate(-50%, -50%) 
           translateX(${style.translateX}%) 
+          translateY(${style.translateY}%)
           scale(${style.scale}) 
           rotateY(${style.rotateY}deg)
+          rotateX(${style.rotateX}deg)
         `,
         opacity: style.opacity,
         zIndex: style.zIndex,
         transformStyle: 'preserve-3d',
+        filter: isActive ? 'none' : 'brightness(0.7)',
       }}
       onClick={handleClick}
     >
-      <div className="relative w-full h-full rounded-xl overflow-hidden shadow-2xl">
+      <div className="relative w-full h-full rounded-xl overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)]">
         {guest.avatar_url ? (
           <img 
             src={`${guest.avatar_url}?quality=90`}
@@ -240,7 +255,10 @@ export function OverlappingCarousel({ items }: OverlappingCarouselProps) {
         className="relative w-full h-[450px] lg:h-[500px] overflow-visible py-12"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
-        style={{ perspective: '1200px' }}
+        style={{ 
+          perspective: '1500px',
+          perspectiveOrigin: '50% 40%',
+        }}
       >
         <div className="relative h-full flex items-center justify-center">
           {items.map((item, index) => (
