@@ -59,10 +59,32 @@ export function WeeklyHighlights() {
     return { label: 'Esta semana', variant: 'outline' as const };
   };
 
+  const highlightImages = [eventoCyberSecurity, eventoDiscovery];
+
   if (!events || events.length === 0) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-6">
         <h2 className="text-2xl font-bold">Destaques da Semana</h2>
+        
+        {/* Carrossel de Imagens */}
+        <Carousel className="w-full max-w-5xl mx-auto">
+          <CarouselContent>
+            {highlightImages.map((image, index) => (
+              <CarouselItem key={index}>
+                <Card className="gradient-card shadow-glow overflow-hidden border-0">
+                  <img
+                    src={image}
+                    alt={`Destaque ${index + 1}`}
+                    className="w-full h-auto object-cover rounded-lg"
+                  />
+                </Card>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="left-4" />
+          <CarouselNext className="right-4" />
+        </Carousel>
+        
         <Card className="shadow-card gradient-card">
           <CardContent className="py-12 text-center text-muted-foreground">
             Nenhum convidado especial esta semana
@@ -71,8 +93,6 @@ export function WeeklyHighlights() {
       </div>
     );
   }
-
-  const highlightImages = [eventoCyberSecurity, eventoDiscovery];
 
   return (
     <div className="space-y-8">
@@ -83,7 +103,7 @@ export function WeeklyHighlights() {
         <CarouselContent>
           {highlightImages.map((image, index) => (
             <CarouselItem key={index}>
-              <Card className="gradient-card shadow-glow overflow-hidden">
+              <Card className="gradient-card shadow-glow overflow-hidden border-0">
                 <img
                   src={image}
                   alt={`Destaque ${index + 1}`}

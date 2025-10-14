@@ -1,6 +1,6 @@
 import { Navbar } from '@/components/layout/Navbar';
 import { ScheduleGrid } from '@/components/dashboard/ScheduleGrid';
-import WeeklyCalendar from '@/components/WeeklyCalendar';
+import WeeklyCalendarCompact from '@/components/WeeklyCalendarCompact';
 import { WeeklyHighlights } from '@/components/dashboard/WeeklyHighlights';
 import { UsefulLinks } from '@/components/dashboard/UsefulLinks';
 
@@ -17,7 +17,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <WeeklyCalendar />
+        <WeeklyCalendarCompact />
         
         <div className="container mx-auto px-4">
           <WeeklyHighlights />
