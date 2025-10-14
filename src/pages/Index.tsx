@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import lucasCharaoImg from '@/assets/lucas-charao.png';
 import adavioTittoniImg from '@/assets/adavio-tittoni.png';
+import academiaLendariaLogo from '@/assets/academia-lendaria-logo.png';
 import WeeklyCalendarCompact from '@/components/WeeklyCalendarCompact';
 import { WeeklyHighlights } from '@/components/dashboard/WeeklyHighlights';
 import { ScheduleGrid } from '@/components/dashboard/ScheduleGrid';
@@ -56,6 +57,11 @@ export default function Index() {
         <div className="container mx-auto relative z-10">
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <div className="inline-block">
+              <img 
+                src={academiaLendariaLogo} 
+                alt="Academia Lendária" 
+                className="h-8 mx-auto mb-3 opacity-90"
+              />
               <div className="text-primary text-sm font-semibold tracking-wider uppercase mb-4">
                 Academia Lendária
               </div>
