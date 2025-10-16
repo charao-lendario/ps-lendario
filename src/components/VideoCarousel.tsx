@@ -1,4 +1,5 @@
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 interface Video {
   src: string;
@@ -45,10 +46,21 @@ function IPhoneFrame({ children }: { children: React.ReactNode }) {
 
 export function VideoCarousel() {
   return (
-    <Carousel className="w-full max-w-4xl mx-auto py-8">
-      <CarouselContent>
+    <Carousel 
+      className="w-full max-w-6xl mx-auto py-8"
+      opts={{
+        align: "start",
+        loop: true,
+      }}
+      plugins={[
+        Autoplay({
+          delay: 3000,
+        }),
+      ]}
+    >
+      <CarouselContent className="-ml-4">
         {videos.map((video, index) => (
-          <CarouselItem key={index} className="flex justify-center">
+          <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 flex justify-center">
             <IPhoneFrame>
               <video
                 controls
