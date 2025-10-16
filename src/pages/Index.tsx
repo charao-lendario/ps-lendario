@@ -11,6 +11,7 @@ import adavioTittoniImg from '@/assets/adavio-tittoni-new.png';
 import academiaLendariaLogo from '@/assets/academia-lendaria-logo.png';
 import WeeklyCalendarCompact from '@/components/WeeklyCalendarCompact';
 import { WeeklyHighlights } from '@/components/dashboard/WeeklyHighlights';
+import { ExpertsList } from '@/components/ExpertsList';
 import { WeeklyHighlightsCarousel } from '@/components/WeeklyHighlightsCarousel';
 import { ScheduleGrid } from '@/components/dashboard/ScheduleGrid';
 
@@ -200,6 +201,11 @@ export default function Index() {
         <div className="container mx-auto">
           <WeeklyHighlights />
         </div>
+      </section>
+
+      {/* Experts Section */}
+      <section className="py-12 px-4">
+        <ExpertsList />
       </section>
 
       {/* CTA Section */}
