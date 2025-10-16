@@ -107,7 +107,7 @@ export default function Index() {
               ))}
             </nav>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center my-12">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-16 mb-12">
               <Button 
                 size="lg" 
                 variant="hero" 
