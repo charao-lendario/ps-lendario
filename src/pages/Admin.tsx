@@ -1,4 +1,3 @@
-import { Navbar } from '@/components/layout/Navbar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -10,9 +9,11 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useState } from 'react';
-import { Trash2 } from 'lucide-react';
+import { Trash2, LogOut } from 'lucide-react';
+import { useAdminAuth } from '@/contexts/AdminAuthContext';
 
 export default function Admin() {
+  const { logout } = useAdminAuth();
   const queryClient = useQueryClient();
   const [videoUrl, setVideoUrl] = useState('');
   const [highlightForm, setHighlightForm] = useState({
@@ -176,10 +177,19 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen gradient-dark">
-      <Navbar />
+      <div className="border-b border-border bg-card/50 backdrop-blur-lg sticky top-0 z-50">
+        <div className="container mx-auto px-4">
+          <div className="flex h-16 items-center justify-between">
+            <h1 className="text-2xl font-bold">Painel Administrativo</h1>
+            <Button variant="outline" size="sm" onClick={logout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              Sair
+            </Button>
+          </div>
+        </div>
+      </div>
       
       <main className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8">Painel Administrativo</h1>
         
         <Tabs defaultValue="video" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4">
