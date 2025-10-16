@@ -74,6 +74,10 @@ export default function Index() {
               </h1>
             </div>
             
+            <p className="text-lg md:text-xl text-foreground/90 max-w-3xl mx-auto leading-relaxed">
+              O Pronto-Socorro é um ambiente colaborativo onde alunos se encontram com especialistas todos os dias (segunda à sexta) em dois horários (10hs e 18:30hs) para tirar dúvidas, trocar idéias, fazer networking, se conectar, adquirir conhecimentos com especialistas e acelerar seu processo de aprendisagem.
+            </p>
+
             <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
               Sistema de monitoria ao vivo é exclusivo para alunos da <span className="text-primary font-semibold">Formação</span> e <span className="text-primary font-semibold">Founders</span>
             </p>
