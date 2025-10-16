@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { ChevronLeft, ChevronRight, ExternalLink, Instagram, Clock } from 'lucide-react';
-import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, eachDayOfInterval, isSameDay, isToday, parseISO } from 'date-fns';
+import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, eachDayOfInterval, isSameDay, isToday, parseISO, getDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 
@@ -82,6 +82,12 @@ export default function WeeklyCalendarCompact() {
   const getEventsForDay = (day: Date) => {
     if (!events) return [];
     return events.filter(event => isSameDay(parseISO(event.date), day));
+  };
+
+  const isMarketingSlot = (date: Date, time: string) => {
+    const dayOfWeek = getDay(date); // 0 = Sunday, 1 = Monday, etc.
+    // Marketing: Terça (2) e Quinta (4) às 18:30
+    return [2, 4].includes(dayOfWeek) && time === '18:30:00';
   };
 
   const getEventTypeColor = (type?: string) => {
@@ -190,6 +196,20 @@ export default function WeeklyCalendarCompact() {
                             {dayEvents[0].guests.name}
                           </p>
                         )}
+
+                        {/* Event Tags */}
+                        <div className="flex flex-wrap gap-1 justify-center">
+                          {isMarketingSlot(day, dayEvents[0].time) && (
+                            <Badge className="text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-500 border-yellow-500/30 font-bold">
+                              Marketing
+                            </Badge>
+                          )}
+                          {dayEvents[0].guests && (
+                            <Badge className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-500 border-purple-500/30 font-bold">
+                              Convidado
+                            </Badge>
+                          )}
+                        </div>
                       </>
                     ) : (
                       <p className="text-xs text-center text-muted-foreground">
@@ -221,10 +241,19 @@ export default function WeeklyCalendarCompact() {
                 )}
                 <div className="flex-1">
                   <h3 className="text-xl font-bold">{selectedEvent.guests?.name}</h3>
-                  <div className="flex gap-2 mt-2">
+                  <div className="flex flex-wrap gap-2 mt-2">
                     <Badge variant="default">{format(parseISO(selectedEvent.date), "d 'de' MMMM", { locale: ptBR })}</Badge>
                     <Badge variant="secondary">{selectedEvent.time}</Badge>
-                    {selectedEvent.type && <Badge variant="outline">{selectedEvent.type}</Badge>}
+                    {isMarketingSlot(parseISO(selectedEvent.date), selectedEvent.time) && (
+                      <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/30 font-bold">
+                        Marketing
+                      </Badge>
+                    )}
+                    {selectedEvent.guests && (
+                      <Badge className="bg-purple-500/20 text-purple-500 border-purple-500/30 font-bold">
+                        Convidado
+                      </Badge>
+                    )}
                   </div>
                 </div>
               </div>
