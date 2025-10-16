@@ -91,7 +91,7 @@ export default function Index() {
             </div>
 
             {/* Anchor Menu */}
-            <nav className="flex flex-wrap justify-center gap-4 mt-8 pt-8 border-t border-border/50">
+            <nav className="flex flex-wrap justify-center gap-3 mt-8 pt-8 border-t border-border/50">
               {[
                 { label: 'Seus Hosts', href: '#hosts' },
                 { label: 'Como Funciona', href: '#como-funciona' },
@@ -101,13 +101,17 @@ export default function Index() {
                 { label: 'Depoimentos dos Alunos', href: '#depoimentos' },
                 { label: 'Especialistas', href: '#especialistas' },
               ].map((item) => (
-                <a
+                <Button
                   key={item.href}
-                  href={item.href}
-                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md hover:bg-primary/10"
+                  variant="secondary"
+                  size="lg"
+                  asChild
+                  className="font-semibold"
                 >
-                  {item.label}
-                </a>
+                  <a href={item.href}>
+                    {item.label}
+                  </a>
+                </Button>
               ))}
             </nav>
           </div>
