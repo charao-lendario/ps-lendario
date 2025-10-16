@@ -6,11 +6,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Loader2, ExternalLink } from 'lucide-react';
-import { format, isSameDay, startOfWeek, endOfWeek } from 'date-fns';
+import { format, isSameDay, startOfWeek, endOfWeek, getDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 export function MonthlyCalendar() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+
+  const isMarketingSlot = (date: Date, time: string) => {
+    const dayOfWeek = getDay(date); // 0 = Sunday, 1 = Monday, etc.
+    // Marketing: Terça (2) e Quinta (4) às 18:30
+    return [2, 4].includes(dayOfWeek) && time === '18:30:00';
+  };
 
   const { data: events, isLoading } = useQuery({
     queryKey: ['calendar-events'],
@@ -105,9 +111,21 @@ export function MonthlyCalendar() {
                 >
                   <div className="space-y-3">
                     <h3 className="font-bold text-2xl">{event.guests?.name}</h3>
-                    <Badge variant="default" className="text-base px-4 py-2">
-                      {event.time}
-                    </Badge>
+                    <div className="flex flex-wrap gap-2">
+                      <Badge variant="default" className="text-base px-4 py-2">
+                        {event.time}
+                      </Badge>
+                      {isMarketingSlot(new Date(event.date), event.time) && (
+                        <Badge className="text-base px-4 py-2 bg-yellow-500/20 text-yellow-500 border-yellow-500/30 font-bold">
+                          Marketing
+                        </Badge>
+                      )}
+                      {event.guests && (
+                        <Badge className="text-base px-4 py-2 bg-purple-500/20 text-purple-500 border-purple-500/30 font-bold">
+                          Convidado
+                        </Badge>
+                      )}
+                    </div>
                     {event.guests?.bio && (
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {event.guests.bio}
