@@ -1,4 +1,5 @@
 import adrianoDeMarqui from '@/assets/especialistas/adriano-de-marqui.jpg';
+import celsoCecconi from '@/assets/especialistas/celso-cecconi.jpg';
 import dayCavalcanti from '@/assets/especialistas/day-cavalcanti.jpg';
 import deniTorres from '@/assets/especialistas/deni-torres.jpg';
 import douglasMachado from '@/assets/especialistas/douglas-machado.jpg';
@@ -18,6 +19,7 @@ interface Expert {
   name: string;
   specialty: string;
   image: string;
+  objectPosition?: string;
 }
 
 const experts: Expert[] = [
@@ -29,7 +31,7 @@ const experts: Expert[] = [
   {
     name: 'Celso Cecconi',
     specialty: 'CEO e Mentor da Foco no Comercial',
-    image: 'https://via.placeholder.com/150',
+    image: celsoCecconi,
   },
   {
     name: 'Day Cavalcanti',
@@ -55,6 +57,7 @@ const experts: Expert[] = [
     name: 'Gabriel Lopes',
     specialty: 'Dev Full Stack da Academia Lendária',
     image: gabrielLopes,
+    objectPosition: 'center 20%',
   },
   {
     name: 'Gabriel Marcondes',
@@ -75,6 +78,7 @@ const experts: Expert[] = [
     name: 'Marllon Blando',
     specialty: 'Head do time de Sucesso do Cliente da Academia Lendária',
     image: marllonBlando,
+    objectPosition: 'center 20%',
   },
   {
     name: 'Ramon Toledo',
@@ -85,11 +89,13 @@ const experts: Expert[] = [
     name: 'Raquel Rossi',
     specialty: 'Cientista de Dados da Academia Lendária',
     image: raquelRossi,
+    objectPosition: 'center 20%',
   },
   {
     name: 'Roger Robson',
     specialty: 'Especialista em Cyber Security',
     image: rogerRobson,
+    objectPosition: 'center 20%',
   },
   {
     name: 'Ruan Braz',
@@ -119,6 +125,7 @@ export function ExpertsList() {
                   src={expert.image}
                   alt={expert.name}
                   className="w-full h-full object-cover"
+                  style={expert.objectPosition ? { objectPosition: expert.objectPosition } : undefined}
                 />
               </div>
               <div>
