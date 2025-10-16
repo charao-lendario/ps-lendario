@@ -67,7 +67,7 @@ export default function Index() {
               <div className="text-primary text-sm font-semibold tracking-wider uppercase mb-4">
                 Academia Lendária
               </div>
-              <h1 className="text-5xl md:text-7xl font-bold mb-4">
+              <h1 className="text-5xl md:text-7xl font-bold mb-0">
                 <span className="bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent">
                   Pronto-Socorro
                 </span>
