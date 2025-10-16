@@ -1,10 +1,11 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 interface AdminAuthContextType {
   isAuthenticated: boolean;
-  login: (username: string, password: string) => boolean;
+  login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -16,16 +17,51 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
 
   // Check if admin is already logged in
   useEffect(() => {
-    const adminAuth = localStorage.getItem('admin_authenticated');
-    if (adminAuth === 'true') {
-      setIsAuthenticated(true);
-    }
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        setIsAuthenticated(true);
+      }
+    };
+    checkAuth();
   }, []);
 
-  const login = (username: string, password: string): boolean => {
+  const login = async (username: string, password: string): Promise<boolean> => {
     if (username === 'adm' && password === 'PSlend@rio88') {
+      // Primeiro tenta fazer login
+      let { error } = await supabase.auth.signInWithPassword({
+        email: 'admin@pronto-socorro.com',
+        password: 'PSlend@rio88'
+      });
+      
+      // Se a conta não existe, cria automaticamente
+      if (error && error.message.includes('Invalid login credentials')) {
+        const { error: signUpError } = await supabase.auth.signUp({
+          email: 'admin@pronto-socorro.com',
+          password: 'PSlend@rio88'
+        });
+        
+        if (signUpError) {
+          toast.error('Erro ao criar conta admin.');
+          return false;
+        }
+        
+        // Tenta login novamente após criar
+        const { error: loginError } = await supabase.auth.signInWithPassword({
+          email: 'admin@pronto-socorro.com',
+          password: 'PSlend@rio88'
+        });
+        
+        if (loginError) {
+          toast.error('Erro ao fazer login.');
+          return false;
+        }
+      } else if (error) {
+        toast.error('Erro ao fazer login. Verifique suas credenciais.');
+        return false;
+      }
+      
       setIsAuthenticated(true);
-      localStorage.setItem('admin_authenticated', 'true');
       toast.success('Login realizado com sucesso!');
       navigate('/admin');
       return true;
@@ -34,9 +70,9 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
     return false;
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await supabase.auth.signOut();
     setIsAuthenticated(false);
-    localStorage.removeItem('admin_authenticated');
     toast.success('Logout realizado com sucesso!');
     navigate('/');
   };

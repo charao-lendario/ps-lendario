@@ -11,11 +11,11 @@ export default function Auth() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     
-    login(username, password);
+    await login(username, password);
     
     setIsLoading(false);
   };
