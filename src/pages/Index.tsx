@@ -30,7 +30,7 @@ export default function Index() {
       name: 'Lucas Charão',
       role: 'Estratégia & Crescimento',
       type: 'Estratégico',
-      bio: 'Especialista em estratégia e crescimento de negócios digitais.',
+      bio: 'Analista de Experiência Educacional da Academia Lendária, especialista em Engenheiro de Prompts, Clones Digitais e Agentes. Host do PS desde o seu início(Julho de 2024).',
       avatar: lucasCharaoImg,
       social: {
         linkedin: '',
@@ -41,7 +41,7 @@ export default function Index() {
       name: 'Adávio Tittoni',
       role: 'Desenvolvimento & Automações',
       type: 'Técnico',
-      bio: 'Expert técnico em desenvolvimento e automações.',
+      bio: 'Analista de Experiência Educacional da Academia Lendária, especialista e professor de automação, N8N e Vibe Coding.',
       avatar: adavioTittoniImg,
       social: {
         linkedin: '',
