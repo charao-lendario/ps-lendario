@@ -57,7 +57,7 @@ export default function Index() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent"></div>
         
         <div className="container mx-auto relative z-10">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
+          <div className="max-w-4xl mx-auto text-center space-y-6">
             <div className="inline-block">
               <img 
                 src={academiaLendariaLogo} 
@@ -67,7 +67,7 @@ export default function Index() {
               <div className="text-primary text-sm font-semibold tracking-wider uppercase mb-4">
                 Academia Lendária
               </div>
-              <h1 className="text-5xl md:text-7xl font-bold mb-6">
+              <h1 className="text-5xl md:text-7xl font-bold mb-4">
                 <span className="bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent">
                   Pronto-Socorro
                 </span>
