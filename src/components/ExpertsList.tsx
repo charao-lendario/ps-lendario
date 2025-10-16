@@ -32,6 +32,7 @@ const experts: Expert[] = [
     name: 'Celso Cecconi',
     specialty: 'CEO e Mentor da Foco no Comercial',
     image: celsoCecconi,
+    objectPosition: 'center 20%',
   },
   {
     name: 'Day Cavalcanti',
