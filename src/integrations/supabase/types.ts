@@ -70,6 +70,7 @@ export type Database = {
           avatar_url: string | null
           bio: string | null
           created_at: string | null
+          display_order: number | null
           id: string
           name: string
           social_links: Json | null
@@ -79,6 +80,7 @@ export type Database = {
           avatar_url?: string | null
           bio?: string | null
           created_at?: string | null
+          display_order?: number | null
           id?: string
           name: string
           social_links?: Json | null
@@ -88,6 +90,7 @@ export type Database = {
           avatar_url?: string | null
           bio?: string | null
           created_at?: string | null
+          display_order?: number | null
           id?: string
           name?: string
           social_links?: Json | null
@@ -202,6 +205,57 @@ export type Database = {
           },
         ]
       }
+      site_settings: {
+        Row: {
+          created_at: string
+          id: string
+          key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          key: string
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          key?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
+      student_testimonials: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          student_name: string
+          updated_at: string
+          video_url: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          student_name: string
+          updated_at?: string
+          video_url: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          student_name?: string
+          updated_at?: string
+          video_url?: string
+        }
+        Relationships: []
+      }
       useful_links: {
         Row: {
           category: Database["public"]["Enums"]["link_category"]
@@ -250,6 +304,45 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      weekly_highlights: {
+        Row: {
+          created_at: string
+          display_order: number
+          event_date: string
+          event_time: string
+          guest_name: string
+          id: string
+          image_url: string
+          tag: string
+          theme_title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          event_date: string
+          event_time: string
+          guest_name: string
+          id?: string
+          image_url: string
+          tag: string
+          theme_title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          event_date?: string
+          event_time?: string
+          guest_name?: string
+          id?: string
+          image_url?: string
+          tag?: string
+          theme_title?: string
+          updated_at?: string
         }
         Relationships: []
       }
