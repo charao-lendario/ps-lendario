@@ -181,10 +181,15 @@ export default function Admin() {
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center justify-between">
             <h1 className="text-2xl font-bold">Painel Administrativo</h1>
-            <Button variant="outline" size="sm" onClick={logout}>
-              <LogOut className="mr-2 h-4 w-4" />
-              Sair
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button variant="ghost" size="sm" onClick={() => window.location.href = '/'}>
+                Voltar para Home
+              </Button>
+              <Button variant="outline" size="sm" onClick={logout}>
+                <LogOut className="mr-2 h-4 w-4" />
+                Sair
+              </Button>
+            </div>
           </div>
         </div>
       </div>
