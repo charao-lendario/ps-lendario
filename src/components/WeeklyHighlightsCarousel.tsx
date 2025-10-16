@@ -42,6 +42,11 @@ export function WeeklyHighlightsCarousel() {
                       src={highlight.image_url}
                       alt={`${highlight.theme_title} com ${highlight.guest_name}`}
                       className="w-full h-full object-cover"
+                      loading="lazy"
+                      onError={(e) => {
+                        console.error('Erro ao carregar imagem:', highlight.image_url);
+                        e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="380" height="676"%3E%3Crect fill="%23333" width="380" height="676"/%3E%3Ctext fill="%23fff" x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle"%3EImagem não disponível%3C/text%3E%3C/svg%3E';
+                      }}
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
                       <span className="inline-block px-3 py-1 bg-primary/90 text-primary-foreground text-sm font-semibold rounded-full mb-2">

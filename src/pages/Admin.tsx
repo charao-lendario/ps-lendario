@@ -97,12 +97,65 @@ export default function Admin() {
 
   const addHighlightMutation = useMutation({
     mutationFn: async (data: typeof highlightForm) => {
-      const { error } = await supabase.from('weekly_highlights').insert([data]);
-      if (error) throw error;
+      // Converter URL do Google Drive para formato de imagem direta
+      let imageUrl = data.image_url;
+      if (imageUrl.includes('drive.google.com')) {
+        const fileIdMatch = imageUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (fileIdMatch) {
+          imageUrl = `https://drive.google.com/uc?export=view&id=${fileIdMatch[1]}`;
+        }
+      }
+
+      // 1. Inserir o destaque
+      const { error: highlightError } = await supabase
+        .from('weekly_highlights')
+        .insert([{ ...data, image_url: imageUrl }]);
+      
+      if (highlightError) throw highlightError;
+
+      // 2. Buscar ou criar o guest
+      let guestId: string;
+      
+      const { data: existingGuest } = await supabase
+        .from('guests')
+        .select('id')
+        .eq('name', data.guest_name)
+        .single();
+      
+      if (existingGuest) {
+        guestId = existingGuest.id;
+      } else {
+        const { data: newGuest, error: guestError } = await supabase
+          .from('guests')
+          .insert([{
+            name: data.guest_name,
+            bio: data.theme_title,
+            avatar_url: imageUrl
+          }])
+          .select()
+          .single();
+        
+        if (guestError) throw guestError;
+        guestId = newGuest.id;
+      }
+
+      // 3. Criar o evento no calendário
+      const { error: eventError } = await supabase
+        .from('events')
+        .insert([{
+          date: data.event_date,
+          time: data.event_time,
+          guest_id: guestId,
+          status: 'scheduled'
+        }]);
+      
+      if (eventError) throw eventError;
     },
     onSuccess: () => {
-      toast.success('Destaque adicionado com sucesso!');
+      toast.success('Destaque adicionado e sincronizado com o calendário!');
       queryClient.invalidateQueries({ queryKey: ['highlights'] });
+      queryClient.invalidateQueries({ queryKey: ['calendar-events'] });
+      queryClient.invalidateQueries({ queryKey: ['experts'] });
       setHighlightForm({
         guest_name: '',
         event_date: '',
@@ -116,12 +169,43 @@ export default function Admin() {
 
   const deleteHighlightMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('weekly_highlights').delete().eq('id', id);
-      if (error) throw error;
+      // Buscar o destaque para pegar os dados do evento
+      const { data: highlight } = await supabase
+        .from('weekly_highlights')
+        .select('guest_name, event_date, event_time')
+        .eq('id', id)
+        .single();
+      
+      // Deletar o destaque
+      const { error: highlightError } = await supabase
+        .from('weekly_highlights')
+        .delete()
+        .eq('id', id);
+      
+      if (highlightError) throw highlightError;
+
+      // Deletar o evento correspondente do calendário
+      if (highlight) {
+        const { data: guest } = await supabase
+          .from('guests')
+          .select('id')
+          .eq('name', highlight.guest_name)
+          .single();
+        
+        if (guest) {
+          await supabase
+            .from('events')
+            .delete()
+            .eq('guest_id', guest.id)
+            .eq('date', highlight.event_date)
+            .eq('time', highlight.event_time);
+        }
+      }
     },
     onSuccess: () => {
-      toast.success('Destaque removido!');
+      toast.success('Destaque removido do site e do calendário!');
       queryClient.invalidateQueries({ queryKey: ['highlights'] });
+      queryClient.invalidateQueries({ queryKey: ['calendar-events'] });
     }
   });
 
@@ -294,6 +378,9 @@ export default function Admin() {
                     value={highlightForm.image_url}
                     onChange={(e) => setHighlightForm({...highlightForm, image_url: e.target.value})}
                   />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    💡 Para Google Drive: Cole o link de compartilhamento (formato: drive.google.com/file/d/ID/view) - será convertido automaticamente
+                  </p>
                 </div>
                 
                 <Button onClick={() => addHighlightMutation.mutate(highlightForm)}>
