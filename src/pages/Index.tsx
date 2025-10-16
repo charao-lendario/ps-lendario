@@ -82,18 +82,6 @@ export default function Index() {
               O Pronto-Socorro é um ambiente colaborativo onde alunos se encontram com especialistas todos os dias (segunda à sexta) em dois horários (10hs e 18:30hs) para tirar dúvidas, trocar idéias, fazer networking, se conectar, adquirir conhecimentos com especialistas e acelerar seu processo de aprendisagem.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                variant="hero" 
-                className="text-lg"
-                onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
-              >
-                Acessar Pronto-Socorro
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </div>
-
             {/* Anchor Menu */}
             <nav className="flex flex-wrap justify-center gap-3 mt-8 pt-8 border-t border-border/50">
               {[
@@ -118,6 +106,18 @@ export default function Index() {
                 </Button>
               ))}
             </nav>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-6">
+              <Button 
+                size="lg" 
+                variant="hero" 
+                className="text-lg"
+                onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
+              >
+                Acessar Pronto-Socorro
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
           </div>
         </div>
       </section>
