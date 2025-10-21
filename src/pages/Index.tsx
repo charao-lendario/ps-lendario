@@ -35,6 +35,7 @@ export default function Index() {
       social: {
         linkedin: '',
         instagram: 'https://www.instagram.com/olucascharao/',
+        instagramHandle: '@olucascharao'
       },
     },
     {
@@ -46,6 +47,7 @@ export default function Index() {
       social: {
         linkedin: '',
         instagram: 'https://www.instagram.com/adaviotittoni/',
+        instagramHandle: '@adaviotittoni'
       },
     },
   ];
@@ -184,8 +186,10 @@ export default function Index() {
                           size="sm"
                           variant="outline"
                           onClick={() => window.open(host.social.instagram, '_blank')}
+                          className="gap-2"
                         >
                           <Instagram className="h-4 w-4" />
+                          <span>{host.social.instagramHandle}</span>
                         </Button>
                       )}
                     </div>
