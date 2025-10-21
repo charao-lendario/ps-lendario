@@ -79,21 +79,37 @@ export function VideoCarousel() {
       ]}
     >
       <CarouselContent className="-ml-4">
-        {videos.map((video) => (
-          <CarouselItem key={video.id} className="pl-4 basis-full md:basis-1/2 flex justify-center">
-            <IPhoneFrame>
-              <iframe
-                src={video.video_url}
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6 pb-8">
-                <p className="text-white font-semibold text-lg text-center">{video.student_name}</p>
-              </div>
-            </IPhoneFrame>
-          </CarouselItem>
-        ))}
+        {videos.map((video) => {
+          const isLocalVideo = video.video_url.startsWith('/videos/');
+          
+          return (
+            <CarouselItem key={video.id} className="pl-4 basis-full md:basis-1/2 flex justify-center">
+              <IPhoneFrame>
+                {isLocalVideo ? (
+                  <video
+                    controls
+                    className="w-full h-full object-cover"
+                    preload="metadata"
+                    playsInline
+                  >
+                    <source src={video.video_url} type="video/mp4" />
+                    Seu navegador não suporta reprodução de vídeo.
+                  </video>
+                ) : (
+                  <iframe
+                    src={video.video_url}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                )}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6 pb-8">
+                  <p className="text-white font-semibold text-lg text-center">{video.student_name}</p>
+                </div>
+              </IPhoneFrame>
+            </CarouselItem>
+          );
+        })}
       </CarouselContent>
       <CarouselPrevious className="left-4" />
       <CarouselNext className="right-4" />
