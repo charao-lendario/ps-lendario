@@ -36,7 +36,7 @@ export function WeeklyHighlightsCarousel() {
         <Carousel 
           className="w-full max-w-5xl mx-auto"
           opts={{
-            align: "start",
+            align: "center",
           }}
         >
           <CarouselContent className="-ml-4">
@@ -44,7 +44,7 @@ export function WeeklyHighlightsCarousel() {
               const imageUrl = imageMap[highlight.guest_name] || highlight.image_url;
               
               return (
-                <CarouselItem key={highlight.id} className="pl-4 basis-full md:basis-1/2">
+                <CarouselItem key={highlight.id} className="pl-4 basis-full">
                   <div className="flex justify-center">
                     <div className="w-full max-w-[380px]">
                       <div className="relative aspect-[9/16] rounded-2xl overflow-hidden shadow-glow hover:scale-[1.02] transition-transform mb-4">
