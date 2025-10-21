@@ -1,22 +1,13 @@
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 
 interface Video {
-  src: string;
-  name: string;
+  id: string;
+  video_url: string;
+  student_name: string;
 }
-
-const videos: Video[] = [
-  { src: '/videos/conceicao.mp4', name: 'Conceição' },
-  { src: '/videos/petrucio.mp4', name: 'Petrúcio' },
-  { src: '/videos/carlinha.mp4', name: 'Carlinha' },
-  { src: '/videos/caca.mp4', name: 'Cacá' },
-  { src: '/videos/samuel.mp4', name: 'Samuel' },
-  { src: '/videos/ligia.mp4', name: 'Lígia' },
-  { src: '/videos/leonardo.mp4', name: 'Leonardo' },
-  { src: '/videos/werner.mp4', name: 'Werner' },
-  { src: '/videos/edu.mp4', name: 'Edu' },
-];
 
 function IPhoneFrame({ children }: { children: React.ReactNode }) {
   return (
@@ -45,6 +36,35 @@ function IPhoneFrame({ children }: { children: React.ReactNode }) {
 }
 
 export function VideoCarousel() {
+  const { data: videos, isLoading } = useQuery({
+    queryKey: ['student-testimonials'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('student_testimonials')
+        .select('*')
+        .order('display_order');
+      
+      if (error) throw error;
+      return data as Video[];
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <div className="w-full max-w-6xl mx-auto py-8 text-center">
+        <p className="text-muted-foreground">Carregando depoimentos...</p>
+      </div>
+    );
+  }
+
+  if (!videos || videos.length === 0) {
+    return (
+      <div className="w-full max-w-6xl mx-auto py-8 text-center">
+        <p className="text-muted-foreground">Nenhum depoimento disponível.</p>
+      </div>
+    );
+  }
+
   return (
     <Carousel 
       className="w-full max-w-6xl mx-auto py-8"
@@ -54,25 +74,22 @@ export function VideoCarousel() {
       }}
       plugins={[
         Autoplay({
-          delay: 3000,
+          delay: 5000,
         }),
       ]}
     >
       <CarouselContent className="-ml-4">
-        {videos.map((video, index) => (
-          <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 flex justify-center">
+        {videos.map((video) => (
+          <CarouselItem key={video.id} className="pl-4 basis-full md:basis-1/2 flex justify-center">
             <IPhoneFrame>
-              <video
-                controls
-                className="w-full h-full object-cover"
-                preload="metadata"
-                playsInline
-              >
-                <source src={video.src} type="video/mp4" />
-                Seu navegador não suporta reprodução de vídeo.
-              </video>
+              <iframe
+                src={video.video_url}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6 pb-8">
-                <p className="text-white font-semibold text-lg text-center">{video.name}</p>
+                <p className="text-white font-semibold text-lg text-center">{video.student_name}</p>
               </div>
             </IPhoneFrame>
           </CarouselItem>
