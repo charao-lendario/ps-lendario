@@ -100,9 +100,11 @@ export default function Admin() {
       // Converter URL do Google Drive para formato de imagem direta
       let imageUrl = data.image_url;
       if (imageUrl.includes('drive.google.com')) {
-        const fileIdMatch = imageUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        // Suporta formatos: /d/FILE_ID ou /file/d/FILE_ID ou ?id=FILE_ID
+        const fileIdMatch = imageUrl.match(/\/d\/([a-zA-Z0-9_-]+)|\/file\/d\/([a-zA-Z0-9_-]+)|[?&]id=([a-zA-Z0-9_-]+)/);
         if (fileIdMatch) {
-          imageUrl = `https://drive.google.com/uc?export=view&id=${fileIdMatch[1]}`;
+          const fileId = fileIdMatch[1] || fileIdMatch[2] || fileIdMatch[3];
+          imageUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
         }
       }
 
