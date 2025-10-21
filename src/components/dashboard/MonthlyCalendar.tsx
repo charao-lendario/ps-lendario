@@ -132,16 +132,14 @@ export function MonthlyCalendar() {
                       </p>
                     )}
                   </div>
-                  {event.room_link && (
-                    <Button
-                      size="lg"
-                      className="w-full"
-                      onClick={() => window.open(event.room_link, '_blank')}
-                    >
-                      <ExternalLink className="mr-2 h-5 w-5" />
-                      Acessar Sala Virtual
-                    </Button>
-                  )}
+                  <Button
+                    size="lg"
+                    className="w-full"
+                    onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
+                  >
+                    <ExternalLink className="mr-2 h-5 w-5" />
+                    Acessar Sala Virtual
+                  </Button>
                 </div>
               ))}
             </div>
