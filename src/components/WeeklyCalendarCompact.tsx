@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { ChevronLeft, ChevronRight, ExternalLink, Instagram, Clock } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ExternalLink, Instagram, Linkedin, Clock } from 'lucide-react';
 import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, eachDayOfInterval, isSameDay, isToday, parseISO, getDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -269,6 +269,16 @@ export default function WeeklyCalendarCompact() {
                 <div>
                   <h4 className="font-semibold mb-2">Redes Sociais</h4>
                   <div className="flex gap-2">
+                    {selectedEvent.guests.social_links.linkedin && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => window.open(selectedEvent.guests.social_links.linkedin, '_blank')}
+                      >
+                        <Linkedin className="h-4 w-4 mr-2" />
+                        LinkedIn
+                      </Button>
+                    )}
                     {selectedEvent.guests.social_links.instagram && (
                       <Button
                         variant="outline"
