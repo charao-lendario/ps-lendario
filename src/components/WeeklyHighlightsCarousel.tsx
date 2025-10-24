@@ -5,6 +5,7 @@ import { ptBR } from 'date-fns/locale';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import rogerRobsonImg from '@/assets/destaque-roger-robson.png';
 import franMartinsImg from '@/assets/destaque-fran-martins.png';
+import klausDeorImg from '@/assets/destaque-klaus-deor.png';
 
 export function WeeklyHighlightsCarousel() {
   const { data: highlights, isLoading } = useQuery({
@@ -27,7 +28,8 @@ export function WeeklyHighlightsCarousel() {
   // Map para usar imagens locais quando disponíveis
   const imageMap: Record<string, string> = {
     'Roger Robson': rogerRobsonImg,
-    'Fran Martins': franMartinsImg
+    'Fran Martins': franMartinsImg,
+    'Klaus Deor': klausDeorImg
   };
 
   return (
