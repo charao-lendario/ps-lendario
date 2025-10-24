@@ -115,15 +115,16 @@ export function MonthlyCalendar() {
                       <Badge variant="default" className="text-base px-4 py-2">
                         {event.time}
                       </Badge>
-                      {isMarketingSlot(new Date(event.date), event.time) && (
+                      {isMarketingSlot(new Date(event.date), event.time) ? (
                         <Badge className="text-base px-4 py-2 bg-yellow-500/20 text-yellow-500 border-yellow-500/30 font-bold">
                           Marketing
                         </Badge>
-                      )}
-                      {event.guests && (
-                        <Badge className="text-base px-4 py-2 bg-purple-500/20 text-purple-500 border-purple-500/30 font-bold">
-                          Convidado
-                        </Badge>
+                      ) : (
+                        event.guests && (
+                          <Badge className="text-base px-4 py-2 bg-purple-500/20 text-purple-500 border-purple-500/30 font-bold">
+                            Convidado
+                          </Badge>
+                        )
                       )}
                     </div>
                     {event.guests?.bio && (
