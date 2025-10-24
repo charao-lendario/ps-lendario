@@ -158,7 +158,7 @@ export default function WeeklyCalendarCompact() {
                         {/* Show first event time */}
                         <div className="flex items-center justify-center gap-1 text-muted-foreground">
                           <Clock className="h-3 w-3" />
-                          <span className="text-xs">{dayEvents[0].time}</span>
+                          <span className="text-xs">{dayEvents[0].time.slice(0, 5)}hs</span>
                         </div>
 
                         {/* Guest name if available */}
@@ -202,13 +202,13 @@ export default function WeeklyCalendarCompact() {
                     <AvatarImage src={selectedEvent.guests.avatar_url} alt={selectedEvent.guests.name} />
                     <AvatarFallback>{selectedEvent.guests.name[0]}</AvatarFallback>
                   </Avatar>}
-                <div className="flex-1">
+                  <div className="flex-1">
                   <h3 className="text-xl font-bold">{selectedEvent.guests?.name}</h3>
                   <div className="flex flex-wrap gap-2 mt-2">
                     <Badge variant="default">{format(parseISO(selectedEvent.date), "d 'de' MMMM", {
                     locale: ptBR
                   })}</Badge>
-                    <Badge variant="secondary">{selectedEvent.time}</Badge>
+                    <Badge variant="secondary">{selectedEvent.time.slice(0, 5)}hs</Badge>
                     {isMarketingSlot(parseISO(selectedEvent.date), selectedEvent.time) && <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/30 font-bold">
                         Marketing
                       </Badge>}
