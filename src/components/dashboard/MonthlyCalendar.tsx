@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Calendar } from '@/components/ui/calendar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Loader2, ExternalLink } from 'lucide-react';
-import { format, isSameDay, startOfWeek, endOfWeek, getDay } from 'date-fns';
+import { Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, getDay, isSameDay, addMonths, subMonths, startOfWeek, endOfWeek } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { Button } from '@/components/ui/button';
 
 export function MonthlyCalendar() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
 
   const { data: events, isLoading } = useQuery({
     queryKey: ['calendar-events'],
@@ -75,7 +74,14 @@ export function MonthlyCalendar() {
     return { morning: null, evening: null };
   };
 
-  const eventDates = events?.map(event => new Date(event.date)) || [];
+  // Gerar os dias do calendário
+  const monthStart = startOfMonth(currentMonth);
+  const monthEnd = endOfMonth(currentMonth);
+  const calendarStart = startOfWeek(monthStart, { weekStartsOn: 0 });
+  const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 0 });
+  const calendarDays = eachDayOfInterval({ start: calendarStart, end: calendarEnd });
+
+  const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
   if (isLoading) {
     return (
@@ -97,54 +103,74 @@ export function MonthlyCalendar() {
       </div>
       
       <Card className="shadow-glow gradient-card border-2 border-primary/20">
-        <CardContent className="p-8 md:p-12">
-          <Calendar
-            mode="single"
-            selected={selectedDate}
-            onSelect={setSelectedDate}
-            locale={ptBR}
-            modifiers={{
-              event: eventDates
-            }}
-            modifiersClassNames={{
-              event: 'bg-primary/5'
-            }}
-            components={{
-              Day: ({ date, ...props }) => {
-                const dayEvents = getEventsForDate(date);
-                const isToday = isSameDay(date, new Date());
-                
-                return (
-                  <div 
-                    className={`relative p-2 min-h-[120px] border rounded-lg ${
-                      isToday ? 'border-primary/50 bg-primary/10' : 'border-border/30'
-                    } ${selectedDate && isSameDay(date, selectedDate) ? 'ring-2 ring-primary' : ''}`}
-                  >
-                    <div className="text-sm font-bold mb-2">{format(date, 'd')}</div>
-                    <div className="space-y-1">
-                      {dayEvents.morning && (
-                        <div className="text-[10px] leading-tight">
-                          <Badge className={`${dayEvents.morning.badge.color} text-white text-[8px] px-1 py-0`}>
-                            10h
-                          </Badge>
-                          <div className="truncate font-medium mt-0.5">{dayEvents.morning.name}</div>
-                        </div>
-                      )}
-                      {dayEvents.evening && (
-                        <div className="text-[10px] leading-tight">
-                          <Badge className={`${dayEvents.evening.badge.color} text-white text-[8px] px-1 py-0`}>
-                            18:30
-                          </Badge>
-                          <div className="truncate font-medium mt-0.5">{dayEvents.evening.name}</div>
-                        </div>
-                      )}
-                    </div>
+        <CardContent className="p-4 md:p-8">
+          {/* Header do Calendário */}
+          <div className="flex items-center justify-between mb-6">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <h2 className="text-2xl font-bold">
+              {format(currentMonth, 'MMMM yyyy', { locale: ptBR })}
+            </h2>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+
+          {/* Dias da Semana */}
+          <div className="grid grid-cols-7 gap-1 mb-2">
+            {weekDays.map((day) => (
+              <div key={day} className="text-center font-bold text-sm py-2">
+                {day}
+              </div>
+            ))}
+          </div>
+
+          {/* Grade de Dias */}
+          <div className="grid grid-cols-7 gap-1">
+            {calendarDays.map((date) => {
+              const dayEvents = getEventsForDate(date);
+              const isToday = isSameDay(date, new Date());
+              const isCurrentMonth = date.getMonth() === currentMonth.getMonth();
+              
+              return (
+                <div
+                  key={date.toISOString()}
+                  className={`min-h-[100px] p-1 border rounded-lg ${
+                    isToday ? 'border-primary border-2 bg-primary/5' : 'border-border/30'
+                  } ${!isCurrentMonth ? 'opacity-30' : ''}`}
+                >
+                  <div className="text-xs font-bold mb-1">{format(date, 'd')}</div>
+                  <div className="space-y-1">
+                    {dayEvents.morning && (
+                      <div className="text-[9px] leading-tight bg-background/50 rounded p-1">
+                        <Badge className={`${dayEvents.morning.badge.color} text-white text-[7px] px-1 py-0 mb-0.5`}>
+                          10h
+                        </Badge>
+                        <div className="truncate font-medium">{dayEvents.morning.name}</div>
+                      </div>
+                    )}
+                    {dayEvents.evening && (
+                      <div className="text-[9px] leading-tight bg-background/50 rounded p-1">
+                        <Badge className={`${dayEvents.evening.badge.color} text-white text-[7px] px-1 py-0 mb-0.5`}>
+                          18:30
+                        </Badge>
+                        <div className="truncate font-medium">{dayEvents.evening.name}</div>
+                      </div>
+                    )}
                   </div>
-                );
-              }
-            }}
-            className="w-full mx-auto max-w-7xl [&_table]:w-full [&_td]:p-1 [&_th]:p-2 [&_.rdp-caption]:text-3xl [&_.rdp-caption]:font-bold [&_.rdp-caption]:mb-8 [&_th]:text-lg [&_th]:font-bold"
-          />
+                </div>
+              );
+            })}
+          </div>
         </CardContent>
       </Card>
 
