@@ -95,7 +95,7 @@ export function MonthlyCalendar() {
         </CardContent>
       </Card>
 
-      {selectedDate && eventsOnSelectedDate.length > 0 && (
+      {selectedDate && (
         <Card className="shadow-card gradient-card border-2 border-primary/20">
           <CardHeader>
             <CardTitle className="text-2xl bg-gradient-primary bg-clip-text text-transparent">
@@ -104,49 +104,25 @@ export function MonthlyCalendar() {
           </CardHeader>
           <CardContent className="p-6">
             <div className="grid md:grid-cols-2 gap-6">
-              {eventsOnSelectedDate.map((event) => (
-                <div
-                  key={event.id}
-                  className="p-6 rounded-lg border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-4 hover:shadow-glow transition-smooth animate-fade-in"
-                >
-                  <div className="space-y-3">
-                    <h3 className="font-bold text-2xl">{event.guests?.name}</h3>
-                    <div className="flex flex-wrap gap-2">
-                      <Badge variant="default" className="text-base px-4 py-2">
-                        {event.time.slice(0, 5)}hs
-                      </Badge>
-                      {event.type === 'technical' ? (
-                        <Badge className="text-base px-4 py-2 bg-green-500/20 text-green-500 border-green-500/30 font-bold">
-                          Técnico
-                        </Badge>
-                      ) : isMarketingSlot(new Date(event.date), event.time) ? (
-                        <Badge className="text-base px-4 py-2 bg-yellow-500/20 text-yellow-500 border-yellow-500/30 font-bold">
-                          Marketing
-                        </Badge>
-                      ) : (
-                        event.guests && (
-                          <Badge className="text-base px-4 py-2 bg-purple-500/20 text-purple-500 border-purple-500/30 font-bold">
-                            Convidado
-                          </Badge>
-                        )
-                      )}
-                    </div>
-                    {event.guests?.bio && (
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        {event.guests.bio}
-                      </p>
-                    )}
+              {/* Primeiro Slot de Evento */}
+              <div className="p-6 rounded-lg border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-4 min-h-[250px] flex flex-col">
+                <div className="flex-1 flex items-center justify-center">
+                  <div className="text-center space-y-2">
+                    <div className="text-4xl font-bold text-primary/30">1</div>
+                    <p className="text-sm text-muted-foreground">Primeiro Evento</p>
                   </div>
-                  <Button
-                    size="lg"
-                    className="w-full"
-                    onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
-                  >
-                    <ExternalLink className="mr-2 h-5 w-5" />
-                    Acessar Sala Virtual
-                  </Button>
                 </div>
-              ))}
+              </div>
+
+              {/* Segundo Slot de Evento */}
+              <div className="p-6 rounded-lg border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-4 min-h-[250px] flex flex-col">
+                <div className="flex-1 flex items-center justify-center">
+                  <div className="text-center space-y-2">
+                    <div className="text-4xl font-bold text-primary/30">2</div>
+                    <p className="text-sm text-muted-foreground">Segundo Evento</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
