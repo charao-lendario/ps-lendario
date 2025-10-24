@@ -12,12 +12,6 @@ import { ptBR } from 'date-fns/locale';
 export function MonthlyCalendar() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
 
-  const isMarketingSlot = (date: Date, time: string) => {
-    const dayOfWeek = getDay(date); // 0 = Sunday, 1 = Monday, etc.
-    // Marketing: Terça (2) e Quinta (4) às 18:30
-    return [2, 4].includes(dayOfWeek) && time === '18:30:00';
-  };
-
   const { data: events, isLoading } = useQuery({
     queryKey: ['calendar-events'],
     queryFn: async () => {
@@ -41,50 +35,25 @@ export function MonthlyCalendar() {
     },
   });
 
-  const eventsOnSelectedDate = events?.filter(event => 
-    selectedDate && isSameDay(new Date(event.date), selectedDate)
-  ) || [];
-
-  const eventDates = events?.map(event => new Date(event.date)) || [];
-  
-  const today = new Date();
-  const weekStart = startOfWeek(today, { weekStartsOn: 0 });
-  const weekEnd = endOfWeek(today, { weekStartsOn: 0 });
-  
-  const currentWeekDates = [];
-  for (let d = new Date(weekStart); d <= weekEnd; d.setDate(d.getDate() + 1)) {
-    currentWeekDates.push(new Date(d));
-  }
-
-  // Determinar os eventos do dia selecionado
-  const getEventsForSelectedDate = () => {
-    if (!selectedDate) return { slot1: null, slot2: null };
-    
-    const dayOfWeek = getDay(selectedDate);
-    const guestEvent = eventsOnSelectedDate.find(e => e.guests && e.type !== 'technical');
+  const getEventsForDate = (date: Date) => {
+    const dayOfWeek = getDay(date);
+    const guestEvent = events?.find(e => 
+      isSameDay(new Date(e.date), date) && e.guests && e.type !== 'technical'
+    );
     
     // Segunda (1), Quarta (3), Sexta (5)
     if ([1, 3, 5].includes(dayOfWeek)) {
       return {
-        slot1: {
-          name: 'Adávio Tittoni',
-          time: '18:30',
-          type: 'technical',
-          badge: { text: 'Técnico', color: 'bg-green-500/20 text-green-500 border-green-500/30' },
-          bio: undefined
-        },
-        slot2: guestEvent ? {
+        morning: guestEvent ? {
           name: guestEvent.guests?.name || '',
-          time: guestEvent.time.slice(0, 5),
-          type: 'guest',
-          bio: guestEvent.guests?.bio,
-          badge: { text: 'Convidado', color: 'bg-purple-500/20 text-purple-500 border-purple-500/30' }
+          badge: { text: 'Convidado', color: 'bg-purple-500' }
         } : {
           name: 'Lucas Charão',
-          time: '20:00',
-          type: 'strategic',
-          badge: { text: 'Estratégico', color: 'bg-blue-500/20 text-blue-500 border-blue-500/30' },
-          bio: undefined
+          badge: { text: 'Estratégico', color: 'bg-blue-500' }
+        },
+        evening: {
+          name: 'Adávio Tittoni',
+          badge: { text: 'Técnico', color: 'bg-green-500' }
         }
       };
     }
@@ -92,27 +61,21 @@ export function MonthlyCalendar() {
     // Terça (2), Quinta (4)
     if ([2, 4].includes(dayOfWeek)) {
       return {
-        slot1: {
-          name: 'Marketing',
-          time: '18:30',
-          type: 'marketing',
-          badge: { text: 'Marketing', color: 'bg-yellow-500/20 text-yellow-500 border-yellow-500/30' },
-          bio: undefined
-        },
-        slot2: guestEvent ? {
+        morning: guestEvent ? {
           name: guestEvent.guests?.name || '',
-          time: guestEvent.time.slice(0, 5),
-          type: 'guest',
-          bio: guestEvent.guests?.bio,
-          badge: { text: 'Convidado', color: 'bg-purple-500/20 text-purple-500 border-purple-500/30' }
-        } : null
+          badge: { text: 'Convidado', color: 'bg-purple-500' }
+        } : null,
+        evening: {
+          name: 'Marketing',
+          badge: { text: 'Marketing', color: 'bg-yellow-500' }
+        }
       };
     }
     
-    return { slot1: null, slot2: null };
+    return { morning: null, evening: null };
   };
 
-  const dayEvents = getEventsForSelectedDate();
+  const eventDates = events?.map(event => new Date(event.date)) || [];
 
   if (isLoading) {
     return (
@@ -141,108 +104,50 @@ export function MonthlyCalendar() {
             onSelect={setSelectedDate}
             locale={ptBR}
             modifiers={{
-              event: eventDates,
-              currentWeek: currentWeekDates
+              event: eventDates
             }}
             modifiersClassNames={{
-              event: 'relative bg-gradient-primary text-primary-foreground font-bold hover:scale-110 transition-smooth after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-2 after:h-2 after:bg-accent after:rounded-full shadow-glow animate-pulse',
-              currentWeek: 'bg-primary/10 border-2 border-primary/30 font-semibold'
+              event: 'bg-primary/5'
             }}
-            className="w-full mx-auto max-w-6xl [&_table]:w-full [&_td]:p-4 [&_th]:p-4 [&_button]:h-20 [&_button]:w-full [&_button]:text-xl [&_button]:font-semibold [&_.rdp-caption]:text-3xl [&_.rdp-caption]:font-bold [&_.rdp-caption]:mb-8 [&_th]:text-lg [&_th]:font-bold"
+            components={{
+              Day: ({ date, ...props }) => {
+                const dayEvents = getEventsForDate(date);
+                const isToday = isSameDay(date, new Date());
+                
+                return (
+                  <div 
+                    className={`relative p-2 min-h-[120px] border rounded-lg ${
+                      isToday ? 'border-primary/50 bg-primary/10' : 'border-border/30'
+                    } ${selectedDate && isSameDay(date, selectedDate) ? 'ring-2 ring-primary' : ''}`}
+                  >
+                    <div className="text-sm font-bold mb-2">{format(date, 'd')}</div>
+                    <div className="space-y-1">
+                      {dayEvents.morning && (
+                        <div className="text-[10px] leading-tight">
+                          <Badge className={`${dayEvents.morning.badge.color} text-white text-[8px] px-1 py-0`}>
+                            10h
+                          </Badge>
+                          <div className="truncate font-medium mt-0.5">{dayEvents.morning.name}</div>
+                        </div>
+                      )}
+                      {dayEvents.evening && (
+                        <div className="text-[10px] leading-tight">
+                          <Badge className={`${dayEvents.evening.badge.color} text-white text-[8px] px-1 py-0`}>
+                            18:30
+                          </Badge>
+                          <div className="truncate font-medium mt-0.5">{dayEvents.evening.name}</div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              }
+            }}
+            className="w-full mx-auto max-w-7xl [&_table]:w-full [&_td]:p-1 [&_th]:p-2 [&_.rdp-caption]:text-3xl [&_.rdp-caption]:font-bold [&_.rdp-caption]:mb-8 [&_th]:text-lg [&_th]:font-bold"
           />
         </CardContent>
       </Card>
 
-      {selectedDate && (
-        <Card className="shadow-card gradient-card border-2 border-primary/20">
-          <CardHeader>
-            <CardTitle className="text-2xl bg-gradient-primary bg-clip-text text-transparent">
-              Eventos - {format(selectedDate, "dd 'de' MMMM", { locale: ptBR })}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Primeiro Slot de Evento */}
-              {dayEvents.slot1 ? (
-                <div className="p-6 rounded-lg border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-4 hover:shadow-glow transition-smooth animate-fade-in">
-                  <div className="space-y-3">
-                    <h3 className="font-bold text-2xl">{dayEvents.slot1.name}</h3>
-                    <div className="flex flex-wrap gap-2">
-                      <Badge variant="default" className="text-base px-4 py-2">
-                        {dayEvents.slot1.time}hs
-                      </Badge>
-                      <Badge className={`text-base px-4 py-2 font-bold ${dayEvents.slot1.badge.color}`}>
-                        {dayEvents.slot1.badge.text}
-                      </Badge>
-                    </div>
-                    {dayEvents.slot1.bio && (
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        {dayEvents.slot1.bio}
-                      </p>
-                    )}
-                  </div>
-                  <Button
-                    size="lg"
-                    className="w-full"
-                    onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
-                  >
-                    <ExternalLink className="mr-2 h-5 w-5" />
-                    Acessar Sala Virtual
-                  </Button>
-                </div>
-              ) : (
-                <div className="p-6 rounded-lg border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-4 min-h-[250px] flex flex-col">
-                  <div className="flex-1 flex items-center justify-center">
-                    <div className="text-center space-y-2">
-                      <div className="text-4xl font-bold text-primary/30">1</div>
-                      <p className="text-sm text-muted-foreground">Sem evento agendado</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Segundo Slot de Evento */}
-              {dayEvents.slot2 ? (
-                <div className="p-6 rounded-lg border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-4 hover:shadow-glow transition-smooth animate-fade-in">
-                  <div className="space-y-3">
-                    <h3 className="font-bold text-2xl">{dayEvents.slot2.name}</h3>
-                    <div className="flex flex-wrap gap-2">
-                      <Badge variant="default" className="text-base px-4 py-2">
-                        {dayEvents.slot2.time}hs
-                      </Badge>
-                      <Badge className={`text-base px-4 py-2 font-bold ${dayEvents.slot2.badge.color}`}>
-                        {dayEvents.slot2.badge.text}
-                      </Badge>
-                    </div>
-                    {dayEvents.slot2.bio && (
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        {dayEvents.slot2.bio}
-                      </p>
-                    )}
-                  </div>
-                  <Button
-                    size="lg"
-                    className="w-full"
-                    onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
-                  >
-                    <ExternalLink className="mr-2 h-5 w-5" />
-                    Acessar Sala Virtual
-                  </Button>
-                </div>
-              ) : (
-                <div className="p-6 rounded-lg border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-4 min-h-[250px] flex flex-col">
-                  <div className="flex-1 flex items-center justify-center">
-                    <div className="text-center space-y-2">
-                      <div className="text-4xl font-bold text-primary/30">2</div>
-                      <p className="text-sm text-muted-foreground">Sem evento agendado</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      )}
     </div>
   );
 }
