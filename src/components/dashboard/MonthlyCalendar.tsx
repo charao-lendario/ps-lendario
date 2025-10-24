@@ -56,6 +56,64 @@ export function MonthlyCalendar() {
     currentWeekDates.push(new Date(d));
   }
 
+  // Determinar os eventos do dia selecionado
+  const getEventsForSelectedDate = () => {
+    if (!selectedDate) return { slot1: null, slot2: null };
+    
+    const dayOfWeek = getDay(selectedDate);
+    const guestEvent = eventsOnSelectedDate.find(e => e.guests && e.type !== 'technical');
+    
+    // Segunda (1), Quarta (3), Sexta (5)
+    if ([1, 3, 5].includes(dayOfWeek)) {
+      return {
+        slot1: {
+          name: 'Adávio Tittoni',
+          time: '18:30',
+          type: 'technical',
+          badge: { text: 'Técnico', color: 'bg-green-500/20 text-green-500 border-green-500/30' },
+          bio: undefined
+        },
+        slot2: guestEvent ? {
+          name: guestEvent.guests?.name || '',
+          time: guestEvent.time.slice(0, 5),
+          type: 'guest',
+          bio: guestEvent.guests?.bio,
+          badge: { text: 'Convidado', color: 'bg-purple-500/20 text-purple-500 border-purple-500/30' }
+        } : {
+          name: 'Lucas Charão',
+          time: '20:00',
+          type: 'strategic',
+          badge: { text: 'Estratégico', color: 'bg-blue-500/20 text-blue-500 border-blue-500/30' },
+          bio: undefined
+        }
+      };
+    }
+    
+    // Terça (2), Quinta (4)
+    if ([2, 4].includes(dayOfWeek)) {
+      return {
+        slot1: {
+          name: 'Marketing',
+          time: '18:30',
+          type: 'marketing',
+          badge: { text: 'Marketing', color: 'bg-yellow-500/20 text-yellow-500 border-yellow-500/30' },
+          bio: undefined
+        },
+        slot2: guestEvent ? {
+          name: guestEvent.guests?.name || '',
+          time: guestEvent.time.slice(0, 5),
+          type: 'guest',
+          bio: guestEvent.guests?.bio,
+          badge: { text: 'Convidado', color: 'bg-purple-500/20 text-purple-500 border-purple-500/30' }
+        } : null
+      };
+    }
+    
+    return { slot1: null, slot2: null };
+  };
+
+  const dayEvents = getEventsForSelectedDate();
+
   if (isLoading) {
     return (
       <Card className="shadow-card">
@@ -105,24 +163,82 @@ export function MonthlyCalendar() {
           <CardContent className="p-6">
             <div className="grid md:grid-cols-2 gap-6">
               {/* Primeiro Slot de Evento */}
-              <div className="p-6 rounded-lg border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-4 min-h-[250px] flex flex-col">
-                <div className="flex-1 flex items-center justify-center">
-                  <div className="text-center space-y-2">
-                    <div className="text-4xl font-bold text-primary/30">1</div>
-                    <p className="text-sm text-muted-foreground">Primeiro Evento</p>
+              {dayEvents.slot1 ? (
+                <div className="p-6 rounded-lg border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-4 hover:shadow-glow transition-smooth animate-fade-in">
+                  <div className="space-y-3">
+                    <h3 className="font-bold text-2xl">{dayEvents.slot1.name}</h3>
+                    <div className="flex flex-wrap gap-2">
+                      <Badge variant="default" className="text-base px-4 py-2">
+                        {dayEvents.slot1.time}hs
+                      </Badge>
+                      <Badge className={`text-base px-4 py-2 font-bold ${dayEvents.slot1.badge.color}`}>
+                        {dayEvents.slot1.badge.text}
+                      </Badge>
+                    </div>
+                    {dayEvents.slot1.bio && (
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {dayEvents.slot1.bio}
+                      </p>
+                    )}
+                  </div>
+                  <Button
+                    size="lg"
+                    className="w-full"
+                    onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
+                  >
+                    <ExternalLink className="mr-2 h-5 w-5" />
+                    Acessar Sala Virtual
+                  </Button>
+                </div>
+              ) : (
+                <div className="p-6 rounded-lg border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-4 min-h-[250px] flex flex-col">
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="text-center space-y-2">
+                      <div className="text-4xl font-bold text-primary/30">1</div>
+                      <p className="text-sm text-muted-foreground">Sem evento agendado</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
 
               {/* Segundo Slot de Evento */}
-              <div className="p-6 rounded-lg border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-4 min-h-[250px] flex flex-col">
-                <div className="flex-1 flex items-center justify-center">
-                  <div className="text-center space-y-2">
-                    <div className="text-4xl font-bold text-primary/30">2</div>
-                    <p className="text-sm text-muted-foreground">Segundo Evento</p>
+              {dayEvents.slot2 ? (
+                <div className="p-6 rounded-lg border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-4 hover:shadow-glow transition-smooth animate-fade-in">
+                  <div className="space-y-3">
+                    <h3 className="font-bold text-2xl">{dayEvents.slot2.name}</h3>
+                    <div className="flex flex-wrap gap-2">
+                      <Badge variant="default" className="text-base px-4 py-2">
+                        {dayEvents.slot2.time}hs
+                      </Badge>
+                      <Badge className={`text-base px-4 py-2 font-bold ${dayEvents.slot2.badge.color}`}>
+                        {dayEvents.slot2.badge.text}
+                      </Badge>
+                    </div>
+                    {dayEvents.slot2.bio && (
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {dayEvents.slot2.bio}
+                      </p>
+                    )}
+                  </div>
+                  <Button
+                    size="lg"
+                    className="w-full"
+                    onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
+                  >
+                    <ExternalLink className="mr-2 h-5 w-5" />
+                    Acessar Sala Virtual
+                  </Button>
+                </div>
+              ) : (
+                <div className="p-6 rounded-lg border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/10 to-transparent space-y-4 min-h-[250px] flex flex-col">
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="text-center space-y-2">
+                      <div className="text-4xl font-bold text-primary/30">2</div>
+                      <p className="text-sm text-muted-foreground">Sem evento agendado</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </CardContent>
         </Card>
