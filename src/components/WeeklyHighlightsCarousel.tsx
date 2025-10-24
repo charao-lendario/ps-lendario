@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import rogerRobsonImg from '@/assets/destaque-roger-robson.png';
@@ -67,7 +67,7 @@ export function WeeklyHighlightsCarousel() {
                         <h3 className="font-bold text-xl">{highlight.theme_title}</h3>
                         <p className="text-muted-foreground">Com {highlight.guest_name}</p>
                         <p className="text-sm text-muted-foreground">
-                          {format(new Date(highlight.event_date), "dd/MM", { locale: ptBR })} - {highlight.event_time.slice(0, 5)}hs
+                          {format(parseISO(highlight.event_date), "dd/MM", { locale: ptBR })} - {highlight.event_time.slice(0, 5)}hs
                         </p>
                       </div>
                     </div>
