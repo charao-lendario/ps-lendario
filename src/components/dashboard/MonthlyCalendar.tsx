@@ -18,10 +18,6 @@ export function MonthlyCalendar() {
     return [2, 4].includes(dayOfWeek) && time === '18:30:00';
   };
 
-  const isTechnicalEvent = (guestName?: string) => {
-    return guestName === 'Adávio Tittoni';
-  };
-
   const { data: events, isLoading } = useQuery({
     queryKey: ['calendar-events'],
     queryFn: async () => {
@@ -119,7 +115,7 @@ export function MonthlyCalendar() {
                       <Badge variant="default" className="text-base px-4 py-2">
                         {event.time.slice(0, 5)}hs
                       </Badge>
-                      {isTechnicalEvent(event.guests?.name) ? (
+                      {event.type === 'technical' ? (
                         <Badge className="text-base px-4 py-2 bg-green-500/20 text-green-500 border-green-500/30 font-bold">
                           Técnico
                         </Badge>

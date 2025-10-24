@@ -85,10 +85,6 @@ export default function WeeklyCalendarCompact() {
     // Marketing: Terça (2) e Quinta (4) às 18:30
     return [2, 4].includes(dayOfWeek) && time === '18:30:00';
   };
-
-  const isTechnicalEvent = (guestName?: string) => {
-    return guestName === 'Adávio Tittoni';
-  };
   const getEventTypeColor = (type?: string) => {
     return {
       bg: 'bg-primary/10',
@@ -172,7 +168,7 @@ export default function WeeklyCalendarCompact() {
 
                         {/* Event Tags */}
                         <div className="flex flex-wrap gap-1 justify-center">
-                          {isTechnicalEvent(dayEvents[0].guests?.name) ? (
+                          {dayEvents[0].type === 'technical' ? (
                             <Badge className="text-xs px-2 py-0.5 bg-green-500/20 text-green-500 border-green-500/30 font-bold">
                               Técnico
                             </Badge>
@@ -217,7 +213,7 @@ export default function WeeklyCalendarCompact() {
                     locale: ptBR
                   })}</Badge>
                     <Badge variant="secondary">{selectedEvent.time.slice(0, 5)}hs</Badge>
-                    {isTechnicalEvent(selectedEvent.guests?.name) ? (
+                    {selectedEvent.type === 'technical' ? (
                       <Badge className="bg-green-500/20 text-green-500 border-green-500/30 font-bold">
                         Técnico
                       </Badge>
