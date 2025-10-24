@@ -168,10 +168,17 @@ export default function WeeklyCalendarCompact() {
 
                         {/* Event Tags */}
                         <div className="flex flex-wrap gap-1 justify-center">
-                          {isMarketingSlot(day, dayEvents[0].time) && <Badge className="text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-500 border-yellow-500/30 font-bold">
+                          {isMarketingSlot(day, dayEvents[0].time) ? (
+                            <Badge className="text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-500 border-yellow-500/30 font-bold">
                               Marketing
-                            </Badge>}
-                          {dayEvents[0].guests}
+                            </Badge>
+                          ) : (
+                            dayEvents[0].guests && (
+                              <Badge className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-500 border-purple-500/30 font-bold">
+                                Convidado
+                              </Badge>
+                            )
+                          )}
                         </div>
                       </> : <p className="text-xs text-center text-muted-foreground">
                         Sem eventos
