@@ -351,10 +351,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      create_admin_user_if_not_exists: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      create_admin_user_if_not_exists: { Args: never; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -362,10 +359,7 @@ export type Database = {
         }
         Returns: boolean
       }
-      setup_admin_user: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      setup_admin_user: { Args: never; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "student"

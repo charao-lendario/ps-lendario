@@ -18,6 +18,10 @@ export function MonthlyCalendar() {
     return [2, 4].includes(dayOfWeek) && time === '18:30:00';
   };
 
+  const isTechnicalEvent = (guestName?: string) => {
+    return guestName === 'Adávio Tittoni';
+  };
+
   const { data: events, isLoading } = useQuery({
     queryKey: ['calendar-events'],
     queryFn: async () => {
@@ -113,9 +117,13 @@ export function MonthlyCalendar() {
                     <h3 className="font-bold text-2xl">{event.guests?.name}</h3>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="default" className="text-base px-4 py-2">
-                        {event.time}
+                        {event.time.slice(0, 5)}hs
                       </Badge>
-                      {isMarketingSlot(new Date(event.date), event.time) ? (
+                      {isTechnicalEvent(event.guests?.name) ? (
+                        <Badge className="text-base px-4 py-2 bg-green-500/20 text-green-500 border-green-500/30 font-bold">
+                          Técnico
+                        </Badge>
+                      ) : isMarketingSlot(new Date(event.date), event.time) ? (
                         <Badge className="text-base px-4 py-2 bg-yellow-500/20 text-yellow-500 border-yellow-500/30 font-bold">
                           Marketing
                         </Badge>
