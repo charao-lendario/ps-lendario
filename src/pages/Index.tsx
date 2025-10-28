@@ -80,7 +80,7 @@ export default function Index() {
               </div>
               <h1 className="text-5xl md:text-7xl font-bold mb-0">
                 <span className="bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent">
-                  Pronto-Socorro
+                  Pronto
                 </span>
               </h1>
             </div>
