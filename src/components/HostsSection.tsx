@@ -1,15 +1,17 @@
+import lucasHostImg from '@/assets/lucas-host.png';
+import adavioHostImg from '@/assets/adavio-host.png';
+
 export function HostsSection() {
-  // Placeholder images - will be replaced with actual host images
   const hosts = [
     {
       name: 'Lucas Charão',
       role: 'Host do Pronto-Socorro',
-      image: '', // Será adicionado depois
+      image: lucasHostImg,
     },
     {
       name: 'Adávio Tittoni',
       role: 'Host do Pronto-Socorro',
-      image: '', // Será adicionado depois
+      image: adavioHostImg,
     },
   ];
 
