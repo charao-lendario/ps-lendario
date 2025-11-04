@@ -99,7 +99,7 @@ export default function Index() {
       {/* Info Banner */}
       <div className="bg-white border-b border-gray-200 py-3 px-4">
         <p className="text-center text-sm text-black max-w-4xl mx-auto">
-          Um Sistema de monitoria ao vivo e exclusivo para alunos da <span className="text-primary font-semibold">Formação</span> e <span className="text-primary font-semibold">Founders</span>
+          Um Sistema de monitoria ao vivo e exclusivo para alunos da <span className="font-semibold">Formação</span> e <span className="font-semibold">Founders</span>
         </p>
       </div>
 
