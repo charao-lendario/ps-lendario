@@ -135,6 +135,11 @@ export default function Index() {
               <p className="text-sm text-muted-foreground pt-4">
                 Hosts - Lucas Charão e Adávio Tittoni
               </p>
+              
+              <p className="text-sm pt-2">
+                <span className="text-white">SOS Lendário.</span>{' '}
+                <span className="text-muted-foreground">Solucione suas dúvidas, verifique os horários.</span>
+              </p>
             </div>
 
             {/* Image - 40% */}
