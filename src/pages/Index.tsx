@@ -15,46 +15,41 @@ import { WeeklyHighlights } from '@/components/dashboard/WeeklyHighlights';
 import { ExpertsList } from '@/components/ExpertsList';
 import { WeeklyHighlightsCarousel } from '@/components/WeeklyHighlightsCarousel';
 import { ScheduleGrid } from '@/components/dashboard/ScheduleGrid';
-
 export default function Index() {
-  const { user, isAdmin } = useAuth();
+  const {
+    user,
+    isAdmin
+  } = useAuth();
   const navigate = useNavigate();
-
   useEffect(() => {
     if (user) {
       navigate('/dashboard');
     }
   }, [user, navigate]);
-
-  const hosts = [
-    {
-      name: 'Lucas Charão',
-      role: 'Estratégia & Crescimento',
-      type: 'Estratégico',
-      bio: 'Analista de Experiência Educacional da Academia Lendária, especialista em Engenheiro de Prompts, Clones Digitais e Agentes. Host do PS desde o seu início(Julho de 2024).',
-      avatar: lucasCharaoImg,
-      social: {
-        linkedin: '',
-        instagram: 'https://www.instagram.com/olucascharao/',
-        instagramHandle: '@olucascharao'
-      },
-    },
-    {
-      name: 'Adávio Tittoni',
-      role: 'Desenvolvimento & Automações',
-      type: 'Técnico',
-      bio: 'Analista de Experiência Educacional da Academia Lendária, especialista e professor de automação, N8N e Vibe Coding.',
-      avatar: adavioTittoniImg,
-      social: {
-        linkedin: '',
-        instagram: 'https://www.instagram.com/adaviotittoni/',
-        instagramHandle: '@adaviotittoni'
-      },
-    },
-  ];
-
-  return (
-    <div className="min-h-screen gradient-dark">
+  const hosts = [{
+    name: 'Lucas Charão',
+    role: 'Estratégia & Crescimento',
+    type: 'Estratégico',
+    bio: 'Analista de Experiência Educacional da Academia Lendária, especialista em Engenheiro de Prompts, Clones Digitais e Agentes. Host do PS desde o seu início(Julho de 2024).',
+    avatar: lucasCharaoImg,
+    social: {
+      linkedin: '',
+      instagram: 'https://www.instagram.com/olucascharao/',
+      instagramHandle: '@olucascharao'
+    }
+  }, {
+    name: 'Adávio Tittoni',
+    role: 'Desenvolvimento & Automações',
+    type: 'Técnico',
+    bio: 'Analista de Experiência Educacional da Academia Lendária, especialista e professor de automação, N8N e Vibe Coding.',
+    avatar: adavioTittoniImg,
+    social: {
+      linkedin: '',
+      instagram: 'https://www.instagram.com/adaviotittoni/',
+      instagramHandle: '@adaviotittoni'
+    }
+  }];
+  return <div className="min-h-screen gradient-dark">
       {/* Discrete Admin Button */}
       <div className="absolute top-4 right-4 z-50">
         <Link to="/auth">
@@ -68,29 +63,32 @@ export default function Index() {
       <nav className="bg-black border-b border-white/10 sticky top-0 z-40">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-8 py-3">
-            <img 
-              src={academiaLendariaLogo} 
-              alt="Academia Lendária" 
-              className="h-8"
-            />
+            <img src={academiaLendariaLogo} alt="Academia Lendária" className="h-8" />
             <div className="flex flex-wrap justify-center gap-1 flex-1">
-              {[
-                { label: 'Como Funciona', href: '#como-funciona' },
-                { label: 'Horários', href: '#grade' },
-                { label: 'Calendário', href: '#calendario' },
-                { label: 'Destaques Semanais', href: '#destaques' },
-                { label: 'Alunos', href: '#depoimentos' },
-                { label: 'Especialistas', href: '#especialistas' },
-                { label: 'Hosts', href: '#hosts' },
-              ].map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="px-3 py-2 text-sm text-white hover:text-primary hover:bg-white/10 rounded-md transition-smooth"
-                >
+              {[{
+              label: 'Como Funciona',
+              href: '#como-funciona'
+            }, {
+              label: 'Horários',
+              href: '#grade'
+            }, {
+              label: 'Calendário',
+              href: '#calendario'
+            }, {
+              label: 'Destaques Semanais',
+              href: '#destaques'
+            }, {
+              label: 'Alunos',
+              href: '#depoimentos'
+            }, {
+              label: 'Especialistas',
+              href: '#especialistas'
+            }, {
+              label: 'Hosts',
+              href: '#hosts'
+            }].map(item => <a key={item.href} href={item.href} className="px-3 py-2 text-sm text-white hover:text-primary hover:bg-white/10 rounded-md transition-smooth">
                   {item.label}
-                </a>
-              ))}
+                </a>)}
             </div>
           </div>
         </div>
@@ -112,11 +110,7 @@ export default function Index() {
             {/* Text Content - 60% */}
             <div className="lg:col-span-3 space-y-6">
               <div className="inline-flex items-center gap-3 mb-6">
-                <img 
-                  src={academiaLendariaLogo} 
-                  alt="Academia Lendária" 
-                  className="h-10 opacity-90"
-                />
+                
               </div>
 
               <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-none">
@@ -132,12 +126,7 @@ export default function Index() {
               </p>
               
               <div className="pt-4">
-                <Button 
-                  size="lg" 
-                  variant="hero" 
-                  className="text-lg px-8 py-6 h-auto"
-                  onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
-                >
+                <Button size="lg" variant="hero" className="text-lg px-8 py-6 h-auto" onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}>
                   Acessar Pronto-Socorro
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
@@ -151,11 +140,7 @@ export default function Index() {
             {/* Image - 40% */}
             <div className="lg:col-span-2">
               <div className="relative">
-                <img 
-                  src={hostsHeroImg} 
-                  alt="Lucas Charão e Adávio Tittoni" 
-                  className="w-full h-auto object-contain"
-                />
+                <img src={hostsHeroImg} alt="Lucas Charão e Adávio Tittoni" className="w-full h-auto object-contain" />
               </div>
             </div>
           </div>
@@ -173,21 +158,12 @@ export default function Index() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {hosts.map((host) => (
-              <Card key={host.name} className="shadow-card gradient-card hover:shadow-glow transition-smooth overflow-hidden">
+            {hosts.map(host => <Card key={host.name} className="shadow-card gradient-card hover:shadow-glow transition-smooth overflow-hidden">
                 <CardContent className="p-0 flex flex-col sm:flex-row">
                   <div className="relative w-full sm:w-2/5 sm:min-h-[400px] overflow-hidden">
-                    {host.avatar ? (
-                      <img 
-                        src={host.avatar} 
-                        alt={host.name}
-                        className="w-full h-full object-cover object-center"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-primary flex items-center justify-center">
+                    {host.avatar ? <img src={host.avatar} alt={host.name} className="w-full h-full object-cover object-center" /> : <div className="w-full h-full bg-gradient-primary flex items-center justify-center">
                         <span className="text-6xl font-bold">{host.name.charAt(0)}</span>
-                      </div>
-                    )}
+                      </div>}
                   </div>
                   
                   <div className="flex-1 p-6 sm:p-8 flex flex-col justify-between space-y-4">
@@ -201,31 +177,17 @@ export default function Index() {
                     </div>
 
                     <div className="flex gap-2">
-                      {host.social.linkedin && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => window.open(host.social.linkedin, '_blank')}
-                        >
+                      {host.social.linkedin && <Button size="sm" variant="outline" onClick={() => window.open(host.social.linkedin, '_blank')}>
                           <Linkedin className="h-4 w-4" />
-                        </Button>
-                      )}
-                      {host.social.instagram && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => window.open(host.social.instagram, '_blank')}
-                          className="gap-2"
-                        >
+                        </Button>}
+                      {host.social.instagram && <Button size="sm" variant="outline" onClick={() => window.open(host.social.instagram, '_blank')} className="gap-2">
                           <Instagram className="h-4 w-4" />
                           <span>{host.social.instagramHandle}</span>
-                        </Button>
-                      )}
+                        </Button>}
                     </div>
                   </div>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -241,13 +203,7 @@ export default function Index() {
           </div>
           
           <Card className="aspect-video gradient-card shadow-card overflow-hidden">
-            <iframe
-              className="w-full h-full"
-              src="https://www.youtube.com/embed/UgD1qjh8BTU"
-              title="Como Funciona - Pronto Socorro"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+            <iframe className="w-full h-full" src="https://www.youtube.com/embed/UgD1qjh8BTU" title="Como Funciona - Pronto Socorro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
           </Card>
         </div>
       </section>
@@ -292,12 +248,7 @@ export default function Index() {
               <p className="text-lg text-muted-foreground">
                 Acesse agora e aproveite as monitorias ao vivo
               </p>
-              <Button 
-                size="lg" 
-                variant="hero" 
-                className="text-lg"
-                onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
-              >
+              <Button size="lg" variant="hero" className="text-lg" onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}>
                 Acessar Agora
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -305,6 +256,5 @@ export default function Index() {
           </Card>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 }
