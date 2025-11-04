@@ -243,5 +243,22 @@ export default function Index() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="border-t border-white/10 py-6 px-4">
+        <div className="container mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+              <span>All Rights Reserved © 2025 Academia Lendár[IA]</span>
+              <span>|</span>
+              <a href="#" className="hover:text-white transition-colors">Políticas</a>
+              <span>|</span>
+              <a href="#" className="hover:text-white transition-colors">Termos</a>
+              <span>|</span>
+            </div>
+            <img src={academiaLendariaLogo} alt="Academia Lendária" className="h-8" />
+          </div>
+        </div>
+      </footer>
     </div>;
 }
