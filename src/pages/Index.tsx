@@ -205,10 +205,8 @@ export default function Index() {
       </section>
 
       {/* Student Testimonials */}
-      <section id="depoimentos" className="py-20 px-4">
-        <div className="container mx-auto">
-          <WeeklyHighlights />
-        </div>
+      <section id="depoimentos">
+        <WeeklyHighlights />
       </section>
 
       {/* Experts Section */}
