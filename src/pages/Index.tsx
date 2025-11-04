@@ -162,6 +162,22 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Video Section */}
+      <section id="como-funciona" className="py-20 px-4 bg-secondary/20">
+        <div className="container mx-auto max-w-4xl">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Como Funciona</h2>
+            <p className="text-muted-foreground">
+              Entenda como aproveitar ao máximo o Pronto-Socorro
+            </p>
+          </div>
+          
+          <Card className="aspect-video gradient-card shadow-card overflow-hidden">
+            <iframe className="w-full h-full" src="https://www.youtube.com/embed/UgD1qjh8BTU" title="Como Funciona - Pronto Socorro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+          </Card>
+        </div>
+      </section>
+
       {/* Featured Hosts */}
       <section id="hosts" className="py-20 px-4">
         <div className="container mx-auto">
@@ -204,22 +220,6 @@ export default function Index() {
                 </CardContent>
               </Card>)}
           </div>
-        </div>
-      </section>
-
-      {/* Video Section */}
-      <section id="como-funciona" className="py-20 px-4 bg-secondary/20">
-        <div className="container mx-auto max-w-4xl">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Como Funciona</h2>
-            <p className="text-muted-foreground">
-              Entenda como aproveitar ao máximo o Pronto-Socorro
-            </p>
-          </div>
-          
-          <Card className="aspect-video gradient-card shadow-card overflow-hidden">
-            <iframe className="w-full h-full" src="https://www.youtube.com/embed/UgD1qjh8BTU" title="Como Funciona - Pronto Socorro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
-          </Card>
         </div>
       </section>
 
