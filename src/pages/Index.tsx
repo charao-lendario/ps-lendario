@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import lucasCharaoImg from '@/assets/adavio-tittoni.png';
 import adavioTittoniImg from '@/assets/adavio-tittoni-new.png';
 import academiaLendariaLogo from '@/assets/academia-lendaria-logo.png';
+import hostsHeroImg from '@/assets/hosts-hero.png';
 import WeeklyCalendarCompact from '@/components/WeeklyCalendarCompact';
 import { WeeklyHighlights } from '@/components/dashboard/WeeklyHighlights';
 import { ExpertsList } from '@/components/ExpertsList';
@@ -63,71 +64,92 @@ export default function Index() {
         </Link>
       </div>
 
+      {/* Top Info Banner */}
+      <div className="bg-card border-b border-border py-3 px-4">
+        <p className="text-center text-sm text-muted-foreground max-w-4xl mx-auto">
+          Um Sistema de monitoria ao vivo e exclusivo para alunos da <span className="text-primary font-semibold">Formação</span> e <span className="text-primary font-semibold">Founders</span>
+        </p>
+      </div>
+
+      {/* Navigation Menu */}
+      <nav className="bg-card border-b border-border sticky top-0 z-40">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-wrap justify-center gap-1 py-2">
+            {[
+              { label: 'Como Funciona', href: '#como-funciona' },
+              { label: 'Horários', href: '#grade' },
+              { label: 'Calendário', href: '#calendario' },
+              { label: 'Destaques Semanais', href: '#destaques' },
+              { label: 'Alunos', href: '#depoimentos' },
+              { label: 'Especialistas', href: '#especialistas' },
+              { label: 'Hosts', href: '#hosts' },
+            ].map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="px-3 py-2 text-sm text-foreground/80 hover:text-primary hover:bg-secondary/50 rounded-md transition-smooth"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
       <section className="relative py-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent"></div>
+        <div className="absolute inset-0 gradient-dark"></div>
         
         <div className="container mx-auto relative z-10">
-          <div className="max-w-4xl mx-auto text-center space-y-6">
-            <div className="inline-block">
-              <img 
-                src={academiaLendariaLogo} 
-                alt="Academia Lendária" 
-                className="h-8 mx-auto mb-3 opacity-90"
-              />
-              <div className="text-primary text-sm font-semibold tracking-wider uppercase mb-4">
-                Academia Lendária
+          <div className="grid lg:grid-cols-5 gap-12 items-center max-w-7xl mx-auto">
+            {/* Text Content - 60% */}
+            <div className="lg:col-span-3 space-y-6">
+              <div className="inline-flex items-center gap-3 mb-6">
+                <img 
+                  src={academiaLendariaLogo} 
+                  alt="Academia Lendária" 
+                  className="h-10 opacity-90"
+                />
               </div>
-              <h1 className="text-5xl md:text-7xl font-bold mb-0">
-                <span className="bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent">
-                  Pronto-Socorro
-                </span>
+
+              <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-none">
+                <span className="text-foreground">Pronto-Socorro.</span>
               </h1>
-            </div>
-            
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-              Sistema de monitoria ao vivo é exclusivo para alunos da <span className="text-primary font-semibold">Formação</span> e <span className="text-primary font-semibold">Founders</span>
-            </p>
+              
+              <h2 className="text-2xl md:text-3xl text-muted-foreground font-medium">
+                O lugar ideal para acelerar seus resultados.
+              </h2>
 
-            <p className="text-lg md:text-xl text-foreground/90 max-w-3xl mx-auto leading-relaxed">
-              O Pronto-Socorro é um ambiente colaborativo onde alunos se encontram com especialistas todos os dias (segunda à sexta) em dois horários (10hs e 18:30hs) para tirar dúvidas, trocar idéias, fazer networking, se conectar, adquirir conhecimentos com especialistas e acelerar seu processo de aprendisagem.
-            </p>
-            
-            {/* Anchor Menu */}
-            <nav className="flex flex-wrap justify-center gap-3 mt-8 pt-8 border-t border-border/50">
-              {[
-                { label: 'Seus Hosts', href: '#hosts' },
-                { label: 'Como Funciona', href: '#como-funciona' },
-                { label: 'Grade de Horários', href: '#grade' },
-                { label: 'Calendário', href: '#calendario' },
-                { label: 'Destaques da Semana', href: '#destaques' },
-                { label: 'Depoimentos dos Alunos', href: '#depoimentos' },
-                { label: 'Especialistas', href: '#especialistas' },
-              ].map((item) => (
-                <Button
-                  key={item.href}
-                  variant="secondary"
-                  size="lg"
-                  asChild
-                  className="font-semibold"
+              <p className="text-lg md:text-xl text-foreground/80 leading-relaxed max-w-2xl">
+                Um ambiente colaborativo onde alunos encontram especialistas todos os dias (segunda a sexta).
+              </p>
+              
+              <div className="pt-4">
+                <Button 
+                  size="lg" 
+                  variant="hero" 
+                  className="text-lg px-8 py-6 h-auto"
+                  onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
                 >
-                  <a href={item.href}>
-                    {item.label}
-                  </a>
+                  Acessar Pronto-Socorro
+                  <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-              ))}
-            </nav>
+              </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-16 mb-12">
-              <Button 
-                size="lg" 
-                variant="hero" 
-                className="text-lg"
-                onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
-              >
-                Acessar Pronto-Socorro
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              <p className="text-sm text-muted-foreground pt-4">
+                Hosts - Lucas Charão e Adávio Tittoni
+              </p>
+            </div>
+
+            {/* Image - 40% */}
+            <div className="lg:col-span-2">
+              <div className="relative">
+                <img 
+                  src={hostsHeroImg} 
+                  alt="Lucas Charão e Adávio Tittoni" 
+                  className="w-full h-auto object-contain"
+                />
+              </div>
             </div>
           </div>
         </div>
