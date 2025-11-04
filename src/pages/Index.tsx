@@ -64,37 +64,44 @@ export default function Index() {
         </Link>
       </div>
 
-      {/* Top Info Banner */}
+      {/* Navigation Menu */}
+      <nav className="bg-white border-b border-border sticky top-0 z-40">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center gap-8 py-3">
+            <img 
+              src={academiaLendariaLogo} 
+              alt="Academia Lendária" 
+              className="h-8"
+            />
+            <div className="flex flex-wrap justify-center gap-1 flex-1">
+              {[
+                { label: 'Como Funciona', href: '#como-funciona' },
+                { label: 'Horários', href: '#grade' },
+                { label: 'Calendário', href: '#calendario' },
+                { label: 'Destaques Semanais', href: '#destaques' },
+                { label: 'Alunos', href: '#depoimentos' },
+                { label: 'Especialistas', href: '#especialistas' },
+                { label: 'Hosts', href: '#hosts' },
+              ].map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="px-3 py-2 text-sm text-black hover:text-primary hover:bg-gray-100 rounded-md transition-smooth"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Info Banner */}
       <div className="bg-card border-b border-border py-3 px-4">
         <p className="text-center text-sm text-muted-foreground max-w-4xl mx-auto">
           Um Sistema de monitoria ao vivo e exclusivo para alunos da <span className="text-primary font-semibold">Formação</span> e <span className="text-primary font-semibold">Founders</span>
         </p>
       </div>
-
-      {/* Navigation Menu */}
-      <nav className="bg-card border-b border-border sticky top-0 z-40">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-1 py-2">
-            {[
-              { label: 'Como Funciona', href: '#como-funciona' },
-              { label: 'Horários', href: '#grade' },
-              { label: 'Calendário', href: '#calendario' },
-              { label: 'Destaques Semanais', href: '#destaques' },
-              { label: 'Alunos', href: '#depoimentos' },
-              { label: 'Especialistas', href: '#especialistas' },
-              { label: 'Hosts', href: '#hosts' },
-            ].map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="px-3 py-2 text-sm text-foreground/80 hover:text-primary hover:bg-secondary/50 rounded-md transition-smooth"
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </nav>
 
       {/* Hero Section */}
       <section className="relative py-20 px-4 overflow-hidden">
