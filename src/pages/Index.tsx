@@ -65,7 +65,7 @@ export default function Index() {
       </div>
 
       {/* Navigation Menu */}
-      <nav className="bg-white border-b border-border sticky top-0 z-40">
+      <nav className="bg-black border-b border-white/10 sticky top-0 z-40">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-8 py-3">
             <img 
@@ -86,7 +86,7 @@ export default function Index() {
                 <a
                   key={item.href}
                   href={item.href}
-                  className="px-3 py-2 text-sm text-black hover:text-primary hover:bg-gray-100 rounded-md transition-smooth"
+                  className="px-3 py-2 text-sm text-white hover:text-primary hover:bg-white/10 rounded-md transition-smooth"
                 >
                   {item.label}
                 </a>
@@ -97,8 +97,8 @@ export default function Index() {
       </nav>
 
       {/* Info Banner */}
-      <div className="bg-card border-b border-border py-3 px-4">
-        <p className="text-center text-sm text-muted-foreground max-w-4xl mx-auto">
+      <div className="bg-black border-b border-white/10 py-3 px-4">
+        <p className="text-center text-sm text-white max-w-4xl mx-auto">
           Um Sistema de monitoria ao vivo e exclusivo para alunos da <span className="text-primary font-semibold">Formação</span> e <span className="text-primary font-semibold">Founders</span>
         </p>
       </div>
