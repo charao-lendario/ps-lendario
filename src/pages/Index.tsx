@@ -15,6 +15,7 @@ import { WeeklyHighlights } from '@/components/dashboard/WeeklyHighlights';
 import { ExpertsList } from '@/components/ExpertsList';
 import { WeeklyHighlightsCarousel } from '@/components/WeeklyHighlightsCarousel';
 import { ScheduleGrid } from '@/components/dashboard/ScheduleGrid';
+import { HostsSection } from '@/components/HostsSection';
 export default function Index() {
   const {
     user,
@@ -212,6 +213,11 @@ export default function Index() {
       {/* Experts Section */}
       <section id="especialistas" className="py-12 px-4">
         <ExpertsList />
+      </section>
+
+      {/* Hosts Section */}
+      <section id="hosts" className="py-12 px-4">
+        <HostsSection />
       </section>
 
       {/* CTA Section */}
