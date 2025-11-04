@@ -190,6 +190,12 @@ export default function Index() {
 
       {/* Calendar Section */}
       <section id="calendario" className="w-full py-20 bg-secondary/20">
+        <div className="container mx-auto px-4 mb-8">
+          <div className="text-center space-y-2">
+            <h2 className="text-3xl md:text-4xl font-bold text-white">Calendário.</h2>
+            <p className="text-muted-foreground">Verifique as Datas</p>
+          </div>
+        </div>
         <WeeklyCalendarCompact />
       </section>
 
