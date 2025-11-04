@@ -14,6 +14,7 @@ import raquelRossi from '@/assets/especialistas/raquel-rossi.jpg';
 import rogerRobson from '@/assets/especialistas/roger-robson.jpg';
 import ruanBraz from '@/assets/especialistas/ruan-braz.jpg';
 import sergioRicardo from '@/assets/especialistas/sergio-ricardo.jpg';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
 interface Expert {
   name: string;
@@ -114,27 +115,41 @@ export function ExpertsList() {
   return (
     <section className="w-full py-16 px-4">
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12">
-          Especialistas que já passaram pelo PS
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
+          Especialistas que já passaram pelo PS.
         </h2>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-8">
-          {experts.map((expert, index) => (
-            <div key={index} className="flex flex-col items-center text-center space-y-3">
-              <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-primary shadow-glow">
-                <img
-                  src={expert.image}
-                  alt={expert.name}
-                  className="w-full h-full object-cover"
-                  style={expert.objectPosition ? { objectPosition: expert.objectPosition } : undefined}
-                />
-              </div>
-              <div>
-                <h3 className="font-semibold text-sm">{expert.name}</h3>
-                <p className="text-xs text-muted-foreground mt-1">{expert.specialty}</p>
-              </div>
-            </div>
-          ))}
+        <div className="relative px-12">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-4">
+              {experts.map((expert, index) => (
+                <CarouselItem key={index} className="pl-4 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6">
+                  <div className="flex flex-col items-center text-center space-y-3">
+                    <div className="relative w-32 h-32 rounded-3xl overflow-hidden bg-white/10">
+                      <img
+                        src={expert.image}
+                        alt={expert.name}
+                        className="w-full h-full object-cover"
+                        style={expert.objectPosition ? { objectPosition: expert.objectPosition } : undefined}
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-sm">{expert.name}</h3>
+                      <p className="text-xs text-muted-foreground mt-1">{expert.specialty}</p>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="-left-6" />
+            <CarouselNext className="-right-6" />
+          </Carousel>
         </div>
       </div>
     </section>
