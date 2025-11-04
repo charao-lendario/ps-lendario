@@ -40,6 +40,7 @@ export function HostsSection() {
                       src={host.image}
                       alt={host.name}
                       className="w-full h-full object-cover"
+                      style={{ objectPosition: 'center 20%' }}
                     />
                   </div>
                   <div className="text-left flex-1">
