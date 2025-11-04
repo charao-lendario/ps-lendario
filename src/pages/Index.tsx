@@ -179,49 +179,7 @@ export default function Index() {
       </section>
 
       {/* Featured Hosts */}
-      <section id="hosts" className="py-20 px-4">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Seus Hosts</h2>
-            <p className="text-muted-foreground text-lg">
-              Especialistas prontos para tirar suas dúvidas
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {hosts.map(host => <Card key={host.name} className="shadow-card gradient-card hover:shadow-glow transition-smooth overflow-hidden">
-                <CardContent className="p-0 flex flex-col sm:flex-row">
-                  <div className="relative w-full sm:w-2/5 sm:min-h-[400px] overflow-hidden">
-                    {host.avatar ? <img src={host.avatar} alt={host.name} className="w-full h-full object-cover object-center" /> : <div className="w-full h-full bg-gradient-primary flex items-center justify-center">
-                        <span className="text-6xl font-bold">{host.name.charAt(0)}</span>
-                      </div>}
-                  </div>
-                  
-                  <div className="flex-1 p-6 sm:p-8 flex flex-col justify-between space-y-4">
-                    <div className="space-y-3">
-                      <h3 className="text-2xl font-bold">{host.name}</h3>
-                      <div className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-sm font-semibold">
-                        {host.type}
-                      </div>
-                      <p className="text-sm font-medium text-muted-foreground">{host.role}</p>
-                      <p className="text-muted-foreground text-sm">{host.bio}</p>
-                    </div>
-
-                    <div className="flex gap-2">
-                      {host.social.linkedin && <Button size="sm" variant="outline" onClick={() => window.open(host.social.linkedin, '_blank')}>
-                          <Linkedin className="h-4 w-4" />
-                        </Button>}
-                      {host.social.instagram && <Button size="sm" variant="outline" onClick={() => window.open(host.social.instagram, '_blank')} className="gap-2">
-                          <Instagram className="h-4 w-4" />
-                          <span>{host.social.instagramHandle}</span>
-                        </Button>}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>)}
-          </div>
-        </div>
-      </section>
+      
 
       {/* Schedule Grid */}
       <section id="grade" className="py-20 px-4">
