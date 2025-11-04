@@ -141,11 +141,11 @@ export default function Index() {
                 <span className="text-muted-foreground">Solucione suas dúvidas, verifique os horários.</span>
               </p>
 
-              <div className="text-center pt-8 space-y-4">
+              <div className="flex flex-col items-center text-center pt-8 space-y-4">
                 <h3 className="text-3xl md:text-4xl font-bold text-white">
                   Especialistas em prontidão.
                 </h3>
-                <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-4xl mx-auto">
+                <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-4xl">
                   O Pronto-Socorro é um ambiente colaborativo onde alunos se encontram com especialistas todos os dias (segunda à sexta) em dois horários (10h e 18h30) para tirar dúvidas, trocar ideias, fazer networking, se conectar, adquirir conhecimentos com especialistas e acelerar seu processo de aprendizagem.
                 </p>
               </div>
