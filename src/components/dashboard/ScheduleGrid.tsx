@@ -1,12 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { ExternalLink, Loader2 } from 'lucide-react';
-import { format, isToday, isTomorrow } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
-import { Fragment } from 'react';
+import { Loader2, Square } from 'lucide-react';
 
 const DAYS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
 const TIMES = ['10:00', '18:30'];
@@ -33,115 +27,151 @@ export function ScheduleGrid() {
     },
   });
 
-  if (isLoading) {
-    return (
-      <Card className="shadow-card">
-        <CardContent className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </CardContent>
-      </Card>
-    );
-  }
-
   const getScheduleForSlot = (day: number, time: string) => {
     return schedules?.find(
       (s) => s.day_of_week === day && s.time === time
     );
   };
 
-  const getTypeColor = (type: string) => {
-    const colors = {
-      estrategico: 'bg-blue-500/20 text-blue-500 border-blue-500/30 font-bold',
-      tecnico: 'bg-green-500/20 text-green-500 border-green-500/30 font-bold',
-      marketing: 'bg-yellow-500/20 text-yellow-500 border-yellow-500/30 font-bold',
+  const getTypeConfig = (type: string) => {
+    const configs = {
+      estrategico: { 
+        label: 'Estratégico', 
+        color: 'text-blue-400',
+        iconColor: 'text-blue-500',
+        bgColor: 'bg-blue-500'
+      },
+      tecnico: { 
+        label: 'Técnico', 
+        color: 'text-green-400',
+        iconColor: 'text-green-500',
+        bgColor: 'bg-green-500'
+      },
+      marketing: { 
+        label: 'Marketing', 
+        color: 'text-yellow-400',
+        iconColor: 'text-yellow-500',
+        bgColor: 'bg-yellow-500'
+      },
     };
-    return colors[type as keyof typeof colors] || 'bg-muted text-muted-foreground';
+    return configs[type as keyof typeof configs] || { 
+      label: type, 
+      color: 'text-muted-foreground',
+      iconColor: 'text-muted-foreground',
+      bgColor: 'bg-muted'
+    };
   };
 
   const getDefaultSchedule = (day: number, time: string) => {
-    // Segunda, Quarta, Sexta = 1, 3, 5
-    // Terça, Quinta = 2, 4
-    
     if ([1, 3, 5].includes(day) && time === '10:00') {
-      return { type: 'estrategico', label: 'Estratégico' };
+      return { type: 'estrategico' };
     }
     if ([1, 3, 5].includes(day) && time === '18:30') {
-      return { type: 'tecnico', label: 'Técnico' };
+      return { type: 'tecnico' };
     }
     if ([2, 4].includes(day) && time === '10:00') {
-      return { type: 'tecnico', label: 'Técnico' };
+      return { type: 'tecnico' };
     }
     if ([2, 4].includes(day) && time === '18:30') {
-      return { type: 'marketing', label: 'Marketing' };
+      return { type: 'marketing' };
     }
     return null;
   };
 
-  return (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-bold">Grade de Horários</h2>
-      
-      <Card className="shadow-card gradient-card">
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-            {/* Header Row */}
-            <div className="hidden md:block font-semibold text-center">Horário</div>
-            {DAYS.map((day) => (
-              <div key={day} className="hidden md:block font-semibold text-center">
-                {day}
-              </div>
-            ))}
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
-            {/* Schedule Grid */}
-            {TIMES.map((time) => (
-              <Fragment key={`time-row-${time}`}>
-                <div className="md:flex items-center justify-center font-semibold hidden">
-                  {time}
-                </div>
+  return (
+    <div className="space-y-8">
+      {/* Title */}
+      <div>
+        <h2 className="text-3xl md:text-4xl font-bold mb-2">
+          <span className="text-white">Horários.</span>{' '}
+          <span className="text-muted-foreground font-normal">
+            Verifique os horários disponíveis e os temas abordados.
+          </span>
+        </h2>
+      </div>
+      
+      {/* Schedule Table */}
+      <div className="border border-white/10 rounded-2xl p-6 md:p-8 bg-black/20">
+        {/* Desktop Grid */}
+        <div className="hidden md:grid md:grid-cols-6 gap-6">
+          {/* Header Row */}
+          <div className="font-semibold text-lg text-white">Horário</div>
+          {DAYS.map((day) => (
+            <div key={day} className="font-semibold text-lg text-white text-center">
+              {day}
+            </div>
+          ))}
+
+          {/* Time Rows */}
+          {TIMES.map((time) => (
+            <>
+              <div key={`time-${time}`} className="flex items-center text-white text-2xl font-semibold">
+                {time}
+              </div>
+              {DAYS.map((day, dayIndex) => {
+                const schedule = getScheduleForSlot(dayIndex + 1, time);
+                const defaultSchedule = getDefaultSchedule(dayIndex + 1, time);
+                const displaySchedule = schedule || defaultSchedule;
+                const config = displaySchedule ? getTypeConfig(displaySchedule.type) : null;
+                
+                return (
+                  <div 
+                    key={`${day}-${time}`} 
+                    className="flex items-center justify-center"
+                  >
+                    {config && (
+                      <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-black/40 border border-white/10">
+                        <div className={`w-3 h-3 rounded-sm ${config.bgColor}`} />
+                        <span className="text-white font-medium">{config.label}</span>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </>
+          ))}
+        </div>
+
+        {/* Mobile View */}
+        <div className="md:hidden space-y-6">
+          {TIMES.map((time) => (
+            <div key={`mobile-${time}`} className="space-y-3">
+              <div className="text-white text-xl font-semibold">{time}</div>
+              <div className="grid grid-cols-1 gap-3">
                 {DAYS.map((day, dayIndex) => {
                   const schedule = getScheduleForSlot(dayIndex + 1, time);
                   const defaultSchedule = getDefaultSchedule(dayIndex + 1, time);
                   const displaySchedule = schedule || defaultSchedule;
+                  const config = displaySchedule ? getTypeConfig(displaySchedule.type) : null;
                   
                   return (
-                    <Card key={`${day}-${time}`} className="p-4 hover:border-primary/50 transition-smooth">
-                      <div className="md:hidden text-sm font-semibold mb-2 text-muted-foreground">
-                        {day} - {time}
-                      </div>
-                      
-                      {displaySchedule ? (
-                        <div className="space-y-2 flex flex-col items-center">
-                          <Badge className={getTypeColor(displaySchedule.type)}>
-                            {'label' in displaySchedule 
-                              ? displaySchedule.label 
-                              : displaySchedule.type.charAt(0).toUpperCase() + displaySchedule.type.slice(1)}
-                          </Badge>
-                          {schedule?.hosts?.name && (
-                            <p className="font-medium text-center">{schedule.hosts.name}</p>
-                          )}
-                          {schedule?.room_link && (
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="w-full"
-                              onClick={() => window.open(schedule.room_link, '_blank')}
-                            >
-                              <ExternalLink className="mr-2 h-3 w-3" />
-                              Entrar
-                            </Button>
-                          )}
+                    <div 
+                      key={`mobile-${day}-${time}`} 
+                      className="flex items-center justify-between p-3 rounded-lg bg-black/40 border border-white/10"
+                    >
+                      <span className="text-white font-medium">{day}</span>
+                      {config && (
+                        <div className="flex items-center gap-2">
+                          <div className={`w-3 h-3 rounded-sm ${config.bgColor}`} />
+                          <span className="text-white text-sm">{config.label}</span>
                         </div>
-                      ) : (
-                        <p className="text-sm text-muted-foreground text-center">Sem monitoria</p>
                       )}
-                    </Card>
+                    </div>
                   );
                 })}
-              </Fragment>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
