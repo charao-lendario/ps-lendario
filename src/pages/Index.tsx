@@ -222,21 +222,25 @@ export default function Index() {
 
       {/* CTA Section */}
       <section className="py-20 px-4">
-        <div className="container mx-auto text-center">
-          <Card className="max-w-2xl mx-auto gradient-card shadow-glow">
-            <CardContent className="p-12 space-y-6">
-              <h2 className="text-3xl md:text-4xl font-bold">
+        <div className="container mx-auto">
+          <div className="bg-white rounded-3xl p-12 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div className="text-left lg:max-w-2xl">
+              <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
                 Pronto para começar?
               </h2>
-              <p className="text-lg text-muted-foreground">
-                Acesse agora e aproveite as monitorias ao vivo
+              <p className="text-xl text-gray-400">
+                Acesse agora e aproveite as monitorias ao vivo.
               </p>
-              <Button size="lg" variant="hero" className="text-lg" onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}>
-                Acessar Agora
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </CardContent>
-          </Card>
+            </div>
+            <Button 
+              size="lg" 
+              className="bg-[#C4A574] hover:bg-[#B39564] text-black font-semibold px-8 py-6 h-auto text-lg rounded-xl flex-shrink-0"
+              onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
+            >
+              Acessar Pronto-Socorro
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
         </div>
       </section>
     </div>;
