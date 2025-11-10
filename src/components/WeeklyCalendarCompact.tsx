@@ -3,11 +3,9 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { ChevronLeft, ChevronRight, ExternalLink, Instagram, Linkedin, Clock } from 'lucide-react';
-import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, eachDayOfInterval, isSameDay, isToday, parseISO, getDay } from 'date-fns';
+import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
+import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, eachDayOfInterval, isToday, getDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 interface CalendarEvent {
@@ -28,7 +26,6 @@ interface CalendarEvent {
 }
 export default function WeeklyCalendarCompact() {
   const [currentWeek, setCurrentWeek] = useState<Date>(new Date());
-  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const queryClient = useQueryClient();
   const weekStart = startOfWeek(currentWeek, {
     weekStartsOn: 0
@@ -64,6 +61,7 @@ export default function WeeklyCalendarCompact() {
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: true
   });
+  
   useEffect(() => {
     const subscription = supabase.channel('calendar-changes').on('postgres_changes', {
       event: '*',
@@ -76,23 +74,37 @@ export default function WeeklyCalendarCompact() {
       supabase.removeChannel(subscription);
     };
   }, [queryClient]);
+  
   const getEventsForDay = (day: Date) => {
-    if (!events) return [];
-    return events.filter(event => isSameDay(parseISO(event.date), day));
+    const dayOfWeek = getDay(day); // 0 = Domingo, 1 = Segunda, etc.
+    
+    // Segunda (1), Quarta (3), Sexta (5)
+    if ([1, 3, 5].includes(dayOfWeek)) {
+      return [
+        { time: '10:00', name: 'Lucas Charão', type: 'strategic' },
+        { time: '18:30', name: 'Adávio Tittoni', type: 'technical' }
+      ];
+    }
+    
+    // Terça (2)
+    if (dayOfWeek === 2) {
+      return [
+        { time: '10:00', name: 'Adávio Tittoni', type: 'technical' },
+        { time: '18:30', name: 'Day Cavalcanti', type: 'marketing' }
+      ];
+    }
+    
+    // Quinta (4)
+    if (dayOfWeek === 4) {
+      return [
+        { time: '10:00', name: 'Adávio Tittoni', type: 'technical' },
+        { time: '18:30', name: 'João Lozano', type: 'marketing' }
+      ];
+    }
+    
+    return [];
   };
-  const isMarketingSlot = (date: Date, time: string) => {
-    const dayOfWeek = getDay(date); // 0 = Sunday, 1 = Monday, etc.
-    // Marketing: Terça (2) e Quinta (4) às 18:30
-    return [2, 4].includes(dayOfWeek) && time === '18:30:00';
-  };
-  const getEventTypeColor = (type?: string) => {
-    return {
-      bg: 'bg-primary/10',
-      border: 'border-primary/50',
-      text: 'text-primary',
-      dot: 'bg-primary'
-    };
-  };
+  
   const changeWeek = (weeks: number) => {
     setCurrentWeek(weeks > 0 ? addWeeks(currentWeek, weeks) : subWeeks(currentWeek, Math.abs(weeks)));
   };
@@ -127,8 +139,9 @@ export default function WeeklyCalendarCompact() {
           const dayEvents = getEventsForDay(day);
           const hasEvents = dayEvents.length > 0;
           const isTodayDay = isToday(day);
-          const eventColor = hasEvents ? getEventTypeColor(dayEvents[0].type) : null;
-          return <Card key={day.toISOString()} className={cn("gradient-card shadow-card hover:shadow-glow transition-smooth cursor-pointer", isTodayDay && "border-2 border-primary", hasEvents && eventColor && `${eventColor.bg} ${eventColor.border}`)} onClick={() => dayEvents.length > 0 && setSelectedEvent(dayEvents[0])}>
+          const isWeekend = getDay(day) === 0 || getDay(day) === 6;
+          
+          return <Card key={day.toISOString()} className={cn("gradient-card shadow-card transition-smooth", isTodayDay && "border-2 border-primary", isWeekend && "opacity-50")}>
                 <CardContent className="p-4 space-y-3">
                   {/* Day Header */}
                   <div className="text-center space-y-1">
@@ -137,7 +150,7 @@ export default function WeeklyCalendarCompact() {
                     locale: ptBR
                   })}
                     </p>
-                    <p className={cn("text-3xl font-bold", isTodayDay && "text-primary", hasEvents && eventColor && eventColor.text)}>
+                    <p className={cn("text-3xl font-bold", isTodayDay && "text-primary")}>
                       {format(day, 'd')}
                     </p>
                     <p className="text-xs text-muted-foreground">
@@ -147,116 +160,47 @@ export default function WeeklyCalendarCompact() {
                     </p>
                   </div>
 
-                  {/* Events Indicator */}
+                  {/* Events List */}
                   <div className="space-y-2">
-                    {hasEvents ? <>
-                        <div className={cn("flex items-center justify-center gap-1", eventColor && eventColor.text)}>
-                          <div className={cn("w-2 h-2 rounded-full animate-pulse", eventColor && eventColor.dot)} />
-                          <span className="text-xs font-semibold">{dayEvents.length} evento{dayEvents.length > 1 ? 's' : ''}</span>
-                        </div>
-                        
-                        {/* Show first event time */}
-                        <div className="flex items-center justify-center gap-1 text-muted-foreground">
-                          <Clock className="h-3 w-3" />
-                          <span className="text-xs">{dayEvents[0].time.slice(0, 5)}hs</span>
-                        </div>
-
-                        {/* Guest name if available */}
-                        {dayEvents[0].guests && <p className="text-xs text-center font-medium truncate">
-                            {dayEvents[0].guests.name}
-                          </p>}
-
-                        {/* Event Tags */}
-                        <div className="flex flex-wrap gap-1 justify-center">
-                          {dayEvents[0].type === 'technical' ? (
-                            <Badge className="text-xs px-2 py-0.5 bg-green-500/20 text-green-500 border-green-500/30 font-bold">
-                              Técnico
-                            </Badge>
-                          ) : isMarketingSlot(day, dayEvents[0].time) ? (
-                            <Badge className="text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-500 border-yellow-500/30 font-bold">
-                              Marketing
-                            </Badge>
-                          ) : (
-                            dayEvents[0].guests && (
-                              <Badge className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-500 border-purple-500/30 font-bold">
-                                Convidado
+                    {hasEvents ? (
+                      <>
+                        {dayEvents.map((event, idx) => (
+                          <div key={idx} className="p-2 bg-background/50 rounded border border-border/20">
+                            <div className="flex items-center justify-between mb-1">
+                              <div className="flex items-center gap-1 text-muted-foreground">
+                                <Clock className="h-3 w-3" />
+                                <span className="text-[10px]">{event.time}</span>
+                              </div>
+                              <Badge className={cn("text-[9px] px-1.5 py-0", 
+                                event.type === 'technical' && "bg-green-500/20 text-green-500 border-green-500/30",
+                                event.type === 'marketing' && "bg-yellow-500/20 text-yellow-500 border-yellow-500/30",
+                                event.type === 'strategic' && "bg-blue-500/20 text-blue-500 border-blue-500/30"
+                              )}>
+                                {event.type === 'technical' ? 'Técnico' : 
+                                 event.type === 'marketing' ? 'Marketing' : 'Estratégico'}
                               </Badge>
-                            )
-                          )}
-                        </div>
-                      </> : <p className="text-xs text-center text-muted-foreground">
+                            </div>
+                            <p className="text-xs font-medium truncate">{event.name}</p>
+                          </div>
+                        ))}
+                      </>
+                    ) : (
+                      <p className="text-xs text-center text-muted-foreground py-2">
                         Sem eventos
-                      </p>}
+                      </p>
+                    )}
                   </div>
                 </CardContent>
               </Card>;
         })}
         </div>
+        
+        {/* Schedule Note */}
+        <div className="text-center mt-6">
+          <p className="text-xs text-muted-foreground italic">
+            *Programação sujeita a alteração sem aviso prévio.
+          </p>
+        </div>
       </div>
-
-      {/* Event Detail Modal */}
-      <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="text-2xl">Detalhes do Evento</DialogTitle>
-          </DialogHeader>
-          {selectedEvent && <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                {selectedEvent.guests?.avatar_url && <Avatar className="h-20 w-20">
-                    <AvatarImage src={selectedEvent.guests.avatar_url} alt={selectedEvent.guests.name} />
-                    <AvatarFallback>{selectedEvent.guests.name[0]}</AvatarFallback>
-                  </Avatar>}
-                  <div className="flex-1">
-                  <h3 className="text-xl font-bold">{selectedEvent.guests?.name}</h3>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    <Badge variant="default">{format(parseISO(selectedEvent.date), "d 'de' MMMM", {
-                    locale: ptBR
-                  })}</Badge>
-                    <Badge variant="secondary">{selectedEvent.time.slice(0, 5)}hs</Badge>
-                    {selectedEvent.type === 'technical' ? (
-                      <Badge className="bg-green-500/20 text-green-500 border-green-500/30 font-bold">
-                        Técnico
-                      </Badge>
-                    ) : isMarketingSlot(parseISO(selectedEvent.date), selectedEvent.time) ? (
-                      <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/30 font-bold">
-                        Marketing
-                      </Badge>
-                    ) : (
-                      selectedEvent.guests && (
-                        <Badge className="bg-purple-500/20 text-purple-500 border-purple-500/30 font-bold">
-                          Convidado
-                        </Badge>
-                      )
-                    )}
-                  </div>
-                </div>
-              </div>
-              
-              {selectedEvent.guests?.bio && <div>
-                  <h4 className="font-semibold mb-2">Sobre</h4>
-                  <p className="text-muted-foreground leading-relaxed">{selectedEvent.guests.bio}</p>
-                </div>}
-
-              {selectedEvent.guests?.social_links && <div>
-                  <h4 className="font-semibold mb-2">Redes Sociais</h4>
-                  <div className="flex gap-2">
-                    {selectedEvent.guests.social_links.linkedin && <Button variant="outline" size="sm" onClick={() => window.open(selectedEvent.guests.social_links.linkedin, '_blank')}>
-                        <Linkedin className="h-4 w-4 mr-2" />
-                        LinkedIn
-                      </Button>}
-                    {selectedEvent.guests.social_links.instagram && <Button variant="outline" size="sm" onClick={() => window.open(selectedEvent.guests.social_links.instagram, '_blank')}>
-                        <Instagram className="h-4 w-4 mr-2" />
-                        Instagram
-                      </Button>}
-                  </div>
-                </div>}
-
-              <Button size="lg" className="w-full" onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}>
-                <ExternalLink className="mr-2 h-5 w-5" />
-                Acessar Sala Virtual
-              </Button>
-            </div>}
-        </DialogContent>
-      </Dialog>
     </div>;
 }
