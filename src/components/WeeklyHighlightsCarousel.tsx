@@ -3,9 +3,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import rogerRobsonImg from '@/assets/destaque-roger-robson.png';
-import franMartinsImg from '@/assets/destaque-fran-martins.png';
-import klausDeorImg from '@/assets/destaque-klaus-deor.png';
+import dayCavalcantiImg from '@/assets/destaque-day-cavalcanti.png';
+import joaoLozanoImg from '@/assets/destaque-joao-lozano.png';
 
 export function WeeklyHighlightsCarousel() {
   const { data: highlights, isLoading } = useQuery({
@@ -27,9 +26,14 @@ export function WeeklyHighlightsCarousel() {
 
   // Map para usar imagens locais quando disponíveis
   const imageMap: Record<string, string> = {
-    'Roger Robson': rogerRobsonImg,
-    'Fran Martins': franMartinsImg,
-    'Klaus Deor': klausDeorImg
+    'Day Cavalcanti': dayCavalcantiImg,
+    'João Lozano': joaoLozanoImg
+  };
+
+  // Map para definir os textos de recorrência
+  const scheduleMap: Record<string, string> = {
+    'Day Cavalcanti': 'Toda terça-feira as 18:30hs',
+    'João Lozano': 'Toda quinta-feira as 18:30hs'
   };
 
   return (
@@ -58,10 +62,10 @@ export function WeeklyHighlightsCarousel() {
                       <div className="w-full h-px bg-white/20"></div>
                       
                       <div className="space-y-3">
-                        <h3 className="text-3xl md:text-4xl font-bold text-white">{highlight.theme_title}</h3>
+                        <h3 className="text-3xl md:text-4xl font-bold text-white">Tema - {highlight.theme_title}</h3>
                         <p className="text-xl text-muted-foreground">com {highlight.guest_name}</p>
                         <p className="text-lg text-muted-foreground">
-                          {format(parseISO(highlight.event_date), "dd/MM", { locale: ptBR })} - {highlight.event_time.slice(0, 5)}
+                          {scheduleMap[highlight.guest_name] || `${format(parseISO(highlight.event_date), "dd/MM", { locale: ptBR })} - ${highlight.event_time.slice(0, 5)}`}
                         </p>
                       </div>
                     </div>
