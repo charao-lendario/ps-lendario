@@ -123,7 +123,7 @@ export default function WeeklyCalendarCompact() {
     return [];
   };
 
-  const getCurrentEventForToday = () => {
+  const getCurrentEventForDay = (day: Date) => {
     const now = new Date();
     
     // Converter para horário de Brasília (UTC-3)
@@ -135,17 +135,16 @@ export default function WeeklyCalendarCompact() {
     const currentMinutes = brasiliaTime.getMinutes();
     const currentTime = currentHour + currentMinutes / 60;
     
-    const today = getDay(brasiliaTime);
-    const eventsToday = getEventsForDay(brasiliaTime);
+    const eventsForDay = getEventsForDay(day);
     
-    // Das 00:00 às 11:20 - evento das 10h
-    if (currentTime >= 0 && currentTime <= 11.33) {
-      return eventsToday.find(e => e.time === '10:00') || null;
+    // Das 00:00 às 11:40 - evento das 10h
+    if (currentTime >= 0 && currentTime <= 11.67) {
+      return eventsForDay.find(e => e.time === '10:00') || null;
     }
     
-    // Das 18:30 às 20:00 - evento das 18:30
-    if (currentTime >= 18.5 && currentTime <= 20) {
-      return eventsToday.find(e => e.time === '18:30') || null;
+    // Das 12:40 às 21:00 - evento das 18:30
+    if (currentTime >= 12.67 && currentTime <= 21) {
+      return eventsForDay.find(e => e.time === '18:30') || null;
     }
     
     return null;
@@ -167,8 +166,8 @@ export default function WeeklyCalendarCompact() {
     return (currentTime >= 10 && currentTime <= 11.67) || (currentTime >= 18.5 && currentTime <= 20);
   };
 
-  const handleDayClick = () => {
-    const currentEvent = getCurrentEventForToday();
+  const handleDayClick = (day: Date) => {
+    const currentEvent = getCurrentEventForDay(day);
     if (currentEvent) {
       setSelectedEvent(currentEvent);
       setIsDialogOpen(true);
@@ -219,7 +218,7 @@ export default function WeeklyCalendarCompact() {
                   isTodayDay && "border-2 border-primary",
                   isWeekend && "opacity-50"
                 )}
-                onClick={isTodayDay ? handleDayClick : undefined}
+                onClick={isTodayDay ? () => handleDayClick(day) : undefined}
               >
                 <CardContent className="p-4 space-y-3">
                   {/* Day Header */}
