@@ -127,10 +127,10 @@ export default function Index() {
               </p>
               
               <div className="pt-4">
-                <Button size="lg" variant="hero" className="text-lg px-8 py-6 h-auto" onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}>
-                  Acessar Pronto-Socorro
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
+              <Button size="lg" variant="hero" className="text-lg px-8 py-6 h-auto" onClick={() => window.open('https://calendar.google.com/calendar/u/0?cid=Y181ZDhkNjEwNmI3NThjNTVkYTk2YTQzOGJlZGZlNWRiMjU4MTlhMTczZThlM2RiNmUwNDMyM2E3ZjMyNTA0MjFmQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20', '_blank')}>
+                Acessar Pronto-Socorro
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
               </div>
 
               <p className="text-sm text-muted-foreground pt-4">
@@ -235,7 +235,7 @@ export default function Index() {
             <Button 
               size="lg" 
               className="bg-[#C4A574] hover:bg-[#B39564] text-black font-semibold px-8 py-6 h-auto text-lg rounded-xl flex-shrink-0"
-              onClick={() => window.open('https://membros.academialendaria.ai/m/lessons/pronto-socorro', '_blank')}
+              onClick={() => window.open('https://calendar.google.com/calendar/u/0?cid=Y181ZDhkNjEwNmI3NThjNTVkYTk2YTQzOGJlZGZlNWRiMjU4MTlhMTczZThlM2RiNmUwNDMyM2E3ZjMyNTA0MjFmQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20', '_blank')}
             >
               Acessar Pronto-Socorro
               <ArrowRight className="ml-2 h-5 w-5" />
