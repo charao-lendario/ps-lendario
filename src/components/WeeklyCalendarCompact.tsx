@@ -181,29 +181,29 @@ export default function WeeklyCalendarCompact() {
   return <div className="w-full bg-background py-8">
       <div className="container mx-auto px-4 space-y-6">
         {/* Week Navigation */}
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl md:text-3xl font-bold">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">
             {format(weekStart, "d 'de' MMM", {
             locale: ptBR
           })} - {format(weekEnd, "d 'de' MMM 'de' yyyy", {
             locale: ptBR
           })}
           </h2>
-          <div className="flex gap-2">
-            <Button variant="outline" size="icon" onClick={() => changeWeek(-1)} className="hover-scale">
-              <ChevronLeft className="h-4 w-4" />
+          <div className="flex gap-2 w-full sm:w-auto">
+            <Button variant="outline" size="icon" onClick={() => changeWeek(-1)} className="hover-scale flex-1 sm:flex-none">
+              <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
-            <Button variant="default" onClick={goToToday}>
+            <Button variant="default" onClick={goToToday} size="sm" className="flex-1 sm:flex-none text-xs sm:text-sm">
               Hoje
             </Button>
-            <Button variant="outline" size="icon" onClick={() => changeWeek(1)} className="hover-scale">
-              <ChevronRight className="h-4 w-4" />
+            <Button variant="outline" size="icon" onClick={() => changeWeek(1)} className="hover-scale flex-1 sm:flex-none">
+              <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           </div>
         </div>
 
         {/* Week Days Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-3 sm:gap-4">
         {weekDays.map(day => {
           const dayEvents = getEventsForDay(day);
           const hasEvents = dayEvents.length > 0;
@@ -220,25 +220,25 @@ export default function WeeklyCalendarCompact() {
                 )}
                 onClick={isTodayDay ? () => handleDayClick(day) : undefined}
               >
-                <CardContent className="p-4 space-y-3">
+                <CardContent className="p-3 sm:p-4 space-y-2 sm:space-y-3">
                   {/* Day Header */}
-                  <div className="text-center space-y-1">
-                    <p className="text-xs text-muted-foreground uppercase font-medium">
+                  <div className="text-center space-y-0.5 sm:space-y-1">
+                    <p className="text-[10px] sm:text-xs text-muted-foreground uppercase font-medium">
                       {format(day, 'EEEE', {
                     locale: ptBR
                   })}
                     </p>
-                    <div className="flex items-center justify-center gap-2">
-                      <p className={cn("text-3xl font-bold", isTodayDay && "text-primary")}>
+                    <div className="flex items-center justify-center gap-1.5 sm:gap-2">
+                      <p className={cn("text-2xl sm:text-3xl font-bold", isTodayDay && "text-primary")}>
                         {format(day, 'd')}
                       </p>
                       {showLiveBadge && (
-                        <Badge className="bg-red-500 text-white text-[9px] px-1.5 py-0 animate-pulse">
+                        <Badge className="bg-red-500 text-white text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0 animate-pulse">
                           Ao vivo
                         </Badge>
                       )}
                     </div>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-[10px] sm:text-xs text-muted-foreground">
                       {format(day, 'MMM', {
                     locale: ptBR
                   })}
@@ -246,17 +246,17 @@ export default function WeeklyCalendarCompact() {
                   </div>
 
                   {/* Events List */}
-                  <div className="space-y-2">
+                  <div className="space-y-1.5 sm:space-y-2">
                     {hasEvents ? (
                       <>
                         {dayEvents.map((event, idx) => (
-                          <div key={idx} className="p-2 bg-background/50 rounded border border-border/20">
-                            <div className="flex items-center justify-between mb-1">
+                          <div key={idx} className="p-1.5 sm:p-2 bg-background/50 rounded border border-border/20">
+                            <div className="flex items-center justify-between mb-0.5 sm:mb-1">
                               <div className="flex items-center gap-1 text-muted-foreground">
-                                <Clock className="h-3 w-3" />
-                                <span className="text-[10px]">{event.time}</span>
+                                <Clock className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
+                                <span className="text-[9px] sm:text-[10px]">{event.time}</span>
                               </div>
-                              <Badge className={cn("text-[9px] px-1.5 py-0", 
+                              <Badge className={cn("text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0", 
                                 event.type === 'technical' && "bg-green-500/20 text-green-500 border-green-500/30",
                                 event.type === 'marketing' && "bg-yellow-500/20 text-yellow-500 border-yellow-500/30",
                                 event.type === 'strategic' && "bg-blue-500/20 text-blue-500 border-blue-500/30"
@@ -265,12 +265,12 @@ export default function WeeklyCalendarCompact() {
                                  event.type === 'marketing' ? 'Marketing' : 'Estratégico'}
                               </Badge>
                             </div>
-                            <p className="text-xs font-medium truncate">{event.name}</p>
+                            <p className="text-[10px] sm:text-xs font-medium truncate">{event.name}</p>
                           </div>
                         ))}
                       </>
                     ) : (
-                      <p className="text-xs text-center text-muted-foreground py-2">
+                      <p className="text-[10px] sm:text-xs text-center text-muted-foreground py-1.5 sm:py-2">
                         Sem eventos
                       </p>
                     )}
@@ -281,8 +281,8 @@ export default function WeeklyCalendarCompact() {
         </div>
         
         {/* Schedule Note */}
-        <div className="text-center mt-6">
-          <p className="text-xs text-muted-foreground italic">
+        <div className="text-center mt-4 sm:mt-6 px-4">
+          <p className="text-[10px] sm:text-xs text-muted-foreground italic">
             *Programação sujeita a alteração sem aviso prévio.
           </p>
         </div>
@@ -290,34 +290,34 @@ export default function WeeklyCalendarCompact() {
 
       {/* Event Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-[90vw] sm:max-w-md mx-4">
           <DialogHeader>
-            <DialogTitle className="text-2xl">Evento de Hoje</DialogTitle>
+            <DialogTitle className="text-xl sm:text-2xl">Evento de Hoje</DialogTitle>
             <DialogDescription className="sr-only">
               Informações sobre o evento ao vivo
             </DialogDescription>
           </DialogHeader>
           {selectedEvent && (
-            <div className="space-y-4 pt-4">
+            <div className="space-y-3 sm:space-y-4 pt-3 sm:pt-4">
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Tema de hoje:</p>
-                <p className="text-base font-medium">
+                <p className="text-xs sm:text-sm text-muted-foreground mb-1">Tema de hoje:</p>
+                <p className="text-sm sm:text-base font-medium">
                   {hostThemes[selectedEvent.name as keyof typeof hostThemes]}
                 </p>
               </div>
               
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Host:</p>
-                <p className="text-base font-medium">{selectedEvent.name}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground mb-1">Host:</p>
+                <p className="text-sm sm:text-base font-medium">{selectedEvent.name}</p>
               </div>
               
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Horário de encerramento:</p>
-                <p className="text-base font-medium">{selectedEvent.endTime}hs</p>
+                <p className="text-xs sm:text-sm text-muted-foreground mb-1">Horário de encerramento:</p>
+                <p className="text-sm sm:text-base font-medium">{selectedEvent.endTime}hs</p>
               </div>
 
               <Button 
-                className="w-full mt-4" 
+                className="w-full mt-3 sm:mt-4" 
                 size="lg"
                 onClick={() => window.open(PRONTO_SOCORRO_LINK, '_blank')}
               >

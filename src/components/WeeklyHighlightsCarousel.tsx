@@ -37,7 +37,7 @@ export function WeeklyHighlightsCarousel() {
   };
 
   return (
-    <section className="py-20 px-4 bg-secondary/20">
+    <section className="py-12 sm:py-16 lg:py-20 px-4 bg-secondary/20">
       <div className="container mx-auto">
         <Carousel 
           className="w-full max-w-7xl mx-auto"
@@ -51,29 +51,29 @@ export function WeeklyHighlightsCarousel() {
               
               return (
                 <CarouselItem key={highlight.id}>
-                  <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                  <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 items-center">
                     {/* Left side - Text content */}
-                    <div className="space-y-6">
-                      <div className="space-y-2">
-                        <h2 className="text-4xl md:text-5xl font-bold text-white">Destaques.</h2>
-                        <p className="text-4xl md:text-5xl font-bold text-muted-foreground">Especialista da Semana.</p>
+                    <div className="space-y-4 sm:space-y-6 text-center lg:text-left order-2 lg:order-1">
+                      <div className="space-y-1 sm:space-y-2">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">Destaques.</h2>
+                        <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-muted-foreground">Especialista da Semana.</p>
                       </div>
                       
                       <div className="w-full h-px bg-white/20"></div>
                       
-                      <div className="space-y-3">
-                        <h3 className="text-3xl md:text-4xl font-bold text-white">Tema - {highlight.theme_title}</h3>
-                        <p className="text-xl text-muted-foreground">com {highlight.guest_name}</p>
-                        <p className="text-lg text-muted-foreground">
+                      <div className="space-y-2 sm:space-y-3">
+                        <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">Tema - {highlight.theme_title}</h3>
+                        <p className="text-lg sm:text-xl text-muted-foreground">com {highlight.guest_name}</p>
+                        <p className="text-base sm:text-lg text-muted-foreground">
                           {scheduleMap[highlight.guest_name] || `${format(parseISO(highlight.event_date), "dd/MM", { locale: ptBR })} - ${highlight.event_time.slice(0, 5)}`}
                         </p>
                       </div>
                     </div>
 
                     {/* Right side - Image */}
-                    <div className="flex justify-center lg:justify-end">
-                      <div className="w-full max-w-[400px]">
-                        <div className="relative aspect-[9/16] rounded-2xl overflow-hidden shadow-glow hover:scale-[1.02] transition-transform">
+                    <div className="flex justify-center lg:justify-end order-1 lg:order-2">
+                      <div className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[400px]">
+                        <div className="relative aspect-[9/16] rounded-xl sm:rounded-2xl overflow-hidden shadow-glow hover:scale-[1.02] transition-transform">
                           <img
                             src={imageUrl}
                             alt={`${highlight.theme_title} com ${highlight.guest_name}`}
@@ -92,8 +92,8 @@ export function WeeklyHighlightsCarousel() {
               );
             })}
           </CarouselContent>
-          <CarouselPrevious className="left-4" />
-          <CarouselNext className="right-4" />
+          <CarouselPrevious className="hidden sm:flex left-2 sm:left-4" />
+          <CarouselNext className="hidden sm:flex right-2 sm:right-4" />
         </Carousel>
       </div>
     </section>

@@ -66,6 +66,19 @@ All colors MUST be HSL.
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold tracking-tight;
   }
+
+  /* Smooth scrolling for anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Better touch targets on mobile */
+  @media (max-width: 768px) {
+    button, a {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
 }
 
 @layer utilities {
@@ -91,5 +104,17 @@ All colors MUST be HSL.
   
   .transition-smooth {
     transition: var(--transition-smooth);
+  }
+
+  /* Hover effects only for devices with hover capability (not touch devices) */
+  @media (hover: hover) {
+    .hover-scale:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  /* Remove tap highlight on mobile */
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
 }

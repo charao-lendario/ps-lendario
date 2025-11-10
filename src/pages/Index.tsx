@@ -3,8 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/AuthContext';
-import { Linkedin, Instagram, ArrowRight, Shield } from 'lucide-react';
-import { useEffect } from 'react';
+import { Linkedin, Instagram, ArrowRight, Shield, Menu, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import lucasCharaoImg from '@/assets/adavio-tittoni.png';
 import adavioTittoniImg from '@/assets/adavio-tittoni-new.png';
@@ -17,12 +17,15 @@ import { WeeklyHighlightsCarousel } from '@/components/WeeklyHighlightsCarousel'
 import { ScheduleGrid } from '@/components/dashboard/ScheduleGrid';
 import { HostsSection } from '@/components/HostsSection';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 export default function Index() {
   const {
     user,
     isAdmin
   } = useAuth();
   const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
   useEffect(() => {
     if (user) {
       navigate('/dashboard');
@@ -64,9 +67,11 @@ export default function Index() {
       {/* Navigation Menu */}
       <nav className="bg-black border-b border-white/10 sticky top-0 z-40">
         <div className="container mx-auto px-4">
-          <div className="flex items-center gap-8 py-3">
-            <img src={academiaLendariaLogo} alt="Academia Lendária" className="h-8" />
-            <div className="flex flex-wrap justify-center gap-1 flex-1">
+          <div className="flex items-center justify-between py-3">
+            <img src={academiaLendariaLogo} alt="Academia Lendária" className="h-7 md:h-8" />
+            
+            {/* Desktop Menu */}
+            <div className="hidden lg:flex flex-wrap justify-center gap-1 flex-1 px-4">
               {[{
               label: 'Como Funciona',
               href: '#como-funciona'
@@ -77,7 +82,7 @@ export default function Index() {
               label: 'Calendário',
               href: '#calendario'
             }, {
-              label: 'Destaques Semanais',
+              label: 'Destaques',
               href: '#destaques'
             }, {
               label: 'Alunos',
@@ -95,72 +100,124 @@ export default function Index() {
                   {item.label}
                 </a>)}
             </div>
+
+            {/* Mobile Menu Button */}
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+              <SheetTrigger asChild className="lg:hidden">
+                <Button variant="ghost" size="icon" className="text-white">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="bg-black border-white/10 w-[280px]">
+                <nav className="flex flex-col gap-2 mt-8">
+                  {[{
+                    label: 'Como Funciona',
+                    href: '#como-funciona'
+                  }, {
+                    label: 'Horários',
+                    href: '#grade'
+                  }, {
+                    label: 'Calendário',
+                    href: '#calendario'
+                  }, {
+                    label: 'Destaques Semanais',
+                    href: '#destaques'
+                  }, {
+                    label: 'Alunos',
+                    href: '#depoimentos'
+                  }, {
+                    label: 'Especialistas',
+                    href: '#especialistas'
+                  }, {
+                    label: 'Hosts',
+                    href: '#hosts'
+                  }, {
+                    label: 'FAQ',
+                    href: '#faq'
+                  }].map(item => (
+                    <a 
+                      key={item.href} 
+                      href={item.href} 
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="px-4 py-3 text-base text-white hover:text-primary hover:bg-white/10 rounded-md transition-smooth"
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </nav>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </nav>
 
       {/* Info Banner */}
       <div className="bg-white border-b border-gray-200 py-3 px-4">
-        <p className="text-center text-sm text-black max-w-4xl mx-auto">
+        <p className="text-center text-xs sm:text-sm text-black max-w-4xl mx-auto">
           Um Sistema de monitoria ao vivo e exclusivo para alunos da <span className="font-semibold">Formação</span> e <span className="font-semibold">Founders</span>
         </p>
       </div>
 
       {/* Hero Section */}
-      <section className="relative py-20 px-4 overflow-hidden">
+      <section className="relative py-12 sm:py-16 lg:py-20 px-4 overflow-hidden">
         <div className="absolute inset-0 gradient-dark"></div>
         
         <div className="container mx-auto relative z-10">
-          <div className="grid lg:grid-cols-5 gap-12 items-center max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
             {/* Text Content - 60% */}
-            <div className="lg:col-span-3 space-y-6">
-              <div className="inline-flex items-center gap-3 mb-6">
-                
-              </div>
-
-              <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-none">
+            <div className="lg:col-span-3 space-y-4 sm:space-y-6 text-center lg:text-left">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-none">
                 <span className="text-foreground">Pronto-Socorro.</span>
               </h1>
               
-              <h2 className="text-2xl md:text-3xl text-muted-foreground font-medium">
+              <h2 className="text-xl sm:text-2xl md:text-3xl text-muted-foreground font-medium">
                 O lugar ideal para acelerar seus resultados.
               </h2>
 
-              <p className="text-lg md:text-xl text-foreground/80 leading-relaxed max-w-2xl">
+              <p className="text-base sm:text-lg md:text-xl text-foreground/80 leading-relaxed max-w-2xl mx-auto lg:mx-0">
                 Um ambiente colaborativo onde alunos encontram especialistas todos os dias (segunda a sexta).
               </p>
               
-              <div className="pt-4">
-              <Button size="lg" variant="hero" className="text-lg px-8 py-6 h-auto" onClick={() => window.open('https://calendar.google.com/calendar/u/0?cid=Y181ZDhkNjEwNmI3NThjNTVkYTk2YTQzOGJlZGZlNWRiMjU4MTlhMTczZThlM2RiNmUwNDMyM2E3ZjMyNTA0MjFmQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20', '_blank')}>
-                Acessar Pronto-Socorro
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              <div className="pt-2 sm:pt-4">
+                <Button 
+                  size="lg" 
+                  variant="hero" 
+                  className="text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 h-auto w-full sm:w-auto" 
+                  onClick={() => window.open('https://calendar.google.com/calendar/u/0?cid=Y181ZDhkNjEwNmI3NThjNTVkYTk2YTQzOGJlZGZlNWRiMjU4MTlhMTczZThlM2RiNmUwNDMyM2E3ZjMyNTA0MjFmQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20', '_blank')}
+                >
+                  Acessar Pronto-Socorro
+                  <ArrowRight className="ml-2 h-4 sm:h-5 w-4 sm:w-5" />
+                </Button>
               </div>
 
-              <p className="text-sm text-muted-foreground pt-4">
+              <p className="text-xs sm:text-sm text-muted-foreground pt-2 sm:pt-4">
                 Hosts - Lucas Charão e Adávio Tittoni
               </p>
               
-              <p className="text-sm pt-2">
+              <p className="text-xs sm:text-sm pt-2">
                 <span className="text-white">SOS Lendário.</span>{' '}
                 <span className="text-muted-foreground">Solucione suas dúvidas, verifique os horários.</span>
               </p>
             </div>
 
             {/* Image - 40% */}
-            <div className="lg:col-span-2">
-              <div className="relative">
-                <img src={hostsHeroImg} alt="Lucas Charão e Adávio Tittoni" className="w-full h-auto object-contain" />
+            <div className="lg:col-span-2 order-first lg:order-last">
+              <div className="relative max-w-md mx-auto lg:max-w-none">
+                <img 
+                  src={hostsHeroImg} 
+                  alt="Lucas Charão e Adávio Tittoni" 
+                  className="w-full h-auto object-contain" 
+                />
               </div>
             </div>
           </div>
 
           {/* Centered Text Section */}
-          <div className="flex flex-col items-center text-center pt-16 space-y-4 max-w-5xl mx-auto">
-            <h3 className="text-3xl md:text-4xl font-bold text-white">
+          <div className="flex flex-col items-center text-center pt-12 sm:pt-16 space-y-3 sm:space-y-4 max-w-5xl mx-auto">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
               Especialistas em prontidão.
             </h3>
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+            <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed px-4">
               O Pronto-Socorro é um ambiente colaborativo onde alunos se encontram com especialistas todos os dias (segunda à sexta) em dois horários (10h e 18h30) para tirar dúvidas, trocar ideias, fazer networking, se conectar, adquirir conhecimentos com especialistas e acelerar seu processo de aprendizagem.
             </p>
           </div>
@@ -168,11 +225,11 @@ export default function Index() {
       </section>
 
       {/* Video Section */}
-      <section id="como-funciona" className="py-20 px-4 bg-secondary/20">
+      <section id="como-funciona" className="py-12 sm:py-16 lg:py-20 px-4 bg-secondary/20">
         <div className="container mx-auto max-w-4xl">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Como Funciona</h2>
-            <p className="text-muted-foreground">
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">Como Funciona</h2>
+            <p className="text-sm sm:text-base text-muted-foreground px-4">
               Entenda como aproveitar ao máximo o Pronto-Socorro
             </p>
           </div>
@@ -187,18 +244,18 @@ export default function Index() {
       
 
       {/* Schedule Grid */}
-      <section id="grade" className="py-20 px-4">
+      <section id="grade" className="py-12 sm:py-16 lg:py-20 px-4">
         <div className="container mx-auto">
           <ScheduleGrid />
         </div>
       </section>
 
       {/* Calendar Section */}
-      <section id="calendario" className="w-full py-20 bg-secondary/20">
-        <div className="container mx-auto px-4 mb-8">
-          <div className="flex items-baseline gap-2">
-            <h2 className="text-3xl md:text-4xl font-bold text-white">Calendário.</h2>
-            <p className="text-3xl md:text-4xl text-muted-foreground">Verifique as Datas</p>
+      <section id="calendario" className="w-full py-12 sm:py-16 lg:py-20 bg-secondary/20">
+        <div className="container mx-auto px-4 mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2 text-center sm:text-left">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">Calendário.</h2>
+            <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground">Verifique as Datas</p>
           </div>
         </div>
         <WeeklyCalendarCompact />
@@ -225,45 +282,45 @@ export default function Index() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4">
+      <section className="py-12 sm:py-16 lg:py-20 px-4">
         <div className="container mx-auto">
-          <div className="bg-white rounded-3xl p-12 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="text-left lg:max-w-2xl">
-              <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 xl:p-16 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8">
+            <div className="text-center lg:text-left lg:max-w-2xl">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-3 sm:mb-4">
                 Pronto para começar?
               </h2>
-              <p className="text-xl text-gray-400">
+              <p className="text-base sm:text-lg md:text-xl text-gray-400">
                 Acesse agora e aproveite as monitorias ao vivo.
               </p>
             </div>
             <Button 
               size="lg" 
-              className="bg-[#C4A574] hover:bg-[#B39564] text-black font-semibold px-8 py-6 h-auto text-lg rounded-xl flex-shrink-0"
+              className="bg-[#C4A574] hover:bg-[#B39564] text-black font-semibold px-6 sm:px-8 py-4 sm:py-6 h-auto text-base sm:text-lg rounded-xl flex-shrink-0 w-full sm:w-auto"
               onClick={() => window.open('https://calendar.google.com/calendar/u/0?cid=Y181ZDhkNjEwNmI3NThjNTVkYTk2YTQzOGJlZGZlNWRiMjU4MTlhMTczZThlM2RiNmUwNDMyM2E3ZjMyNTA0MjFmQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20', '_blank')}
             >
               Acessar Pronto-Socorro
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-4 sm:h-5 w-4 sm:w-5" />
             </Button>
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-20 px-4 bg-secondary/20">
+      <section id="faq" className="py-12 sm:py-16 lg:py-20 px-4 bg-secondary/20">
         <div className="container mx-auto max-w-4xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Perguntas Frequentes</h2>
-            <p className="text-muted-foreground">
+          <div className="text-center mb-8 sm:mb-12 px-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-white">Perguntas Frequentes</h2>
+            <p className="text-sm sm:text-base text-muted-foreground">
               Tire suas dúvidas sobre o Pronto-Socorro Lendário
             </p>
           </div>
           
-          <Accordion type="single" collapsible className="space-y-4">
-            <AccordionItem value="item-1" className="bg-background/50 border border-border rounded-lg px-6">
-              <AccordionTrigger className="text-left text-lg font-semibold hover:no-underline">
+          <Accordion type="single" collapsible className="space-y-3 sm:space-y-4">
+            <AccordionItem value="item-1" className="bg-background/50 border border-border rounded-lg px-4 sm:px-6">
+              <AccordionTrigger className="text-left text-base sm:text-lg font-semibold hover:no-underline py-4">
                 O que é o Pronto-Socorro Lendário?
               </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground leading-relaxed">
+              <AccordionContent className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                 O Pronto-Socorro Lendário é um serviço de monitorias em grupo onde profissionais especializados que atuam no mercado de IA resolvem suas dúvidas de forma rápida e prática. É como ter um time de especialistas disponível para te ajudar com qualquer desafio relacionado a IA, N8n, Vibe-Coding, ferramentas Low-Code e No-Code.
               </AccordionContent>
             </AccordionItem>
@@ -459,15 +516,16 @@ export default function Index() {
       <footer className="border-t border-white/10 py-6 px-4">
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground text-center">
               <span>All Rights Reserved © 2025 Academia Lendár[IA]</span>
-              <span>|</span>
-              <a href="#" className="hover:text-white transition-colors">Políticas</a>
-              <span>|</span>
-              <a href="#" className="hover:text-white transition-colors">Termos</a>
-              <span>|</span>
+              <span className="hidden sm:inline">|</span>
+              <div className="flex items-center gap-2 sm:gap-4">
+                <a href="#" className="hover:text-white transition-colors">Políticas</a>
+                <span>|</span>
+                <a href="#" className="hover:text-white transition-colors">Termos</a>
+              </div>
             </div>
-            <img src={academiaLendariaLogo} alt="Academia Lendária" className="h-8" />
+            <img src={academiaLendariaLogo} alt="Academia Lendária" className="h-6 sm:h-8" />
           </div>
         </div>
       </footer>

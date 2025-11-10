@@ -113,13 +113,13 @@ const experts: Expert[] = [
 
 export function ExpertsList() {
   return (
-    <section className="w-full py-16 px-4">
+    <section className="w-full py-12 sm:py-16 px-4">
       <div className="container mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 sm:mb-12 lg:mb-16 px-4">
           Especialistas que já passaram pelo PS.
         </h2>
         
-        <div className="relative px-12">
+        <div className="relative px-8 sm:px-10 lg:px-12">
           <Carousel
             opts={{
               align: "start",
@@ -127,11 +127,11 @@ export function ExpertsList() {
             }}
             className="w-full"
           >
-            <CarouselContent className="-ml-4">
+            <CarouselContent className="-ml-2 sm:-ml-4">
               {experts.map((expert, index) => (
-                <CarouselItem key={index} className="pl-4 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6">
-                  <div className="flex flex-col items-center text-center space-y-3">
-                    <div className="relative w-32 h-32 rounded-3xl overflow-hidden bg-white/10">
+                <CarouselItem key={index} className="pl-2 sm:pl-4 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6">
+                  <div className="flex flex-col items-center text-center space-y-2 sm:space-y-3">
+                    <div className="relative w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-2xl sm:rounded-3xl overflow-hidden bg-white/10">
                       <img
                         src={expert.image}
                         alt={expert.name}
@@ -139,16 +139,16 @@ export function ExpertsList() {
                         style={expert.objectPosition ? { objectPosition: expert.objectPosition } : undefined}
                       />
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-sm">{expert.name}</h3>
-                      <p className="text-xs text-muted-foreground mt-1">{expert.specialty}</p>
+                    <div className="px-2">
+                      <h3 className="font-semibold text-xs sm:text-sm">{expert.name}</h3>
+                      <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">{expert.specialty}</p>
                     </div>
                   </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="-left-6" />
-            <CarouselNext className="-right-6" />
+            <CarouselPrevious className="hidden sm:flex -left-4 lg:-left-6" />
+            <CarouselNext className="hidden sm:flex -right-4 lg:-right-6" />
           </Carousel>
         </div>
       </div>

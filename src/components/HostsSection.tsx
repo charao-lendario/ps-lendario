@@ -21,21 +21,21 @@ export function HostsSection() {
   ];
 
   return (
-    <section className="w-full py-16 px-4">
+    <section className="w-full py-12 sm:py-16 px-4">
       <div className="container mx-auto">
-        <div className="bg-black rounded-3xl p-8 lg:p-12">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="bg-black rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left side - Text content */}
-            <div className="space-y-4">
-              <h2 className="text-4xl md:text-5xl font-bold text-white">Hosts.</h2>
-              <p className="text-2xl md:text-3xl text-gray-400">Especialistas prontos para tirar suas dúvidas.</p>
+            <div className="space-y-3 sm:space-y-4 text-center lg:text-left">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">Hosts.</h2>
+              <p className="text-xl sm:text-2xl md:text-3xl text-gray-400">Especialistas prontos para tirar suas dúvidas.</p>
             </div>
 
             {/* Right side - Hosts stacked vertically */}
-            <div className="space-y-8">
+            <div className="space-y-6 sm:space-y-8">
               {hosts.map((host, index) => (
-                <div key={index} className="flex items-start gap-6">
-                  <div className="relative w-32 h-32 rounded-3xl overflow-hidden bg-gray-800 flex-shrink-0">
+                <div key={index} className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
+                  <div className="relative w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-2xl sm:rounded-3xl overflow-hidden bg-gray-800 flex-shrink-0">
                     <img
                       src={host.image}
                       alt={host.name}
@@ -43,9 +43,9 @@ export function HostsSection() {
                       style={{ objectPosition: 'center 20%' }}
                     />
                   </div>
-                  <div className="text-left flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-bold text-lg text-white">{host.name}</h3>
+                  <div className="text-center sm:text-left flex-1">
+                    <div className="flex flex-col sm:flex-row items-center sm:items-center gap-2 mb-1">
+                      <h3 className="font-bold text-base sm:text-lg text-white">{host.name}</h3>
                       <a 
                         href={host.instagram} 
                         target="_blank" 
@@ -55,7 +55,7 @@ export function HostsSection() {
                         <Instagram className="w-5 h-5" />
                       </a>
                     </div>
-                    <p className="text-sm text-gray-400 font-semibold mb-2">{host.role}</p>
+                    <p className="text-xs sm:text-sm text-gray-400 font-semibold mb-2">{host.role}</p>
                     <p className="text-xs text-gray-500 leading-relaxed">{host.bio}</p>
                   </div>
                 </div>
