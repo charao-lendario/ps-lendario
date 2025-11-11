@@ -244,7 +244,7 @@ export default function Index() {
                   border: 'none',
                   margin: 0,
                   padding: 0,
-                  objectFit: 'cover'
+                  objectFit: 'contain'
                 }}
                 title="Como Funciona - Pronto Socorro" 
                 allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" 
