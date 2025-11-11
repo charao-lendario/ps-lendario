@@ -225,26 +225,28 @@ export default function Index() {
       </section>
 
       {/* Video Section */}
-      <section id="como-funciona" className="py-12 sm:py-16 lg:py-20 px-4 bg-secondary/20">
-        <div className="container mx-auto max-w-4xl">
+      <section id="como-funciona" className="py-12 sm:py-16 lg:py-20 bg-secondary/20">
+        <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6 sm:mb-8">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">Como Funciona</h2>
-            <p className="text-sm sm:text-base text-muted-foreground px-4">
+            <p className="text-sm sm:text-base text-muted-foreground">
               Entenda como aproveitar ao máximo o Pronto-Socorro
             </p>
           </div>
           
-          <div className="w-full max-w-4xl mx-auto aspect-video rounded-2xl overflow-hidden shadow-card">
-            <iframe 
-              id="smartplayer-video" 
-              src="https://video.smartplayer.ai?k=PT1RMlVYK0ZJRFUyR2FJTGVtMGIvaGxZdlRjSHZCNFJsNkYxN3FEQXN3SlFFOXVrdjVXYmVJRlY4SjM2bDVPZnRaTE53VkxnVjFnbm04MVhrVkdkc0YyVQ==" 
-              className="w-full h-full block" 
-              style={{border: 'none', margin: 0, padding: 0}}
-              title="Como Funciona - Pronto Socorro" 
-              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" 
-              allowFullScreen 
-              scrolling="no"
-            />
+          <div className="relative w-full mx-auto" style={{ maxWidth: '900px' }}>
+            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+              <iframe 
+                id="smartplayer-video" 
+                src="https://video.smartplayer.ai?k=PT1RMlVYK0ZJRFUyR2FJTGVtMGIvaGxZdlRjSHZCNFJsNkYxN3FEQXN3SlFFOXVrdjVXYmVJRlY4SjM2bDVPZnRaTE53VkxnVjFnbm04MVhrVkdkc0YyVQ==" 
+                className="absolute top-0 left-0 w-full h-full rounded-2xl shadow-card" 
+                style={{border: 'none'}}
+                title="Como Funciona - Pronto Socorro" 
+                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" 
+                allowFullScreen 
+                scrolling="no"
+              />
+            </div>
           </div>
         </div>
       </section>
