@@ -234,17 +234,18 @@ export default function Index() {
             </p>
           </div>
           
-          <Card className="aspect-video gradient-card shadow-card overflow-hidden">
+          <div className="w-full aspect-video rounded-2xl overflow-hidden shadow-card">
             <iframe 
               id="smartplayer-video" 
               src="https://video.smartplayer.ai?k=PT1RMlVYK0ZJRFUyR2FJTGVtMGIvaGxZdlRjSHZCNFJsNkYxN3FEQXN3SlFFOXVrdjVXYmVJRlY4SjM2bDVPZnRaTE53VkxnVjFnbm04MVhrVkdkc0YyVQ==" 
-              className="w-full h-full" 
-              style={{border: 'none'}}
+              className="w-full h-full block" 
+              style={{border: 'none', margin: 0, padding: 0}}
               title="Como Funciona - Pronto Socorro" 
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" 
               allowFullScreen 
+              scrolling="no"
             />
-          </Card>
+          </div>
         </div>
       </section>
 
