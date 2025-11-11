@@ -72,7 +72,7 @@ export default function Index() {
             
             {/* Desktop Menu */}
             <div className="hidden lg:flex flex-wrap justify-center gap-1 flex-1 px-4">
-              {[{
+            {[{
               label: 'Como Funciona',
               href: '#como-funciona'
             }, {
@@ -96,7 +96,16 @@ export default function Index() {
             }, {
               label: 'FAQ',
               href: '#faq'
-            }].map(item => <a key={item.href} href={item.href} className="px-3 py-2 text-sm text-white hover:text-primary hover:bg-white/10 rounded-md transition-smooth">
+            }, {
+              label: 'Suporte',
+              href: 'https://wa.me/554888000116?text=Olá,%20estou%20com%20problema%20de%20acesso%20ao%20Pronto%20Socorro',
+              external: true
+            }].map(item => <a 
+                  key={item.href} 
+                  href={item.href} 
+                  className="px-3 py-2 text-sm text-white hover:text-primary hover:bg-white/10 rounded-md transition-smooth"
+                  {...(item.external && { target: '_blank', rel: 'noopener noreferrer' })}
+                >
                   {item.label}
                 </a>)}
             </div>
@@ -134,12 +143,17 @@ export default function Index() {
                   }, {
                     label: 'FAQ',
                     href: '#faq'
+                  }, {
+                    label: 'Suporte',
+                    href: 'https://wa.me/554888000116?text=Olá,%20estou%20com%20problema%20de%20acesso%20ao%20Pronto%20Socorro',
+                    external: true
                   }].map(item => (
                     <a 
                       key={item.href} 
                       href={item.href} 
                       onClick={() => setMobileMenuOpen(false)}
                       className="px-4 py-3 text-base text-white hover:text-primary hover:bg-white/10 rounded-md transition-smooth"
+                      {...(item.external && { target: '_blank', rel: 'noopener noreferrer' })}
                     >
                       {item.label}
                     </a>
