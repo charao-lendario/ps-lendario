@@ -236,8 +236,8 @@ export default function Index() {
           
           <Card className="aspect-video gradient-card shadow-card overflow-hidden">
             <iframe 
-              id="smartplayer-38d2b13b53a06ab191ec8f67a80f0ba15f089093" 
-              src="https://smartplayer.scaleup.com.br/embed/38d2b13b53a06ab191ec8f67a80f0ba15f089093" 
+              id="smartplayer-video" 
+              src="https://video.smartplayer.ai?k=PT1RMlVYK0ZJRFUyR2FJTGVtMGIvaGxZdlRjSHZCNFJsNkYxN3FEQXN3SlFFOXVrdjVXYmVJRlY4SjM2bDVPZnRaTE53VkxnVjFnbm04MVhrVkdkc0YyVQ==" 
               className="w-full h-full" 
               style={{border: 'none'}}
               title="Como Funciona - Pronto Socorro" 
