@@ -234,7 +234,7 @@ export default function Index() {
             </p>
           </div>
           
-          <div className="w-full aspect-video rounded-2xl overflow-hidden shadow-card">
+          <div className="w-full max-w-4xl mx-auto aspect-video rounded-2xl overflow-hidden shadow-card">
             <iframe 
               id="smartplayer-video" 
               src="https://video.smartplayer.ai?k=PT1RMlVYK0ZJRFUyR2FJTGVtMGIvaGxZdlRjSHZCNFJsNkYxN3FEQXN3SlFFOXVrdjVXYmVJRlY4SjM2bDVPZnRaTE53VkxnVjFnbm04MVhrVkdkc0YyVQ==" 
