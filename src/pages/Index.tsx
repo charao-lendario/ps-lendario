@@ -235,7 +235,15 @@ export default function Index() {
           </div>
           
           <Card className="aspect-video gradient-card shadow-card overflow-hidden">
-            <iframe className="w-full h-full" src="https://www.youtube.com/embed/UgD1qjh8BTU" title="Como Funciona - Pronto Socorro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+            <iframe 
+              id="panda-38d2b13b53a06ab191ec8f67a80f0ba15f089093" 
+              src="https://player-vz-f4c2a280-aba.tv.pandavideo.com.br/embed/?v=38d2b13b53a06ab191ec8f67a80f0ba15f089093" 
+              className="w-full h-full" 
+              style={{border: 'none'}}
+              title="Como Funciona - Pronto Socorro" 
+              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" 
+              allowFullScreen 
+            />
           </Card>
         </div>
       </section>
