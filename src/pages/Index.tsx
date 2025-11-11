@@ -225,7 +225,7 @@ export default function Index() {
       </section>
 
       {/* Video Section */}
-      <section id="como-funciona" className="py-12 sm:py-16 lg:py-20 bg-secondary/20">
+      <section id="como-funciona" className="bg-secondary/20">
         <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6 sm:mb-8">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">Como Funciona</h2>
