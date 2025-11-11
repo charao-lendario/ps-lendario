@@ -237,16 +237,18 @@ export default function Index() {
           <div className="flex justify-center items-center w-full">
             <div className="w-full max-w-[900px]">
               <iframe 
-                src="https://video.smartplayer.ai?k=PT1ndG5NdStHODF6VllzWWoyd3g5c1FRL1BVRFBVVlE3Q095WDV1TWd6aGhuUUJmWEI0Q2xPekxROVJiWTk1ZXNnZXJJNWNCUUpuM2Q5MVhrVkdkc0YyVQ=="
+                src="https://video.smartplayer.ai?k=PT1ndG5NdStHODF6VllzWWoyd3g5c1FRL1BVRFBVVlE3Q095WDV1TWd6aGhuUUJmWEI0Q2xPekxROVJiWTk1ZXNnZXJJNWNCUUpuM2Q5MVhrVkdkc0YyVQ==" 
                 title="Como Funciona - Pronto Socorro" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 allowFullScreen
-                className="rounded-2xl shadow-card"
+                scrolling="no"
+                className="rounded-2xl shadow-card overflow-hidden"
                 style={{
                   width: '100%',
                   aspectRatio: '16 / 9',
                   border: '0px',
-                  margin: '0px auto'
+                  margin: '0px auto',
+                  overflow: 'hidden'
                 }}
               />
             </div>
