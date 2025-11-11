@@ -38,7 +38,7 @@ export default function Dashboard() {
                 <Button 
                   size="lg"
                   className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-6 text-base shadow-lg hover:shadow-xl transition-all"
-                  onClick={() => window.open('https://wa.me/seu_numero_aqui', '_blank')}
+                  onClick={() => window.open('https://wa.me/554888000116', '_blank')}
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
                   Suporte
