@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/AuthContext';
-import { Linkedin, Instagram, ArrowRight, Shield, Menu, X } from 'lucide-react';
+import { Linkedin, Instagram, ArrowRight, Shield, Menu, X, MessageCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import lucasCharaoImg from '@/assets/adavio-tittoni.png';
@@ -261,6 +261,34 @@ export default function Index() {
       <section id="grade" className="py-12 sm:py-16 lg:py-20 px-4">
         <div className="container mx-auto">
           <ScheduleGrid />
+        </div>
+      </section>
+
+      {/* Support Section */}
+      <section className="py-8 sm:py-12 px-4 bg-background">
+        <div className="container mx-auto max-w-6xl">
+          <Card className="border-2 border-primary/30 bg-gradient-to-r from-primary/10 via-background to-primary/10 shadow-glow">
+            <CardContent className="p-6 md:p-8">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="text-center md:text-left flex-1">
+                  <p className="text-base md:text-lg font-semibold text-foreground">
+                    Você é aluno(a), está acessando no horário e não está sendo aceito(a)?
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Entre em contato com nosso suporte imediatamente
+                  </p>
+                </div>
+                <Button 
+                  size="lg"
+                  className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-6 text-base shadow-lg hover:shadow-xl transition-all"
+                  onClick={() => window.open('https://wa.me/seu_numero_aqui', '_blank')}
+                >
+                  <MessageCircle className="mr-2 h-5 w-5" />
+                  Suporte
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
