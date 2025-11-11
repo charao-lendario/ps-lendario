@@ -211,11 +211,15 @@ export default function WeeklyCalendarCompact() {
           const isWeekend = getDay(day) === 0 || getDay(day) === 6;
           const showLiveBadge = isTodayDay && isEventLive();
           
+          const currentEvent = isTodayDay ? getCurrentEventForDay(day) : null;
+          const isDayMarketingLive = isTodayDay && showLiveBadge && currentEvent?.type === 'marketing';
+          
           return <Card 
                 key={day.toISOString()} 
                 className={cn(
                   "gradient-card shadow-card transition-smooth cursor-pointer hover:border-primary/50",
                   isTodayDay && "border-2 border-primary",
+                  isDayMarketingLive && "!border-red-500 animate-pulse",
                   isWeekend && "opacity-50"
                 )}
                 onClick={isTodayDay ? () => handleDayClick(day) : undefined}
@@ -233,7 +237,7 @@ export default function WeeklyCalendarCompact() {
                         {format(day, 'd')}
                       </p>
                       {showLiveBadge && (
-                        <Badge className="bg-red-500 text-white text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0 animate-pulse">
+                        <Badge className="bg-red-500 text-white text-[10px] sm:text-xs px-2 sm:px-2.5 py-0.5 animate-pulse font-bold">
                           Ao vivo
                         </Badge>
                       )}
