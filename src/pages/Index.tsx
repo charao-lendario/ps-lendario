@@ -234,13 +234,18 @@ export default function Index() {
             </p>
           </div>
           
-          <div className="relative w-full mx-auto" style={{ maxWidth: '900px' }}>
-            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+          <div className="flex justify-center items-center w-full">
+            <div className="relative w-full max-w-[900px] aspect-video">
               <iframe 
                 id="smartplayer-video" 
                 src="https://video.smartplayer.ai?k=PT1RMlVYK0ZJRFUyR2FJTGVtMGIvaGxZdlRjSHZCNFJsNkYxN3FEQXN3SlFFOXVrdjVXYmVJRlY4SjM2bDVPZnRaTE53VkxnVjFnbm04MVhrVkdkc0YyVQ==" 
-                className="absolute top-0 left-0 w-full h-full rounded-2xl shadow-card" 
-                style={{border: 'none'}}
+                className="w-full h-full rounded-2xl shadow-card" 
+                style={{
+                  border: 'none',
+                  margin: 0,
+                  padding: 0,
+                  objectFit: 'cover'
+                }}
                 title="Como Funciona - Pronto Socorro" 
                 allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" 
                 allowFullScreen 
