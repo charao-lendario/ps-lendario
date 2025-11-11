@@ -237,7 +237,7 @@ export default function Index() {
           <div className="flex justify-center items-center w-full">
             <div className="w-full max-w-[900px]">
               <iframe 
-                src="https://smartplayer.global/embed/38d2b13b53a06ab191ec8f67a80f0ba15f089093" 
+                src="https://player.scaleup.com.br/embed/38d2b13b53a06ab191ec8f67a80f0ba15f089093"
                 title="Como Funciona - Pronto Socorro" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 allowFullScreen
