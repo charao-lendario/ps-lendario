@@ -235,21 +235,19 @@ export default function Index() {
           </div>
           
           <div className="flex justify-center items-center w-full">
-            <div className="relative w-full max-w-[900px] aspect-video">
+            <div className="w-full max-w-[900px]">
               <iframe 
-                id="smartplayer-video" 
-                src="https://video.smartplayer.ai?k=PT1RMlVYK0ZJRFUyR2FJTGVtMGIvaGxZdlRjSHZCNFJsNkYxN3FEQXN3SlFFOXVrdjVXYmVJRlY4SjM2bDVPZnRaTE53VkxnVjFnbm04MVhrVkdkc0YyVQ==" 
-                className="w-full h-full rounded-2xl shadow-card" 
+                src="https://player.scaleup.com.br/embed/38d2b13b53a06ab191ec8f67a80f0ba15f089093" 
+                title="01 - Intro PS" 
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowFullScreen
+                className="rounded-2xl shadow-card"
                 style={{
-                  border: 'none',
-                  margin: 0,
-                  padding: 0,
-                  objectFit: 'contain'
+                  width: '100%',
+                  aspectRatio: '16 / 9',
+                  border: '0px',
+                  margin: '0px auto'
                 }}
-                title="Como Funciona - Pronto Socorro" 
-                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" 
-                allowFullScreen 
-                scrolling="no"
               />
             </div>
           </div>
