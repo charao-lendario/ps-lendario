@@ -1,11 +1,8 @@
-import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useAuth } from '@/contexts/AuthContext';
 import { Linkedin, Instagram, ArrowRight, Menu, X, MessageCircle } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { AccessDialog } from '@/components/AccessDialog';
 import lucasCharaoImg from '@/assets/adavio-tittoni.png';
 import adavioTittoniImg from '@/assets/adavio-tittoni-new.png';
@@ -20,18 +17,8 @@ import { HostsSection } from '@/components/HostsSection';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 export default function Index() {
-  const {
-    user
-  } = useAuth();
-  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [accessDialogOpen, setAccessDialogOpen] = useState(false);
-  
-  useEffect(() => {
-    if (user) {
-      navigate('/dashboard');
-    }
-  }, [user, navigate]);
   const hosts = [{
     name: 'Lucas Charão',
     role: 'Estratégia & Crescimento',
