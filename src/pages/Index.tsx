@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Linkedin, Instagram, ArrowRight, Menu, X, MessageCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AccessDialog } from '@/components/AccessDialog';
 import lucasCharaoImg from '@/assets/adavio-tittoni.png';
 import adavioTittoniImg from '@/assets/adavio-tittoni-new.png';
 import academiaLendariaLogo from '@/assets/academia-lendaria-logo.png';
@@ -24,6 +25,7 @@ export default function Index() {
   } = useAuth();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [accessDialogOpen, setAccessDialogOpen] = useState(false);
   
   useEffect(() => {
     if (user) {
@@ -187,7 +189,7 @@ export default function Index() {
                   size="lg" 
                   variant="hero" 
                   className="text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 h-auto w-full sm:w-auto" 
-                  onClick={() => window.open('https://calendar.google.com/calendar/u/0?cid=Y181ZDhkNjEwNmI3NThjNTVkYTk2YTQzOGJlZGZlNWRiMjU4MTlhMTczZThlM2RiNmUwNDMyM2E3ZjMyNTA0MjFmQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20', '_blank')}
+                  onClick={() => setAccessDialogOpen(true)}
                 >
                   Acessar Pronto-Socorro
                   <ArrowRight className="ml-2 h-4 sm:h-5 w-4 sm:w-5" />
@@ -344,7 +346,7 @@ export default function Index() {
             <Button 
               size="lg" 
               className="bg-[#C4A574] hover:bg-[#B39564] text-black font-semibold px-6 sm:px-8 py-4 sm:py-6 h-auto text-base sm:text-lg rounded-xl flex-shrink-0 w-full sm:w-auto"
-              onClick={() => window.open('https://calendar.google.com/calendar/u/0?cid=Y181ZDhkNjEwNmI3NThjNTVkYTk2YTQzOGJlZGZlNWRiMjU4MTlhMTczZThlM2RiNmUwNDMyM2E3ZjMyNTA0MjFmQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20', '_blank')}
+              onClick={() => setAccessDialogOpen(true)}
             >
               Acessar Pronto-Socorro
               <ArrowRight className="ml-2 h-4 sm:h-5 w-4 sm:w-5" />
@@ -577,5 +579,7 @@ export default function Index() {
           </div>
         </div>
       </footer>
+      
+      <AccessDialog open={accessDialogOpen} onOpenChange={setAccessDialogOpen} />
     </div>;
 }

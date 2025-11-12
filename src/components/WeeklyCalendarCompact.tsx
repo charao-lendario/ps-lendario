@@ -8,13 +8,7 @@ import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, eachDayOfInterval, isToday, getDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { AccessDialog } from '@/components/AccessDialog';
 interface CalendarEvent {
   id: string;
   date: string;
@@ -42,8 +36,7 @@ const hostThemes = {
 
 export default function WeeklyCalendarCompact() {
   const [currentWeek, setCurrentWeek] = useState<Date>(new Date());
-  const [selectedEvent, setSelectedEvent] = useState<{ time: string; name: string; type: string; endTime: string } | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [accessDialogOpen, setAccessDialogOpen] = useState(false);
   const queryClient = useQueryClient();
   const weekStart = startOfWeek(currentWeek, {
     weekStartsOn: 0
@@ -169,8 +162,7 @@ export default function WeeklyCalendarCompact() {
   const handleDayClick = (day: Date) => {
     const currentEvent = getCurrentEventForDay(day);
     if (currentEvent) {
-      setSelectedEvent(currentEvent);
-      setIsDialogOpen(true);
+      setAccessDialogOpen(true);
     }
   };
   
@@ -292,44 +284,6 @@ export default function WeeklyCalendarCompact() {
         </div>
       </div>
 
-      {/* Event Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-[90vw] sm:max-w-md mx-4">
-          <DialogHeader>
-            <DialogTitle className="text-xl sm:text-2xl">Evento de Hoje</DialogTitle>
-            <DialogDescription className="sr-only">
-              Informações sobre o evento ao vivo
-            </DialogDescription>
-          </DialogHeader>
-          {selectedEvent && (
-            <div className="space-y-3 sm:space-y-4 pt-3 sm:pt-4">
-              <div>
-                <p className="text-xs sm:text-sm text-muted-foreground mb-1">Tema de hoje:</p>
-                <p className="text-sm sm:text-base font-medium">
-                  {hostThemes[selectedEvent.name as keyof typeof hostThemes]}
-                </p>
-              </div>
-              
-              <div>
-                <p className="text-xs sm:text-sm text-muted-foreground mb-1">Host:</p>
-                <p className="text-sm sm:text-base font-medium">{selectedEvent.name}</p>
-              </div>
-              
-              <div>
-                <p className="text-xs sm:text-sm text-muted-foreground mb-1">Horário de encerramento:</p>
-                <p className="text-sm sm:text-base font-medium">{selectedEvent.endTime}hs</p>
-              </div>
-
-              <Button 
-                className="w-full mt-3 sm:mt-4" 
-                size="lg"
-                onClick={() => window.open(PRONTO_SOCORRO_LINK, '_blank')}
-              >
-                Acesse o PS agora
-              </Button>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
+      <AccessDialog open={accessDialogOpen} onOpenChange={setAccessDialogOpen} />
     </div>;
 }
