@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,24 +7,6 @@ import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, eachDayOfInterval, 
 import { ptBR } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { AccessDialog } from '@/components/AccessDialog';
-interface CalendarEvent {
-  id: string;
-  date: string;
-  time: string;
-  type?: string;
-  status: string;
-  room_link?: string;
-  schedule_id?: string;
-  guests?: {
-    id: string;
-    name: string;
-    bio?: string;
-    avatar_url?: string;
-    social_links?: any;
-  };
-}
-const PRONTO_SOCORRO_LINK = 'https://calendar.google.com/calendar/u/0?cid=Y181ZDhkNjEwNmI3NThjNTVkYTk2YTQzOGJlZGZlNWRiMjU4MTlhMTczZThlM2RiNmUwNDMyM2E3ZjMyNTA0MjFmQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20';
-
 const hostThemes = {
   'Lucas Charão': 'Estratégico (Tudo que for relacionado a estratégia, planejamento e Engenharia de Prompts)',
   'Adávio Tittoni': 'Técnico (N8N, automação, vibe coding)',
@@ -37,7 +17,6 @@ const hostThemes = {
 export default function WeeklyCalendarCompact() {
   const [currentWeek, setCurrentWeek] = useState<Date>(new Date());
   const [accessDialogOpen, setAccessDialogOpen] = useState(false);
-  const queryClient = useQueryClient();
   const weekStart = startOfWeek(currentWeek, {
     weekStartsOn: 0
   });
@@ -48,43 +27,6 @@ export default function WeeklyCalendarCompact() {
     start: weekStart,
     end: weekEnd
   });
-  const {
-    data: events
-  } = useQuery({
-    queryKey: ['calendar-events', format(weekStart, 'yyyy-MM-dd')],
-    queryFn: async () => {
-      const {
-        data,
-        error
-      } = await supabase.from('events').select(`
-          *,
-          guests (
-            id,
-            name,
-            bio,
-            avatar_url,
-            social_links
-          )
-        `).eq('status', 'scheduled').gte('date', format(weekStart, 'yyyy-MM-dd')).lte('date', format(weekEnd, 'yyyy-MM-dd')).order('date').order('time');
-      if (error) throw error;
-      return data as CalendarEvent[];
-    },
-    staleTime: 1000 * 60 * 5,
-    refetchOnWindowFocus: true
-  });
-  
-  useEffect(() => {
-    const subscription = supabase.channel('calendar-changes').on('postgres_changes', {
-      event: '*',
-      schema: 'public',
-      table: 'events'
-    }, () => queryClient.invalidateQueries({
-      queryKey: ['calendar-events']
-    })).subscribe();
-    return () => {
-      supabase.removeChannel(subscription);
-    };
-  }, [queryClient]);
   
   const getEventsForDay = (day: Date) => {
     const dayOfWeek = getDay(day); // 0 = Domingo, 1 = Segunda, etc.

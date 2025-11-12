@@ -4,15 +4,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Linkedin, Instagram, ArrowRight, Menu, X, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 import { AccessDialog } from '@/components/AccessDialog';
+import { ScheduleDisplay } from '@/components/ScheduleDisplay';
 import lucasCharaoImg from '@/assets/adavio-tittoni.png';
 import adavioTittoniImg from '@/assets/adavio-tittoni-new.png';
 import academiaLendariaLogo from '@/assets/academia-lendaria-logo.png';
 import hostsHeroImg from '@/assets/hosts-hero.png';
 import WeeklyCalendarCompact from '@/components/WeeklyCalendarCompact';
-import { WeeklyHighlights } from '@/components/dashboard/WeeklyHighlights';
 import { ExpertsList } from '@/components/ExpertsList';
 import { WeeklyHighlightsCarousel } from '@/components/WeeklyHighlightsCarousel';
-import { ScheduleGrid } from '@/components/dashboard/ScheduleGrid';
 import { HostsSection } from '@/components/HostsSection';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -249,13 +248,10 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Featured Hosts */}
-      
-
-      {/* Schedule Grid */}
+      {/* Schedule Section */}
       <section id="grade" className="py-12 sm:py-16 lg:py-20 px-4">
         <div className="container mx-auto">
-          <ScheduleGrid />
+          <ScheduleDisplay />
         </div>
       </section>
 
@@ -301,11 +297,6 @@ export default function Index() {
       {/* Weekly Highlights Carousel */}
       <section id="destaques">
         <WeeklyHighlightsCarousel />
-      </section>
-
-      {/* Student Testimonials */}
-      <section id="depoimentos">
-        <WeeklyHighlights />
       </section>
 
       {/* Experts Section */}

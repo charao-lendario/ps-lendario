@@ -14,93 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      events: {
-        Row: {
-          created_at: string | null
-          date: string
-          guest_id: string | null
-          id: string
-          room_link: string | null
-          schedule_id: string | null
-          status: Database["public"]["Enums"]["event_status"] | null
-          time: string
-          type: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          date: string
-          guest_id?: string | null
-          id?: string
-          room_link?: string | null
-          schedule_id?: string | null
-          status?: Database["public"]["Enums"]["event_status"] | null
-          time: string
-          type?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          date?: string
-          guest_id?: string | null
-          id?: string
-          room_link?: string | null
-          schedule_id?: string | null
-          status?: Database["public"]["Enums"]["event_status"] | null
-          time?: string
-          type?: string | null
-          updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "events_guest_id_fkey"
-            columns: ["guest_id"]
-            isOneToOne: false
-            referencedRelation: "guests"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "events_schedule_id_fkey"
-            columns: ["schedule_id"]
-            isOneToOne: false
-            referencedRelation: "schedules"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      guests: {
-        Row: {
-          avatar_url: string | null
-          bio: string | null
-          created_at: string | null
-          display_order: number | null
-          id: string
-          name: string
-          social_links: Json | null
-          updated_at: string | null
-        }
-        Insert: {
-          avatar_url?: string | null
-          bio?: string | null
-          created_at?: string | null
-          display_order?: number | null
-          id?: string
-          name: string
-          social_links?: Json | null
-          updated_at?: string | null
-        }
-        Update: {
-          avatar_url?: string | null
-          bio?: string | null
-          created_at?: string | null
-          display_order?: number | null
-          id?: string
-          name?: string
-          social_links?: Json | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
       hosts: {
         Row: {
           avatar_url: string | null
@@ -133,80 +46,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
-      }
-      profiles: {
-        Row: {
-          created_at: string | null
-          email: string
-          id: string
-          name: string
-          product_type: Database["public"]["Enums"]["product_type"]
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          created_at?: string | null
-          email: string
-          id?: string
-          name: string
-          product_type: Database["public"]["Enums"]["product_type"]
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          created_at?: string | null
-          email?: string
-          id?: string
-          name?: string
-          product_type?: Database["public"]["Enums"]["product_type"]
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: []
-      }
-      schedules: {
-        Row: {
-          created_at: string | null
-          day_of_week: number
-          host_id: string | null
-          id: string
-          recurring: boolean | null
-          room_link: string | null
-          time: string
-          type: Database["public"]["Enums"]["session_type"]
-          updated_at: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          day_of_week: number
-          host_id?: string | null
-          id?: string
-          recurring?: boolean | null
-          room_link?: string | null
-          time: string
-          type: Database["public"]["Enums"]["session_type"]
-          updated_at?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          day_of_week?: number
-          host_id?: string | null
-          id?: string
-          recurring?: boolean | null
-          room_link?: string | null
-          time?: string
-          type?: Database["public"]["Enums"]["session_type"]
-          updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "schedules_host_id_fkey"
-            columns: ["host_id"]
-            isOneToOne: false
-            referencedRelation: "hosts"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       site_settings: {
         Row: {
@@ -289,27 +128,6 @@ export type Database = {
         }
         Relationships: []
       }
-      user_roles: {
-        Row: {
-          created_at: string | null
-          id: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Update: {
-          created_at?: string | null
-          id?: string
-          role?: Database["public"]["Enums"]["app_role"]
-          user_id?: string
-        }
-        Relationships: []
-      }
       weekly_highlights: {
         Row: {
           created_at: string
@@ -354,21 +172,11 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      create_admin_user_if_not_exists: { Args: never; Returns: undefined }
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
-      setup_admin_user: { Args: never; Returns: undefined }
+      [_ in never]: never
     }
     Enums: {
-      app_role: "admin" | "student"
       event_status: "scheduled" | "completed" | "cancelled"
       link_category: "gravacoes" | "materiais" | "comunidade"
-      product_type: "formacao" | "founders"
       session_type: "estrategico" | "tecnico" | "marketing"
     }
     CompositeTypes: {
@@ -497,10 +305,8 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "student"],
       event_status: ["scheduled", "completed", "cancelled"],
       link_category: ["gravacoes", "materiais", "comunidade"],
-      product_type: ["formacao", "founders"],
       session_type: ["estrategico", "tecnico", "marketing"],
     },
   },
