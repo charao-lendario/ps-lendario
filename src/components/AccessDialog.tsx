@@ -34,13 +34,13 @@ export function AccessDialog({ open, onOpenChange }: AccessDialogProps) {
 
         <div className="space-y-6 py-4">
           {/* Warning Section */}
-          <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4">
+          <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4 flex flex-col items-center text-center">
             <p className="text-lg font-semibold mb-3 flex items-center gap-2">
               ⚠️ Não consegue acessar?
             </p>
             <Button
               onClick={handleWhatsAppClick}
-              className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto"
+              className="bg-green-600 hover:bg-green-700 text-white"
               size="lg"
             >
               <MessageCircle className="mr-2 h-5 w-5" />
