@@ -20,8 +20,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 export default function Index() {
   const {
-    user,
-    isAdmin
+    user
   } = useAuth();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

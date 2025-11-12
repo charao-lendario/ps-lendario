@@ -5,7 +5,7 @@ import { LogOut, Shield, LayoutDashboard } from 'lucide-react';
 import logo from '@/assets/pronto-socorro-logo.png';
 
 export function Navbar() {
-  const { user, isAdmin, signOut } = useAuth();
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
 
   return (
