@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
-import { LogOut, Shield, LayoutDashboard } from 'lucide-react';
+import { LogOut, LayoutDashboard } from 'lucide-react';
 import logo from '@/assets/pronto-socorro-logo.png';
 
 export function Navbar() {

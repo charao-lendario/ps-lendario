@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/AuthContext';
-import { Linkedin, Instagram, ArrowRight, Shield, Menu, X, MessageCircle } from 'lucide-react';
+import { Linkedin, Instagram, ArrowRight, Menu, X, MessageCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import lucasCharaoImg from '@/assets/adavio-tittoni.png';
@@ -54,15 +54,6 @@ export default function Index() {
     }
   }];
   return <div className="min-h-screen gradient-dark">
-      {/* Discrete Admin Button */}
-      <div className="absolute top-4 right-4 z-50">
-        <Link to="/auth">
-          <Button variant="ghost" size="icon" className="h-8 w-8 text-white/40 hover:text-white/90 hover:bg-white/10">
-            <Shield className="h-3 w-3" />
-          </Button>
-        </Link>
-      </div>
-
       {/* Navigation Menu */}
       <nav className="bg-black border-b border-white/10 sticky top-0 z-40">
         <div className="container mx-auto px-4">
