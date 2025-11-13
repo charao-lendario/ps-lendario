@@ -7,20 +7,20 @@ const scheduleData = [
     day: 'Segunda, Quarta e Sexta',
     sessions: [
       { time: '10:00 - 11:30', host: 'Lucas Charão', type: 'Estratégico', color: 'blue' },
-      { time: '18:30 - 20:00', host: 'Igor Rover', type: 'Técnico', color: 'green' }
+      { time: '18:30 - 20:00', host: 'Adávio Tittoni', type: 'Técnico', color: 'green' }
     ]
   },
   {
     day: 'Terça',
     sessions: [
-      { time: '10:00 - 11:30', host: 'Igor Rover', type: 'Técnico', color: 'green' },
+      { time: '10:00 - 11:30', host: 'Adávio Tittoni', type: 'Técnico', color: 'green' },
       { time: '18:30 - 20:00', host: 'Day Cavalcanti', type: 'Marketing', color: 'yellow' }
     ]
   },
   {
     day: 'Quinta',
     sessions: [
-      { time: '10:00 - 11:30', host: 'Igor Rover', type: 'Técnico', color: 'green' },
+      { time: '10:00 - 11:30', host: 'Adávio Tittoni', type: 'Técnico', color: 'green' },
       { time: '18:30 - 20:00', host: 'João Lozano', type: 'Marketing', color: 'yellow' }
     ]
   }
