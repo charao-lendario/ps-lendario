@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import { AccessDialog } from '@/components/AccessDialog';
 const hostThemes = {
   'Lucas Charão': 'Estratégico (Tudo que for relacionado a estratégia, planejamento e Engenharia de Prompts)',
-  'Adávio Tittoni': 'Técnico (N8N, automação, vibe coding)',
+  'Igor Rover': 'Técnico (N8N, automação, vibe coding)',
   'Day Cavalcanti': 'Marketing',
   'João Lozano': 'Marketing'
 };
@@ -35,14 +35,14 @@ export default function WeeklyCalendarCompact() {
     if ([1, 3, 5].includes(dayOfWeek)) {
       return [
         { time: '10:00', name: 'Lucas Charão', type: 'strategic', endTime: '11:30' },
-        { time: '18:30', name: 'Adávio Tittoni', type: 'technical', endTime: '20:00' }
+        { time: '18:30', name: 'Igor Rover', type: 'technical', endTime: '20:00' }
       ];
     }
     
     // Terça (2)
     if (dayOfWeek === 2) {
       return [
-        { time: '10:00', name: 'Adávio Tittoni', type: 'technical', endTime: '11:30' },
+        { time: '10:00', name: 'Igor Rover', type: 'technical', endTime: '11:30' },
         { time: '18:30', name: 'Day Cavalcanti', type: 'marketing', endTime: '20:00' }
       ];
     }
@@ -50,7 +50,7 @@ export default function WeeklyCalendarCompact() {
     // Quinta (4)
     if (dayOfWeek === 4) {
       return [
-        { time: '10:00', name: 'Adávio Tittoni', type: 'technical', endTime: '11:30' },
+        { time: '10:00', name: 'Igor Rover', type: 'technical', endTime: '11:30' },
         { time: '18:30', name: 'João Lozano', type: 'marketing', endTime: '20:00' }
       ];
     }
