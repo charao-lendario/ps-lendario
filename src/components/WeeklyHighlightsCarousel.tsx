@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 import dayCavalcantiImg from '@/assets/destaque-day-cavalcanti.png';
 import joaoLozanoImg from '@/assets/destaque-joao-lozano.png';
 import sidFernandesImg from '@/assets/destaque-sid-fernandes.png';
@@ -46,7 +47,13 @@ export function WeeklyHighlightsCarousel() {
           className="w-full max-w-7xl mx-auto"
           opts={{
             align: "center",
+            loop: true,
           }}
+          plugins={[
+            Autoplay({
+              delay: 5000,
+            }),
+          ]}
         >
           <CarouselContent>
             {highlights.map((highlight) => {
