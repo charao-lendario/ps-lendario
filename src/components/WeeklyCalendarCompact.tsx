@@ -8,7 +8,7 @@ import { ptBR } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { AccessDialog } from '@/components/AccessDialog';
 const hostThemes = {
-  'Lucas Charão': 'Estratégico (Tudo que for relacionado a estratégia, planejamento e Engenharia de Prompts)',
+  'Jaya Roberta': 'Estratégico (Tudo que for relacionado a estratégia, planejamento e Engenharia de Prompts)',
   'Adávio Tittoni': 'Técnico (N8N, automação, vibe coding)',
   'Day Cavalcanti': 'Marketing',
   'João Lozano': 'Marketing'
@@ -34,7 +34,7 @@ export default function WeeklyCalendarCompact() {
     // Segunda (1), Quarta (3), Sexta (5)
     if ([1, 3, 5].includes(dayOfWeek)) {
       return [
-        { time: '10:00', name: 'Lucas Charão', type: 'strategic', endTime: '11:30' },
+        { time: '10:00', name: 'Jaya Roberta', type: 'strategic', endTime: '11:30' },
         { time: '18:30', name: 'Adávio Tittoni', type: 'technical', endTime: '20:00' }
       ];
     }
