@@ -6,7 +6,6 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import Autoplay from 'embla-carousel-autoplay';
 import dayCavalcantiImg from '@/assets/destaque-day-cavalcanti.png';
 import joaoLozanoImg from '@/assets/destaque-joao-lozano.png';
-import sidFernandesImg from '@/assets/destaque-sid-fernandes.png';
 
 export function WeeklyHighlightsCarousel() {
   const { data: highlights, isLoading } = useQuery({
@@ -29,15 +28,13 @@ export function WeeklyHighlightsCarousel() {
   // Map para usar imagens locais quando disponíveis
   const imageMap: Record<string, string> = {
     'Day Cavalcanti': dayCavalcantiImg,
-    'João Lozano': joaoLozanoImg,
-    'Sid Fernandes': sidFernandesImg
+    'João Lozano': joaoLozanoImg
   };
 
   // Map para definir os textos de recorrência
   const scheduleMap: Record<string, string> = {
     'Day Cavalcanti': 'Toda terça-feira as 18:30hs',
-    'João Lozano': 'Toda quinta-feira as 18:30hs',
-    'Sid Fernandes': 'Sexta-feira, 21/11 as 10hs'
+    'João Lozano': 'Toda quinta-feira as 18:30hs'
   };
 
   return (
