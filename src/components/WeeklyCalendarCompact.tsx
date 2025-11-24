@@ -8,6 +8,7 @@ import { ptBR } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { AccessDialog } from '@/components/AccessDialog';
 const hostThemes = {
+  'Lucas Charão': 'Estratégico (Tudo que for relacionado a estratégia, planejamento e Engenharia de Prompts)',
   'Jaya Roberta': 'Estratégico (Tudo que for relacionado a estratégia, planejamento e Engenharia de Prompts)',
   'Adávio Tittoni': 'Técnico (N8N, automação, vibe coding)',
   'Day Cavalcanti': 'Marketing',
@@ -30,11 +31,16 @@ export default function WeeklyCalendarCompact() {
   
   const getEventsForDay = (day: Date) => {
     const dayOfWeek = getDay(day); // 0 = Domingo, 1 = Segunda, etc.
+    const dayDate = format(day, 'yyyy-MM-dd');
+    
+    // Verificar se é dia 26/11/2024 (quarta-feira especial com Jaya Roberta)
+    const isJayaDay = dayDate === '2024-11-26';
     
     // Segunda (1), Quarta (3), Sexta (5)
     if ([1, 3, 5].includes(dayOfWeek)) {
+      const morningHost = isJayaDay ? 'Jaya Roberta' : 'Lucas Charão';
       return [
-        { time: '10:00', name: 'Jaya Roberta', type: 'strategic', endTime: '11:30' },
+        { time: '10:00', name: morningHost, type: 'strategic', endTime: '11:30' },
         { time: '18:30', name: 'Adávio Tittoni', type: 'technical', endTime: '20:00' }
       ];
     }
