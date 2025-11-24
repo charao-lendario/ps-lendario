@@ -31,10 +31,9 @@ export default function WeeklyCalendarCompact() {
   
   const getEventsForDay = (day: Date) => {
     const dayOfWeek = getDay(day); // 0 = Domingo, 1 = Segunda, etc.
-    const dayDate = format(day, 'yyyy-MM-dd');
     
     // Verificar se é dia 26/11/2024 (quarta-feira especial com Jaya Roberta)
-    const isJayaDay = dayDate === '2024-11-26';
+    const isJayaDay = day.getDate() === 26 && day.getMonth() === 10 && day.getFullYear() === 2024;
     
     // Segunda (1), Quarta (3), Sexta (5)
     if ([1, 3, 5].includes(dayOfWeek)) {
