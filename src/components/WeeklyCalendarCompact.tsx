@@ -10,6 +10,7 @@ import { AccessDialog } from '@/components/AccessDialog';
 const hostThemes = {
   'Lucas Charão': 'Estratégico (Tudo que for relacionado a estratégia, planejamento e Engenharia de Prompts)',
   'Jaya Roberta': 'Estratégico (Tudo que for relacionado a estratégia, planejamento e Engenharia de Prompts)',
+  'Marllon Blando': 'Estratégico (Tudo que for relacionado a estratégia, planejamento e Engenharia de Prompts)',
   'Adávio Tittoni': 'Técnico (N8N, automação, vibe coding)',
   'Day Cavalcanti': 'Marketing',
   'João Lozano': 'Marketing'
@@ -29,12 +30,32 @@ export default function WeeklyCalendarCompact() {
     end: weekEnd
   });
   
+  const isHoliday = (day: Date) => {
+    // 03/04/2025 - Sexta-Feira Santa
+    if (day.getDate() === 3 && day.getMonth() === 3 && day.getFullYear() === 2025) {
+      return 'Sem PS — Feriado de Sexta-Feira Santa 🙏';
+    }
+    return null;
+  };
+
   const getEventsForDay = (day: Date) => {
     const dayOfWeek = getDay(day); // 0 = Domingo, 1 = Segunda, etc.
-    
+
+    // Verificar feriados
+    const holidayMessage = isHoliday(day);
+    if (holidayMessage) return [];
+
+    // 06/04/2025 (domingo especial com Marllon Blando às 10h)
+    const isMarllonDay = day.getDate() === 6 && day.getMonth() === 3 && day.getFullYear() === 2025;
+    if (isMarllonDay) {
+      return [
+        { time: '10:00', name: 'Marllon Blando', type: 'strategic', endTime: '11:30' }
+      ];
+    }
+
     // Verificar se é dia 26/11/2024 (quarta-feira especial com Jaya Roberta)
     const isJayaDay = day.getDate() === 26 && day.getMonth() === 10 && day.getFullYear() === 2024;
-    
+
     // Segunda (1), Quarta (3), Sexta (5)
     if ([1, 3, 5].includes(dayOfWeek)) {
       const morningHost = isJayaDay ? 'Jaya Roberta' : 'Lucas Charão';
@@ -190,7 +211,13 @@ export default function WeeklyCalendarCompact() {
 
                   {/* Events List */}
                   <div className="space-y-1.5 sm:space-y-2">
-                    {hasEvents ? (
+                    {isHoliday(day) ? (
+                      <div className="p-2 sm:p-3 bg-orange-500/10 rounded border border-orange-500/30 text-center">
+                        <p className="text-[10px] sm:text-xs font-medium text-orange-400">
+                          {isHoliday(day)}
+                        </p>
+                      </div>
+                    ) : hasEvents ? (
                       <>
                         {dayEvents.map((event, idx) => (
                           <div key={idx} className="p-1.5 sm:p-2 bg-background/50 rounded border border-border/20">
